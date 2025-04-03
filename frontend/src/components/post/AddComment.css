@@ -1,0 +1,48 @@
+.comment-form {
+  display: flex;
+  padding-top: 10px;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.comment-form .comment-icon {
+  margin-top: -20px;
+  font-size: 20px;
+  color: #657786;
+}
+
+.comment-form .comment-input {
+  flex: 1;
+  margin: auto;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  outline: none;
+}
+
+.comment-input:focus {
+  border-color: #1da1f2;
+}
+
+.comment-button {
+  background: none;
+  border: none;
+  color: #353535;
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: color 0.2s;
+}
+
+.comment-button:hover {
+  color: #6d6d6d;
+}
+
+.comment-button:disabled {
+  color: #bcc0c4;
+  cursor: not-allowed;
+}
+
+.comment-button svg {
+  width: 20px;
+  height: 20px;
+} 
