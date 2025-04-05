@@ -17,12 +17,26 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
 
+    protected $primaryKey = 'user_id';
+
+    //Danh sách các trường cho phép gán hàng loạt (mass assignment)
+    protected $fillable = [
+        'username',
+        'email',
+        'phone',
+        'password',
+        'full_name',
+        'gender',
+        'birth_date',
+        'bio',
+        'location',
+        'interests',
+        'profile_picture',
+        'cover_picture',
+        'privacy_settings',
+        'is_active',
+    ];
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -42,7 +56,15 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'birth_date' => 'date',
             'password' => 'hashed',
+            'privacy_settings' => 'array',
+            'is_active' => 'boolean',
         ];
     }
 }
+
+
+
+
+
