@@ -2,6 +2,7 @@ import { useState, useContext, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaTrash, FaEdit, FaEllipsisH } from "react-icons/fa";
 import { AuthContext } from "../../context/AuthContext";
+import ConfirmModal from "../common/ConfirmModal";
 import "./Comment.css";
 
 const Comment = ({ comment, onDelete, onEdit }) => {
@@ -120,30 +121,13 @@ const Comment = ({ comment, onDelete, onEdit }) => {
         </div>
       </div>
 
-      {showDeleteModal && (
-        <div className="modal-overlay">
-          <div className="delete-modal">
-            <h3>Xóa bình luận</h3>
-            <p>Bạn có chắc chắn muốn xóa bình luận này không? Hành động này không thể hoàn tác.</p>
-            <div className="modal-buttons">
-              <button 
-                type="button"
-                className="modal-button cancel-button" 
-                onClick={() => setShowDeleteModal(false)}
-              >
-                Hủy
-              </button>
-              <button 
-                type="button"
-                className="modal-button confirm-button" 
-                onClick={handleDelete}
-              >
-                Xóa
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConfirmModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDelete}
+        title="Xóa bình luận"
+        message="Bạn có chắc chắn muốn xóa bình luận này không? Hành động này không thể hoàn tác."
+      />
     </>
   );
 };
