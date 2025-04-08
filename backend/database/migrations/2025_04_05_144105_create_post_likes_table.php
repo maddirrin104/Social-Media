@@ -10,8 +10,8 @@ class CreatePostLikesTable extends Migration
     {
         Schema::create('post_likes', function (Blueprint $table) {
             $table->id('like_id');
-            $table->foreignId('post_id')->constrained('posts')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('post_id')->constrained('posts','post_id')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users', 'user_id')->onDelete('cascade');
             $table->unique(['user_id', 'post_id']);
             $table->timestamps();
         });

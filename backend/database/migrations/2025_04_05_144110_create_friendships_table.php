@@ -10,8 +10,8 @@ class CreateFriendshipsTable extends Migration
     {
         Schema::create('friendships', function (Blueprint $table) {
             $table->id('friendship_id');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('friend_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users','user_id')->onDelete('cascade');
+            $table->foreignId('friend_id')->constrained('users', 'user_id')->onDelete('cascade');
             $table->enum('status', ['Pending', 'Accepted', 'Blocked'])->default('Pending');
             $table->boolean('is_following')->default(false);
             $table->unique(['user_id', 'friend_id']);
