@@ -5,6 +5,7 @@ import { FaRegHeart, FaRegComment } from "react-icons/fa6";
 import { AuthContext } from "../../context/AuthContext";
 import CommentSection from "./CommentSection";
 import ConfirmModal from "../common/ConfirmModal";
+import { users } from "../../data/users";
 import "./Post.css";
 
 const Post = ({ post, onLike, onComment, onDelete }) => {
@@ -16,6 +17,9 @@ const Post = ({ post, onLike, onComment, onDelete }) => {
   const [shouldShowMore, setShouldShowMore] = useState(false);
   const contentRef = useRef(null);
   const commentInputRef = useRef(null);
+
+  // Tìm thông tin user từ users.js
+  const postUser = users.find(u => u.id === post.userId);
 
   useEffect(() => {
     const checkTextHeight = () => {
@@ -93,9 +97,9 @@ const Post = ({ post, onLike, onComment, onDelete }) => {
       <div className="post">
         <div className="post-header">
           <div className="post-header-left">
-            <img src={post.avatar} alt={post.user} className="avatar" />
+            <img src={postUser?.avatar || '/default-avatar.png'} alt={postUser?.name || 'User'} className="avatar" />
             <Link to={`/profile/${post.userId}`} className="user-link">
-              <h3>{post.user}</h3>
+              <h3>{postUser?.name || 'Người dùng ẩn danh'}</h3>
             </Link>
           </div>
           <div className="post-header-right">
@@ -206,9 +210,9 @@ const Post = ({ post, onLike, onComment, onDelete }) => {
             <div className="content-modal-right">
               <div className="content-modal-header">
                 <div className="content-modal-user-info">
-                  <img src={post.avatar} alt={post.user} className="avatar" />
+                  <img src={postUser?.avatar || '/default-avatar.png'} alt={postUser?.name || 'User'} className="avatar" />
                   <Link to={`/profile/${post.userId}`} className="user-link">
-                    <h3>{post.user}</h3>
+                    <h3>{postUser?.name || 'Người dùng ẩn danh'}</h3>
                   </Link>
                 </div>
                 <span className="post-time">{formatTime(post.createdAt)}</span>
