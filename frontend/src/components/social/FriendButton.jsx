@@ -1,7 +1,7 @@
 import { useFriend } from '../../context/FriendContext';
 import './FriendButton.css';
 
-export default function FriendButton({ currentUserId, targetUserId }) {
+export default function FriendButton({ currentUserId, targetUserId, onUnfriend }) {
   const { 
     getStatus, 
     sendFriendRequest, 
@@ -38,15 +38,19 @@ export default function FriendButton({ currentUserId, targetUserId }) {
         sendFriendRequest(currentUserId, targetUserId);
         break;
       case 'accepted':
-        // Tìm friendship ID để unfriend
-        const friendship = friendships.find(
-          f => (f.user1Id === currentUserId && f.user2Id === targetUserId) ||
-               (f.user1Id === targetUserId && f.user2Id === currentUserId)
-        );
-        if (friendship) {
-          unfriend(friendship.id);
+        if (onUnfriend) {
+          onUnfriend();
         } else {
-          console.error('Friendship not found');
+          // Tìm friendship ID để unfriend
+          const friendship = friendships.find(
+            f => (f.user1Id === currentUserId && f.user2Id === targetUserId) ||
+                 (f.user1Id === targetUserId && f.user2Id === currentUserId)
+          );
+          if (friendship) {
+            unfriend(friendship.id);
+          } else {
+            console.error('Friendship not found');
+          }
         }
         break;
       case 'pending':
