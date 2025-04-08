@@ -4,6 +4,7 @@ import { FaHeart, FaTrash } from "react-icons/fa";
 import { FaRegHeart, FaRegComment } from "react-icons/fa6";
 import { AuthContext } from "../../context/AuthContext";
 import CommentSection from "./CommentSection";
+import ConfirmModal from "../common/ConfirmModal";
 import "./Post.css";
 
 const Post = ({ post, onLike, onComment, onDelete }) => {
@@ -171,28 +172,13 @@ const Post = ({ post, onLike, onComment, onDelete }) => {
         </div>
       </div>
 
-      {showDeleteModal && (
-        <div className="modal-overlay">
-          <div className="delete-modal">
-            <h3>Xóa bài viết</h3>
-            <p>Bạn có chắc chắn muốn xóa bài viết này không? Hành động này không thể hoàn tác.</p>
-            <div className="modal-buttons">
-              <button 
-                className="modal-button cancel-button" 
-                onClick={() => setShowDeleteModal(false)}
-              >
-                Hủy
-              </button>
-              <button 
-                className="modal-button confirm-button" 
-                onClick={handleDelete}
-              >
-                Xóa
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConfirmModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDelete}
+        title="Xóa bài viết"
+        message="Bạn có chắc chắn muốn xóa bài viết này không? Hành động này không thể hoàn tác."
+      />
 
       {showImageModal && post.image && (
         <div className="modal-overlay image-modal-overlay" onClick={() => setShowImageModal(false)}>
