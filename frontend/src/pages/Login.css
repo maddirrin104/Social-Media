@@ -63,6 +63,11 @@
     text-align: center;
 }
 
+.signup-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
 @media (max-width: 768px) {
     .login-container form {
         padding: 20px;

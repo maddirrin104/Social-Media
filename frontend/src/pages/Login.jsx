@@ -33,6 +33,7 @@ const Login = () => {
           type="email"
           id="email"
           name="email"
+          autoComplete="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -42,13 +43,19 @@ const Login = () => {
           type="password"
           id="password"
           name="password"
+          autoComplete="current-password"
           placeholder="Mật khẩu"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Đăng nhập</button>
+        <button type="submit" className="login-button">
+          Đăng nhập
+        </button>
       </form>
+      <div className="signup-link">
+        Chưa có tài khoản? <Link to="/signup">Đăng ký</Link>
+      </div>
     </div>
   );
 };
