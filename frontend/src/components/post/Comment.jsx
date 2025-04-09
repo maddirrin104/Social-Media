@@ -123,7 +123,7 @@ const Comment = ({ comment, onDelete, onEdit }) => {
 
       <ConfirmModal
         isOpen={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
+        onCancel={() => setShowDeleteModal(false)}
         onConfirm={handleDelete}
         title="Xóa bình luận"
         message="Bạn có chắc chắn muốn xóa bình luận này không? Hành động này không thể hoàn tác."

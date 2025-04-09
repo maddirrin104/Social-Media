@@ -124,7 +124,7 @@ const ProfileContent = () => {
 
       <ConfirmModal
         isOpen={showUnfriendModal}
-        onClose={() => setShowUnfriendModal(false)}
+        onCancel={() => setShowUnfriendModal(false)}
         onConfirm={confirmUnfriend}
         title="Xác nhận huỷ kết bạn"
         message="Bạn có chắc chắn muốn huỷ kết bạn với người này không?"

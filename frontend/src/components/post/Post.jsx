@@ -178,7 +178,7 @@ const Post = ({ post, onLike, onComment, onDelete }) => {
 
       <ConfirmModal
         isOpen={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
+        onCancel={() => setShowDeleteModal(false)}
         onConfirm={handleDelete}
         title="Xóa bài viết"
         message="Bạn có chắc chắn muốn xóa bài viết này không? Hành động này không thể hoàn tác."
