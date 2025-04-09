@@ -20,9 +20,7 @@ const ProfilePopup = () => {
         <div className="icon">
           <FaUser />
         </div>
-        <span className='profile-popup-text'>
-          <span className="text">Trang cá nhân</span>
-        </span>
+        <span className="text">Trang cá nhân</span>
       </button>
     </div>
   );
