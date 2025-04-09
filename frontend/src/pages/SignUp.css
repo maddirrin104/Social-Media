@@ -63,11 +63,7 @@
 }
 
 .signup-button:hover {
-<<<<<<< HEAD
-  background: linear-gradient(75deg, #191e36, #3c6a8d);
-=======
   background: linear-gradient(75deg, #1f2442, #36658a);
->>>>>>> kisie
 }
 
 .login-link {
