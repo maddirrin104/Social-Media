@@ -17,7 +17,7 @@
 .signup-form h2 {
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #1a73e8;
+  color: #2a315b;
 }
 
 .form-group {
@@ -34,9 +34,12 @@
 .form-group input {
   width: 100%;
   padding: 0.75rem;
+  background-color: #f0f0f0;
   border: 1px solid #ddd;
+  color: #2a315b;
   border-radius: 4px;
   font-size: 1rem;
+  font-weight: 500;
 }
 
 .form-group input:focus {
@@ -47,7 +50,7 @@
 .signup-button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #1a73e8;
+  background: linear-gradient(90deg, #2a315b, #4a8dc0);
   color: white;
   border: none;
   border-radius: 4px;
@@ -57,7 +60,7 @@
 }
 
 .signup-button:hover {
-  background-color: #1557b0;
+  background: linear-gradient(75deg, #1f2442, #36658a);
 }
 
 .login-link {

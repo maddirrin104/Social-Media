@@ -28,7 +28,13 @@
   position: relative;
 }
 
+.friend-requests-text {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .friend-requests-icon .text {
+  display: inline-block;
   white-space: nowrap;
   opacity: 0;
   margin-right: 15px;
