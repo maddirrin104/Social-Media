@@ -11,6 +11,7 @@ import { AuthContext } from "./context/AuthContext";
 import FriendRequestsPopup from "./components/social/FriendRequestsPopup";
 import ErrorBoundary from "./components/common/ErrorBoundary";
 import MessagesPopup from './components/social/MessagesPopup';
+import ProfilePopup from './components/social/ProfilePopup';
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -27,8 +28,13 @@ function App() {
             <Route path="/profile/:userId" element={<Profile />} />
             <Route path="/edit-profile" element={<EditProfile />} />
           </Routes>
-          {user && <FriendRequestsPopup currentUserId={user.id} />}
-          <MessagesPopup />
+          {user && (
+            <>
+              <FriendRequestsPopup currentUserId={user.id} />
+              <MessagesPopup />
+              <ProfilePopup />
+            </>
+          )}
         </FriendProvider>
       </ErrorBoundary>
     </Router>

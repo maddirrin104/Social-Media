@@ -5,7 +5,7 @@
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 10px rgba(42,49,91,0.3);
     box-sizing: border-box;
 }
 
@@ -17,10 +17,27 @@
   }
 }
 
+.create-post textarea {
+    background-color: #f8f9fa;
+    color: #2a315b;
+    width: 98%;
+}
+
 .create-post h3 {
-    margin-bottom: 10px;
     display: flex;
+    color:#2a315b;
+    font-size: 20px;
+    margin-top: 5px;
+    margin-bottom: 15px;
   }
+
+.create-post p {
+    color:#2a315b;
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
   
 .create-post .post-actions {
     display: flex;
@@ -41,25 +58,26 @@
     justify-content: center;
     width: 40px;
     height: 40px;
-    background: #287cfa;
+    background: linear-gradient(45deg, #30375e, #60b2f1);
     border-radius: 50%;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
     border: none;
     padding: 0;
 }
   
 .camera-icon {
     font-size: 20px;
-    color: #2767e7;
+    color: #007bff;
+    transition: all 0.3s ease;
 }
   
 .upload-button:hover {
-    background: #e4e6eb;
+    background: linear-gradient(75deg, #2a315b, #328ed4);
 }
   
 .upload-button:hover .camera-icon {
-    color: #1877f2;
+    color: #ffffff;
 }
   
 .create-post input[type="file"] {
@@ -82,14 +100,14 @@
   
 .create-post-button {
     justify-content: flex-start;
-    background: linear-gradient(45deg, #007bff, #00c6ff);
-    color: white;
+    background: linear-gradient(45deg, #2e3457, #60b2f1);
+    color: #ffffff;
     border: none;
     padding: 12px 18px;
     border-radius: 22px;
     font-size: 16px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
     margin-left: 0;
     font-weight: 550;
 }
@@ -116,7 +134,7 @@
     background: rgba(0, 0, 0, 0.9);
   }
   
-.create-post button:hover {
-    background: linear-gradient(45deg, #0056b3, #0091ea);
+.create-post-button:hover {
+    background: linear-gradient(75deg, #2a315b, #328ed4);
   }
   
