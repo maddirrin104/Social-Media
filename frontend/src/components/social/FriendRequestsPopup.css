@@ -1,11 +1,11 @@
 .friend-requests-icon {
   position: fixed;
-  bottom: 20px;
+  bottom: 160px;
   left: 20px;
   width: 50px;
   height: 50px;
   border-radius: 25px;
-  background-color: #353535;
+  background-color: #2a315b;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
@@ -39,8 +39,8 @@
 }
 
 .friend-requests-icon:hover {
-  width: 180px;
-  background-color: #686868;
+  width: 195px;
+  background-color: #3e4780;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -85,7 +85,7 @@
   position: absolute;
   top: -8px;
   right: -8px;
-  background: #e41e3f;
+  background: #dd7572;
   color: white;
   border-radius: 50%;
   width: 20px;
@@ -94,13 +94,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid white;
+  border: 2px solid rgba(255, 255, 255, 0.8);
   z-index: 1001;
   transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .friend-requests-icon:hover .requests-badge {
-  right: -138px; /* 180px (new width) - 50px (icon width) + 8px (original right position) */
+  right: -150px; /* 180px (new width) - 50px (icon width) + 8px (original right position) */
 }
 
 .popup-overlay {

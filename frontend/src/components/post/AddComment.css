@@ -18,6 +18,8 @@
   border-radius: 20px;
   font-size: 14px;
   outline: none;
+  background-color: #f8f9fa;
+  color: #2a315b;
 }
 
 .comment-input:focus {

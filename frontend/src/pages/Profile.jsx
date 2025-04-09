@@ -87,7 +87,7 @@ const ProfileContent = () => {
   };
 
   if (!currentUser) {
-    return <div className="profile-message">Vui lòng đăng nhập để xem trang này</div>;
+    return <div className="profile-message">Vui lòng <Link to="/login" >đăng nhập</Link> để xem trang này</div>;
   }
 
   if (!user) {
@@ -136,7 +136,7 @@ const ProfileContent = () => {
         {isOwnProfile && (
           <CreatePost onCreatePost={handleCreatePost} />
         )}
-        <h3>Bài viết của {user.name}</h3>
+        <h3 className="posts-title">Bài viết của {user.name}</h3>
         {userPosts.length > 0 ? (
           userPosts.map((post) => (
             <Post

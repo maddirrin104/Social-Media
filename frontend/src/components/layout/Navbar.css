@@ -2,12 +2,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #242526;
+    background-color: #2a315b;
     padding: 5px 30px;
     color: white;
     position: sticky;
     top: 0;
     z-index: 100;
+    gap: 20px;
   }
 
   .navbar-left {
@@ -37,6 +38,8 @@
     border: none;
     outline: none;
     font-size: 14px;
+    color: #2a315b;
+    background-color: #f8f9fa;
   }
 
   .search-bar:focus {

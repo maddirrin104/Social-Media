@@ -4,12 +4,11 @@
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
-    background-color: #f0f2f5;
     padding: 20px;
 }
 
 .login-title {
-    color: #1877f2;
+    color: #2a315b;
     font-size: 2rem;
     margin-bottom: 30px;
     font-weight: bold;
@@ -26,6 +25,8 @@
 
 .login-container input {
     width: 90%;
+    background: #dddfe2;
+    color: #2a315b;
     padding: 14px 16px;
     border: 1px solid #dddfe2;
     border-radius: 6px;
@@ -43,7 +44,7 @@
 .login-container button {
     width: 100%;
     padding: 12px;
-    background-color: #1877f2;
+    background: linear-gradient(45deg, #414a7e, #60b2f1);
     color: white;
     border: none;
     border-radius: 6px;
@@ -54,13 +55,25 @@
 }
 
 .login-container button:hover {
-    background-color: #166fe5;
+    background: linear-gradient(75deg, #2a315b, #328ed4);
 }
 
 .error-message {
     color: #ff4d4f;
     margin-bottom: 15px;
     text-align: center;
+}
+
+.signup-link {
+    text-align: center;
+    color: #2a315b;
+    margin-top: 15px;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.signup-link a {
+    color:#1877f2;
 }
 
 @media (max-width: 768px) {
