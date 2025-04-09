@@ -9,8 +9,8 @@
 }
 
 .comment-avatar {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -23,7 +23,7 @@
   width: fit-content;
   max-width: 80%;
   border-radius: 14px;
-  padding: 8px 15px;
+  padding: 6px 15px;
   position: relative;
 }
 
@@ -34,7 +34,7 @@
 }
 
 .comment-username {
-  font-weight: 600;
+  font-weight: 550;
   color: #14171a;
   text-decoration: none;
   font-size: 15px;
@@ -46,7 +46,7 @@
 
 .comment-text {
   color: #14171a;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.4;
 }
 

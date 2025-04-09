@@ -6,8 +6,9 @@
 }
 
 .home-title {
-  font-size: 38px;
-  text-shadow: 0px 2px 2px rgba(65, 63, 102, 0.4);
+  font-size: 40px;
+  font-weight: 800;
+  text-shadow: 0px 2px 2px rgba(65, 63, 102, 0.3);
   color:#2a315b;
 }
 

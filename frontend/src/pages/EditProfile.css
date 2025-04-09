@@ -65,7 +65,9 @@ label {
 
 .edit-profile-container input[type="text"],
 textarea {
-  width: 95%;
+  background-color: #f0f0f0;
+  color: #2a315b;
+  width: 96%;
   padding: 10px;
   margin-bottom: 20px;
   border: 1px solid #ddd;

@@ -33,6 +33,11 @@
   position: relative;
 }
 
+.profile-popup-text {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .profile-button .text {
   white-space: nowrap;
   opacity: 0;

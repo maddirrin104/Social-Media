@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
@@ -13,6 +13,12 @@ import ErrorBoundary from "./components/common/ErrorBoundary";
 import MessagesPopup from './components/social/MessagesPopup';
 import ProfilePopup from './components/social/ProfilePopup';
 
+// Tạo component ProtectedRoute để bảo vệ các route cần đăng nhập
+const ProtectedRoute = ({ children }) => {
+  const { user } = useContext(AuthContext);
+  return user ? children : <Navigate to="/login" />;
+};
+
 function App() {
   const { user } = useContext(AuthContext);
 
@@ -22,11 +28,35 @@ function App() {
         <FriendProvider>
           <Navbar />
           <Routes>
-            <Route path="/" element={<Home />} />
+            {/* Trang chủ được bảo vệ, cần đăng nhập */}
+            <Route 
+              path="/" 
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              } 
+            />
+            {/* Các route không cần đăng nhập */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/profile/:userId" element={<Profile />} />
-            <Route path="/edit-profile" element={<EditProfile />} />
+            {/* Các route khác cũng cần đăng nhập */}
+            <Route 
+              path="/profile/:userId" 
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/edit-profile" 
+              element={
+                <ProtectedRoute>
+                  <EditProfile />
+                </ProtectedRoute>
+              } 
+            />
           </Routes>
           {user && (
             <>
