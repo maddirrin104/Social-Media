@@ -63,16 +63,10 @@ Backend sẽ chạy ở địa chỉ: http://127.0.0.1:8000
    cd frontend
    npm install
    ```
-
-2. Cấu hình môi trường:
-   - Tạo file `.env` trong thư mục frontend với nội dung:
-   ```
-   REACT_APP_API_URL=http://127.0.0.1:8000
-   ```
-
-3. Chạy development server:
+   
+2. Chạy development server:
    ```bash
-   npm start
+   npm run dev
    ```
 
 Frontend sẽ chạy ở địa chỉ: http://localhost:3000
