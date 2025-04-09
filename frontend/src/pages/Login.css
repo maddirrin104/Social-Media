@@ -73,7 +73,11 @@
 }
 
 .signup-link a {
+<<<<<<< HEAD
     color:#365986;
+=======
+    color:#2a315b;
+>>>>>>> kisie
 }
 
 @media (max-width: 768px) {
