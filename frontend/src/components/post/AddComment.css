@@ -18,29 +18,30 @@
   border-radius: 20px;
   font-size: 14px;
   outline: none;
-  background-color: #f8f9fa;
+  background-color: #ffdcdc;
   color: #2a315b;
 }
 
 .comment-input:focus {
-  border-color: #1da1f2;
+  border-color: #2a315b;
+  background-color: #f8f9fa;
 }
 
 .comment-button {
   background: none;
   border: none;
-  color: #353535;
+  color: #2a315b;
   cursor: pointer;
   padding: 8px 12px;
   transition: color 0.2s;
 }
 
 .comment-button:hover {
-  color: #6d6d6d;
+  color: #dd7572;
 }
 
 .comment-button:disabled {
-  color: #bcc0c4;
+  color: #ffc7c7;
   cursor: not-allowed;
 }
 

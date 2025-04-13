@@ -19,11 +19,11 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  background-color: #f0f2f5;
+  background-color: rgb(255, 230, 230);
   width: fit-content;
   max-width: 80%;
   border-radius: 14px;
-  padding: 8px 15px;
+  padding: 8px 12px;
   position: relative;
 }
 
@@ -35,7 +35,7 @@
 
 .comment-username {
   font-weight: 600;
-  color: #14171a;
+  color: #2a315b;
   text-decoration: none;
   font-size: 15px;
 }
@@ -45,7 +45,7 @@
 }
 
 .comment-text {
-  color: #14171a;
+  color: #2a315b;
   font-size: 14px;
   line-height: 1.4;
 }
