@@ -35,7 +35,7 @@ function App() {
         <ErrorBoundary>
           <FriendProvider>
             <div className="app">
-              <Navbar />
+              {/* <Navbar /> */}
               <Routes>
                 {/* Trang chủ được bảo vệ, cần đăng nhập */}
                 <Route 

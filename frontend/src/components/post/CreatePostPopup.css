@@ -46,7 +46,7 @@
 }
 
 .create-post-button:hover {
-  width: 185px;
+  width: 160px;
   background-color: #3e4780;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
