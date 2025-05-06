@@ -1,89 +1,178 @@
 .signup-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-.signup-form {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.signup-content {
+  display: flex;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   width: 100%;
-  max-width: 400px;
+  max-width: 1000px;
+  min-height: 600px;
 }
 
-.signup-form h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
+.signup-form-section {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.signup-header {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.signup-title {
   color: #2a315b;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.signup-subtitle {
+  color: #65676b;
+  font-size: 1.1rem;
 }
 
 .form-group {
-  margin-bottom: 1rem;
-  width: 95%;
+  margin-bottom: 20px;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #333;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  color: #2a315b;
-  border-radius: 4px;
+.signup-form-section input {
+  width: 92%;
+  padding: 14px 16px;
+  border: 1px solid #dddfe2;
+  border-radius: 8px;
   font-size: 1rem;
-  font-weight: 500;
+  background-color: #f8f9fa;
+  transition: border-color 0.3s ease;
 }
 
-.form-group input:focus {
+.signup-form-section input:focus {
   outline: none;
-  border-color: #1a73e8;
+  border-color: #1877f2;
+  box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
 }
 
 .signup-button {
   width: 100%;
-  padding: 0.75rem;
-  background: linear-gradient(90deg, #2a315b, #4a8dc0);
+  padding: 12px;
+  background: linear-gradient(45deg, #414a7e, #60b2f1);
   color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
   cursor: pointer;
-  margin-top: 1rem;
+  transition: all 0.3s ease;
+  margin-top: 10px;
 }
 
 .signup-button:hover {
-  background: linear-gradient(75deg, #1f2442, #36658a);
+  background: linear-gradient(75deg, #2a315b, #328ed4);
+}
+
+.error-message {
+  color: #ff4d4f;
+  margin-bottom: 15px;
+  text-align: left;
+  font-size: 0.9rem;
+  background-color: #fff2f0;
+  border: 1px solid #ffccc7;
+  padding: 8px 12px;
+  border-radius: 6px;
 }
 
 .login-link {
   text-align: center;
-  margin-top: 1rem;
-  color: #666;
+  margin-top: 20px;
+  color: #65676b;
+  font-size: 0.95rem;
 }
 
 .login-link a {
-  color:#2a315b;
+  color: #1877f2;
   text-decoration: none;
+  font-weight: 500;
 }
 
 .login-link a:hover {
   text-decoration: underline;
 }
 
-.error-message {
-  color: #dc3545;
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
-  padding: 0.75rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
+/* Art Section Styles */
+.signup-art-section {
+  flex: 1;
+  background: linear-gradient(160deg, #2a315b, #0362b1, #0362b1, #ff6363);
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.art-content {
   text-align: center;
+  max-width: 400px;
+}
+
+.art-circle {
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  margin: 0 auto 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.art-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.art-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.art-content p {
+  font-size: 1rem;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .signup-content {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .signup-form-section,
+  .signup-art-section {
+    padding: 30px;
+  }
+
+  .signup-title {
+    font-size: 2rem;
+  }
+
+  .art-circle {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+  }
 } 

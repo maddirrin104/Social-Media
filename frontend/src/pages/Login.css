@@ -1,87 +1,195 @@
 .login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -80px;
+    padding: 20px;
+}
+
+.login-content {
+    display: flex;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 100%;
+    max-width: 1000px;
+    min-height: 600px;
+}
+
+.login-form-section {
+    flex: 1;
+    padding: 40px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    padding: 20px;
+    justify-content: center;
+}
+
+.login-header {
+    text-align: left;
+    margin-bottom: 30px;
 }
 
 .login-title {
     color: #2a315b;
-    font-size: 2rem;
-    margin-bottom: 30px;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
     font-weight: bold;
 }
 
-.login-container form {
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
+.login-subtitle {
+    color: #65676b;
+    font-size: 1.1rem;
 }
 
-.login-container input {
-    width: 90%;
-    background: #dddfe2;
-    color: #2a315b;
+.form-group {
+    margin-bottom: 20px;
+}
+
+.login-form-section input {
+    width: 92%;
     padding: 14px 16px;
     border: 1px solid #dddfe2;
-    border-radius: 6px;
-    margin-bottom: 15px;
+    border-radius: 8px;
     font-size: 1rem;
+    background-color: #f8f9fa;
+    color: #353535;
     transition: border-color 0.3s ease;
 }
 
-.login-container input:focus {
+.login-form-section input:focus {
     outline: none;
     border-color: #1877f2;
     box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
 }
 
-.login-container button {
+.login-button {
     width: 100%;
     padding: 12px;
     background: linear-gradient(45deg, #414a7e, #60b2f1);
     color: white;
     border: none;
-    border-radius: 6px;
-    font-size: 1.2rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    margin-top: 10px;
 }
 
-.login-container button:hover {
+.login-button:hover {
     background: linear-gradient(75deg, #2a315b, #328ed4);
+    transform: translateY(-1px);
 }
 
 .error-message {
     color: #ff4d4f;
     margin-bottom: 15px;
-    text-align: center;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.forgot-password {
+    text-align: right;
+    margin: 10px 0;
+}
+
+.forgot-password-button {
+    background: none;
+    border: none;
+    color: #1877f2;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0;
+}
+
+.forgot-password-button:hover {
+    text-decoration: underline;
 }
 
 .signup-link {
     text-align: center;
-    color: #2a315b;
-    margin-top: 15px;
-    font-weight: 400;
-    font-size: 16px;
+    margin-top: 20px;
+    color: #65676b;
+    font-size: 0.95rem;
 }
 
 .signup-link a {
-    color:#2a315b;
+    color: #1877f2;
+    text-decoration: none;
+    font-weight: 500;
 }
 
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+/* Art Section Styles */
+.login-art-section {
+    flex: 1;
+    background: linear-gradient(160deg, #2a315b, #0362b1, #0362b1, #ff6363);
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.art-content {
+    text-align: center;
+    max-width: 400px;
+}
+
+.art-circle {
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    margin: 0 auto 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.art-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.art-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.art-content p {
+    font-size: 1rem;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-    .login-container form {
-        padding: 20px;
+    .login-content {
+        flex-direction: column;
+        min-height: auto;
     }
-    
-    .login-container h2 {
-        font-size: 1.5rem;
+
+    .login-form-section,
+    .login-art-section {
+        padding: 30px;
+    }
+
+    .login-title {
+        font-size: 2rem;
+    }
+
+    .art-circle {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 20px;
     }
 } 

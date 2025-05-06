@@ -40,68 +40,78 @@ const SignUp = () => {
 
   return (
     <div className="signup-container">
-      <div className="signup-form">
-        <h2>Đăng ký tài khoản</h2>
-        {error && <div className="error-message">{error}</div>}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">Họ và tên</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              autoComplete="name"
-              placeholder="Huỳnh Văn Tên"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
+      <div className="signup-content">
+        <div className="signup-form-section">
+          <div className="signup-header">
+            <h2 className="signup-title">Đăng ký</h2>
+            <p className="signup-subtitle">Tạo tài khoản để kết nối với bạn bè!</p>
           </div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              autoComplete="email"
-              placeholder="email@email.com"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+          <form onSubmit={handleSubmit}>
+            {error && <div className="error-message">{error}</div>}
+            <div className="form-group">
+              <input
+                type="text"
+                id="name"
+                name="name"
+                autoComplete="name"
+                placeholder="Họ và tên"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                autoComplete="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                autoComplete="new-password"
+                placeholder="Mật khẩu"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                autoComplete="new-password"
+                placeholder="Xác nhận mật khẩu"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <button type="submit" className="signup-button">
+              Đăng ký
+            </button>
+          </form>
+          <div className="login-link">
+            Đã có tài khoản? <Link to="/login">Đăng nhập</Link>
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Mật khẩu</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              autoComplete="new-password"
-              placeholder="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+        </div>
+        <div className="signup-art-section">
+          <div className="art-content">
+            <div className="art-circle">
+              <img src="assets/art/social-connect.svg" alt="Social Connection" className="art-image" />
+            </div>
+            <h3>Tham gia cộng đồng</h3>
+            <p>Khám phá và chia sẻ khoảnh khắc tuyệt vời cùng với mọi người</p>
           </div>
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              autoComplete="new-password"
-              placeholder="Nhập lại mật khẩu"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <button type="submit" className="signup-button">
-            Đăng ký
-          </button>
-        </form>
-        <div className="login-link">
-          Đã có tài khoản? <Link to="/login">Đăng nhập</Link>
         </div>
       </div>
     </div>

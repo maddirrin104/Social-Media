@@ -5,6 +5,12 @@
   z-index: 1000;
 }
 
+.profile-buttons-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .profile-button {
   width: 50px;
   height: 50px;
@@ -34,6 +40,9 @@
 }
 
 .profile-popup-text {
+  display: flex;
+  align-items: center;
+  gap: 15px;
   overflow: hidden;
   white-space: nowrap;
 }
@@ -41,17 +50,37 @@
 .profile-button .text {
   white-space: nowrap;
   opacity: 0;
-  margin-right: 15px;
   transition: opacity 0.3s ease;
   color: #ffffff;
   font-weight: 500;
   font-size: 16px;
 }
 
-.profile-button:hover {
-  width: 185px;
+.logout-button {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  color: #ff4d4f;
+  font-size: 22px;
+  margin-top: 7px;
+  cursor: pointer;
+}
+
+.profile-buttons-group:hover .profile-button {
+  width: 220px;
   background-color: #3e4780;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.profile-buttons-group:hover .logout-button {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.logout-button:hover {
+  color: #ffe6e6;
 }
 
 .profile-button:hover .text {

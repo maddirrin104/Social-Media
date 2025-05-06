@@ -7,7 +7,6 @@ import { usePostActions } from "../hooks/usePostActions";
 import { useFriend } from "../context/FriendContext";
 import { FaEdit } from 'react-icons/fa';
 import Post from "../components/post/Post";
-import CreatePost from "../components/post/CreatePost";
 import FriendButton from "../components/social/FriendButton";
 import FriendsList from "../components/social/FriendsList";
 import ErrorBoundary from "../components/common/ErrorBoundary";
@@ -133,9 +132,6 @@ const ProfileContent = () => {
       <FriendsList userId={numericUserId} />
 
       <div className="profile-posts">
-        {isOwnProfile && (
-          <CreatePost onCreatePost={handleCreatePost} />
-        )}
         <h3 className="posts-title">Bài viết của {user.name}</h3>
         {userPosts.length > 0 ? (
           userPosts.map((post) => (

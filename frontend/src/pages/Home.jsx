@@ -1,8 +1,7 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { usePostActions } from "../hooks/usePostActions";
 import Post from "../components/post/Post";
-import CreatePost from "../components/post/CreatePost";
 import "./Home.css";
 import "../index.css";
 
@@ -13,7 +12,6 @@ const Home = () => {
   return (
     <div className="container">
       <h1 className="home-title">TRANG CHỦ</h1>
-      <CreatePost onCreatePost={handleCreatePost} />
       <div className="posts">
         {allPosts.map((post) => (
           <Post
