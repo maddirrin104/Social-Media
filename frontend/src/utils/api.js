@@ -24,10 +24,34 @@ api.interceptors.response.use(
     }
 );
 
+//register
+const register = async (full_name, email, birth_date, gender, password) => {
+  try {
+    const response = await api.post("/api/auth/register", {
+      full_name,
+      email,
+      birth_date,
+      gender,
+      password,
+      password_confirmation: password,
+    });
+    const data = response.data;
+    if (data?.token) {
+      localStorage.setItem("access_token", data.token);     
+      localStorage.setItem("user", JSON.stringify(data.user)); 
+    }
+
+    return data;
+  } catch (error) {
+      console.error("Login error:", error);
+      throw error;
+  };
+}
+
 //login
 const login = async (email, password) => {
   try {
-    const response = await api.post("api/auth/login", { email, password });
+    const response = await api.post("/api/auth/login", { email, password });
     const data = response.data;
 
     if (data?.token) {
@@ -42,9 +66,22 @@ const login = async (email, password) => {
   }
 };
 
+//logout
+const logout = async () => {
+  try {
+    await api.post("/api/auth/logout");
+    localStorage.removeItem("access_token"); // Xóa token
+    localStorage.removeItem("user"); // Xóa user
+  } catch (error) {
+    console.error("Logout error:", error);
+    throw error;
+  }
+};
 
 export {
     api,
     login,
+    logout,
+    register
 }
 
