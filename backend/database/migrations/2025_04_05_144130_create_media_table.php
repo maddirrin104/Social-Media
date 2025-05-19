@@ -10,8 +10,8 @@ class CreateMediaTable extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id('media_id');
-            $table->foreignId('post_id')->nullable()->constrained('posts')->onDelete('set null');
-            $table->foreignId('message_id')->nullable()->constrained('messages')->onDelete('set null');
+            $table->foreignId('post_id')->nullable()->constrained('posts', 'post_id')->onDelete('set null');
+            $table->foreignId('message_id')->nullable()->constrained('messages', 'message_id')->onDelete('set null');
             $table->string('media_url', 255);
             $table->enum('media_type', ['Image', 'Video']);
             $table->timestamps();

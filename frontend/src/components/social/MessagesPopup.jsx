@@ -45,9 +45,7 @@ const MessagesPopup = () => {
         <div className="icon">
           <FaEnvelope />
         </div>
-        <span className='messages-popup-text'>
-          <span className="text">Tin nhắn</span>
-        </span>
+        <span className="text">Tin nhắn</span>
       </button>
 
       {isOpen && (

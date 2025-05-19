@@ -9,8 +9,8 @@
 }
 
 .comment-avatar {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -19,11 +19,11 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  background-color: #ffe4e3;
+  background-color: rgb(255, 230, 230);
   width: fit-content;
   max-width: 80%;
   border-radius: 14px;
-  padding: 6px 15px;
+  padding: 8px 12px;
   position: relative;
 }
 
@@ -34,7 +34,7 @@
 }
 
 .comment-username {
-  font-weight: 550;
+  font-weight: 600;
   color: #2a315b;
   text-decoration: none;
   font-size: 15px;
@@ -46,7 +46,7 @@
 
 .comment-text {
   color: #2a315b;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.4;
 }
 
@@ -82,7 +82,7 @@
 }
 
 .menu-button:hover {
-  background-color: #f5f0c8;
+  background-color: #f0f2f5;
 }
 
 .menu-button svg {

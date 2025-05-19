@@ -33,11 +33,6 @@
   position: relative;
 }
 
-.messages-popup-text {
-  overflow: hidden;
-  white-space: nowrap;
-}
-
 .messages-button .text {
   white-space: nowrap;
   opacity: 0;

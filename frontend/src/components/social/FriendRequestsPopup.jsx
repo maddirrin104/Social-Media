@@ -42,9 +42,7 @@ const FriendRequestsPopup = ({ currentUserId }) => {
             <span className="requests-badge">{receivedRequests.length}</span>
           )}
         </div>
-        <span className='friend-requests-text'>
-          <span className="text">Lời mời kết bạn</span>
-        </span>
+        <span className="text">Lời mời kết bạn</span>
       </button>
 
       {isOpen && (
