@@ -1,9 +1,9 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import { posts } from "../data/posts";
 import { users } from "../data/users";
 import { AuthContext } from "../context/AuthContext";
-import { usePostActions } from "../hooks/usePostActions";
+import { usePost } from "../context/PostContext";
 import { useFriend } from "../context/FriendContext";
 import { FaEdit } from 'react-icons/fa';
 import Post from "../components/post/Post";
@@ -11,41 +11,43 @@ import FriendButton from "../components/social/FriendButton";
 import FriendsList from "../components/social/FriendsList";
 import ErrorBoundary from "../components/common/ErrorBoundary";
 import ConfirmModal from "../components/common/ConfirmModal";
+import CreatePost from "../components/post/CreatePost";
 import "./Profile.css";
 
 const ProfileContent = () => {
   const { userId } = useParams();
-  const numericUserId = Number(userId);
-  const { user: currentUser } = useContext(AuthContext);
+  const { user } = useAuth();
+  const { allPosts, handleLike, handleComment, handleDelete, handleCreatePost } = usePost();
+  const [userPosts, setUserPosts] = useState([]);
+  const navigate = useNavigate();
+  const numericUserId = parseInt(userId);
   const { unfriend, friendships } = useFriend();
   const [isEditing, setIsEditing] = useState(false);
   const [editedBio, setEditedBio] = useState("");
-  const { allPosts, handleLike, handleComment, handleDelete, handleCreatePost } = usePostActions();
-  const [userPosts, setUserPosts] = useState([]);
-  const [user, setUser] = useState(null);
   const [friendshipStatus, setFriendshipStatus] = useState(null);
   const [showUnfriendModal, setShowUnfriendModal] = useState(false);
 
   useEffect(() => {
-    // Tìm thông tin người dùng từ danh sách users
-    const foundUser = users.find((u) => u.id === numericUserId);
-    setUser(foundUser);
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
 
+  useEffect(() => {
+    const filteredPosts = allPosts.filter(post => post.userId === numericUserId);
+    setUserPosts(filteredPosts);
+  }, [numericUserId, allPosts]);
+
+  useEffect(() => {
     // Kiểm tra trạng thái kết bạn dựa trên friendships
-    if (currentUser && foundUser) {
+    if (user && numericUserId) {
       const isFriend = friendships.some(
-        f => (f.user1Id === currentUser.id && f.user2Id === numericUserId && f.status === 'accepted') ||
-             (f.user1Id === numericUserId && f.user2Id === currentUser.id && f.status === 'accepted')
+        f => (f.user1Id === user.id && f.user2Id === numericUserId && f.status === 'accepted') ||
+             (f.user1Id === numericUserId && f.user2Id === user.id && f.status === 'accepted')
       );
       setFriendshipStatus(isFriend);
     }
-  }, [numericUserId, currentUser, friendships]);
-
-  useEffect(() => {
-    if (numericUserId) {
-      setUserPosts(allPosts.filter((post) => post.userId === numericUserId));
-    }
-  }, [numericUserId, allPosts]);
+  }, [user, numericUserId, friendships]);
 
   const handleEditProfile = () => {
     setEditedBio(user?.bio || "");
@@ -68,11 +70,11 @@ const ProfileContent = () => {
   };
 
   const confirmUnfriend = () => {
-    if (currentUser && user) {
+    if (user && numericUserId) {
       // Tìm friendship ID để unfriend
       const friendship = friendships.find(
-        f => (f.user1Id === currentUser.id && f.user2Id === numericUserId) ||
-             (f.user1Id === numericUserId && f.user2Id === currentUser.id)
+        f => (f.user1Id === user.id && f.user2Id === numericUserId) ||
+             (f.user1Id === numericUserId && f.user2Id === user.id)
       );
       
       if (friendship) {
@@ -85,15 +87,11 @@ const ProfileContent = () => {
     setShowUnfriendModal(false);
   };
 
-  if (!currentUser) {
-    return <div className="profile-message">Vui lòng <Link to="/login" >đăng nhập</Link> để xem trang này</div>;
-  }
-
   if (!user) {
-    return <div className="profile-message">Không tìm thấy người dùng</div>;
+    return null;
   }
 
-  const isOwnProfile = currentUser?.id === numericUserId;
+  const isOwnProfile = user?.id === numericUserId;
 
   return (
     <div className="profile-container">
@@ -107,7 +105,7 @@ const ProfileContent = () => {
               {friendshipStatus ? "Các bạn là bạn bè" : "Các bạn chưa là bạn bè"}
             </div>
             <FriendButton 
-              currentUserId={currentUser.id} 
+              currentUserId={user.id} 
               targetUserId={numericUserId}
               onUnfriend={handleUnfriend}
             />
@@ -131,21 +129,28 @@ const ProfileContent = () => {
 
       <FriendsList userId={numericUserId} />
 
-      <div className="profile-posts">
-        <h3 className="posts-title">Bài viết của {user.name}</h3>
-        {userPosts.length > 0 ? (
-          userPosts.map((post) => (
-            <Post
-              key={post.id}
-              post={post}
-              onLike={handleLike}
-              onComment={handleComment}
-              onDelete={isOwnProfile ? handleDelete : undefined}
-            />
-          ))
-        ) : (
-          <p>Chưa có bài viết nào.</p>
-        )}
+      <div className="profile-content">
+        <div className="create-post-section">
+          {user.id === numericUserId && (
+            <CreatePost onCreatePost={handleCreatePost} />
+          )}
+        </div>
+        <div className="posts-section">
+          <h3 className="posts-title">Bài viết của {user.name}</h3>
+          {userPosts.length > 0 ? (
+            userPosts.map((post) => (
+              <Post
+                key={post.id}
+                post={post}
+                onLike={handleLike}
+                onComment={handleComment}
+                onDelete={isOwnProfile ? handleDelete : undefined}
+              />
+            ))
+          ) : (
+            <p>Chưa có bài viết nào.</p>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -1,33 +1,46 @@
 import { useState, useContext } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { FaPlus, FaCamera, FaTimes } from 'react-icons/fa';
 import { AuthContext } from '../../context/AuthContext';
 import './CreatePostPopup.css';
 
 const CreatePostPopup = ({ onCreatePost }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState('');
+  const [error, setError] = useState('');
   const { user } = useContext(AuthContext);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!content.trim()) return;
-
-    onCreatePost({ content, image });
-    setContent('');
-    setImage('');
-    setIsOpen(false);
-  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!content.trim() && !image) {
+      setError("Vui lòng nhập nội dung hoặc chọn ảnh!");
+      return;
+    }
+
+    setError("");
+
+    const postData = {
+      userId: user.id,
+      user: user.name,
+      avatar: user.avatar,
+      content,
+      image: preview,
+    };
+
+    onCreatePost(postData);
+    setContent('');
+    setImage(null);
+    setPreview('');
+    setIsOpen(false);
   };
 
   return (
@@ -60,25 +73,28 @@ const CreatePostPopup = ({ onCreatePost }) => {
                 placeholder="Bạn đang nghĩ gì?"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                required
+                className="post-content"
               />
 
-              {image && (
-                <div className="image-preview">
-                  <img src={image} alt="Preview" />
+              {preview && (
+                <div className="preview-container">
+                  <img src={preview} alt="Preview" className="preview-image" />
                   <button 
                     type="button" 
                     className="remove-image"
-                    onClick={() => setImage('')}
+                    onClick={() => {
+                      setPreview('');
+                      setImage(null);
+                    }}
                   >
-                    ×
+                    <FaTimes className="remove-icon" />
                   </button>
                 </div>
               )}
 
               <div className="post-actions">
                 <label className="upload-image">
-                  Thêm ảnh
+                  <FaCamera className="camera-icon" />
                   <input
                     type="file"
                     accept="image/*"
@@ -98,12 +114,14 @@ const CreatePostPopup = ({ onCreatePost }) => {
                   <button 
                     type="submit" 
                     className="post-button"
-                    disabled={!content.trim()}
+                    disabled={!content.trim() && !image}
                   >
                     Đăng
                   </button>
                 </div>
               </div>
+
+              {error && <p className="error-message">{error}</p>}
             </form>
           </div>
         </>

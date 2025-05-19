@@ -1,8 +1,10 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AuthProvider } from "./context/AuthContext";
 import { AuthContext } from "./context/AuthContext";
 import { FriendProvider } from "./context/FriendContext";
+import { PostProvider } from "./context/PostContext";
+import { usePostActions } from "./hooks/usePostActions";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
@@ -23,59 +25,57 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   const { user } = useContext(AuthContext);
-  const [posts, setPosts] = useState([]);
-
-  const handleCreatePost = (newPost) => {
-    setPosts(prevPosts => [newPost, ...prevPosts]);
-  };
+  const { handleCreatePost } = usePostActions();
 
   return (
     <Router>
       <AuthProvider>
         <ErrorBoundary>
           <FriendProvider>
-            <div className="app">
-              {/* <Navbar /> */}
-              <Routes>
-                {/* Trang chủ được bảo vệ, cần đăng nhập */}
-                <Route 
-                  path="/" 
-                  element={
-                    <ProtectedRoute>
-                      <Home posts={posts} setPosts={setPosts} />
-                    </ProtectedRoute>
-                  } 
-                />
-                {/* Các route không cần đăng nhập */}
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<SignUp />} />
-                {/* Các route khác cũng cần đăng nhập */}
-                <Route 
-                  path="/profile/:userId" 
-                  element={
-                    <ProtectedRoute>
-                      <Profile posts={posts} setPosts={setPosts} />
-                    </ProtectedRoute>
-                  } 
-                />
-                <Route 
-                  path="/edit-profile" 
-                  element={
-                    <ProtectedRoute>
-                      <EditProfile />
-                    </ProtectedRoute>
-                  } 
-                />
-              </Routes>
-              {user && (
-                <>
-                  <CreatePostPopup onCreatePost={handleCreatePost} />
-                  <FriendRequestsPopup currentUserId={user.id} />
-                  <MessagesPopup />
-                  <ProfilePopup />
-                </>
-              )}
-            </div>
+            <PostProvider>
+              <div className="app">
+                {/* <Navbar /> */}
+                <Routes>
+                  {/* Trang chủ được bảo vệ, cần đăng nhập */}
+                  <Route 
+                    path="/" 
+                    element={
+                      <ProtectedRoute>
+                        <Home />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  {/* Các route không cần đăng nhập */}
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<SignUp />} />
+                  {/* Các route khác cũng cần đăng nhập */}
+                  <Route 
+                    path="/profile/:userId" 
+                    element={
+                      <ProtectedRoute>
+                        <Profile />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route 
+                    path="/edit-profile" 
+                    element={
+                      <ProtectedRoute>
+                        <EditProfile />
+                      </ProtectedRoute>
+                    } 
+                  />
+                </Routes>
+                {user && (
+                  <>
+                    <CreatePostPopup onCreatePost={handleCreatePost} />
+                    <FriendRequestsPopup currentUserId={user.id} />
+                    <MessagesPopup />
+                    <ProfilePopup />
+                  </>
+                )}
+              </div>
+            </PostProvider>
           </FriendProvider>
         </ErrorBoundary>
       </AuthProvider>
