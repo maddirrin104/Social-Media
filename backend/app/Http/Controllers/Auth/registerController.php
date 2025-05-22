@@ -18,16 +18,10 @@ class registerController extends Controller
         // Validate input data
         $data = $request->validate([
             'full_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email',
-            'birth_date' => [
-                'required',
-                'date',
-                'before:' . Carbon::now()->subYears(16)->format('Y-m-d'),
-            ],
+            'email' => 'required|string|email|max:255|unique:users,email',    
             'gender' => 'required|in:male,female,other',
             'password' => 'required|string|min:8|confirmed',
-            'date_of_birth' => ['required', 'date', 'before_or_equal:' . now()->subYears(16)->format('Y-m-d')],
-            'gender' => 'required|string|in:male,female,others',
+            'date_of_birth' => ['required', 'date', 'before_or_equal:' . now()->subYears(16)->format('Y-m-d')]
         ]);
 
         // Create new user
