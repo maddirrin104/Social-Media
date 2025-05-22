@@ -2,28 +2,68 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
-    protected $primaryKey = 'message_id';
+    use HasFactory;
 
+    protected $table = 'messages';
+    public $timestamps = false;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
-        'sender_id', 'receiver_id', 'content', 'media_url', 'is_deleted'
+        'conversation_id',
+        'sender_id',
+        'content',
+        'media_url',
+        'is_read'
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'is_read' => 'boolean',
+        'created_at' => 'datetime',
+    ];
+
+    /**
+     * Get the conversation that the message belongs to.
+     */
+    public function conversation()
+    {
+        return $this->belongsTo(Conversation::class, 'conversation_id');
+    }
+
+    /**
+     * Get the user that sent the message.
+     */
     public function sender()
     {
         return $this->belongsTo(User::class, 'sender_id');
     }
 
-    public function receiver()
+    /**
+     * Get the read status for each participant.
+     */
+    public function readStatus()
     {
-        return $this->belongsTo(User::class, 'receiver_id');
+        return $this->hasMany(MessageStatus::class, 'message_id');
     }
 
-    public function media()
+    /**
+     * Get the notifications for this message.
+     */
+    public function notifications()
     {
-        return $this->hasMany(Media::class, 'message_id');
+        return $this->hasMany(Notification::class, 'message_id');
     }
 }

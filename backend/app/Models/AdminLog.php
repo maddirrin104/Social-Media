@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Friendship extends Model
+class AdminLog extends Model
 {
     use HasFactory;
 
-    protected $table = 'friendships';
+    protected $table = 'admin_logs';
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -17,9 +18,12 @@ class Friendship extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id1',
-        'user_id2',
-        'status'
+        'admin_id',
+        'action_type',
+        'target_type',
+        'target_id',
+        'details',
+        'ip_address'
     ];
 
     /**
@@ -29,22 +33,13 @@ class Friendship extends Model
      */
     protected $casts = [
         'created_at' => 'datetime',
-        'updated_at' => 'datetime',
     ];
 
     /**
-     * Get the first user in this friendship.
+     * Get the admin user that performed the action.
      */
-    public function user1()
+    public function admin()
     {
-        return $this->belongsTo(User::class, 'user_id1');
-    }
-
-    /**
-     * Get the second user in this friendship.
-     */
-    public function user2()
-    {
-        return $this->belongsTo(User::class, 'user_id2');
+        return $this->belongsTo(User::class, 'admin_id');
     }
 }

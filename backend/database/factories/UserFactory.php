@@ -2,19 +2,19 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
 class UserFactory extends Factory
 {
     /**
-     * The current password being used by the factory.
+     * The name of the factory's corresponding model.
+     *
+     * @var string
      */
-    protected static ?string $password;
+    protected $model = User::class;
 
     /**
      * Define the model's default state.
@@ -24,21 +24,40 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'fullname' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'password' => Hash::make('password'), // default password for testing
+            'is_active' => true,
+            'role' => 'user',
+            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'last_login' => $this->faker->dateTimeBetween('-1 month', 'now'),
         ];
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * Indicate that the user is an admin.
      */
-    public function unverified(): static
+    public function admin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
+            'role' => 'admin',
         ]);
+    }
+    
+    /**
+     * Configure the model factory.
+     */
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            // Create a profile for each user
+            $user->profile()->create([
+                'full_name' => $this->faker->name(),
+                'bio' => $this->faker->paragraph(),
+                'date_of_birth' => $this->faker->dateTimeBetween('-40 years', '-18 years')->format('Y-m-d'),
+                'gender' => $this->faker->randomElement(['male', 'female', 'other']),
+                'location' => $this->faker->city(),
+            ]);
+        });
     }
 }
