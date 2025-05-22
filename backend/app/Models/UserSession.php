@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Friendship extends Model
+class UserSession extends Model
 {
     use HasFactory;
 
-    protected $table = 'friendships';
+    protected $table = 'user_sessions';
+    protected $primaryKey = 'session_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     /**
      * The attributes that are mass assignable.
@@ -17,9 +20,11 @@ class Friendship extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id1',
-        'user_id2',
-        'status'
+        'session_id',
+        'user_id',
+        'ip_address',
+        'user_agent',
+        'expires_at'
     ];
 
     /**
@@ -29,22 +34,14 @@ class Friendship extends Model
      */
     protected $casts = [
         'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+        'expires_at' => 'datetime',
     ];
 
     /**
-     * Get the first user in this friendship.
+     * Get the user that owns the session.
      */
-    public function user1()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'user_id1');
-    }
-
-    /**
-     * Get the second user in this friendship.
-     */
-    public function user2()
-    {
-        return $this->belongsTo(User::class, 'user_id2');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
