@@ -8,50 +8,79 @@ use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Carbon;
-
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class registerController extends Controller
 {
     public function register(Request $request)
     {
-        // Validate input data
-        $data = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email',    
-            'gender' => 'required|in:male,female,other',
-            'password' => 'required|string|min:8|confirmed',
-            'date_of_birth' => ['required', 'date', 'before_or_equal:' . now()->subYears(16)->format('Y-m-d')]
-        ]);
+        try {
+            // Validate input data
+            $data = $request->validate([
+                'full_name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users,email',
+                'password' => 'required|string|min:8|confirmed',
+                'date_of_birth' => ['required', 'date', 'before_or_equal:' . now()->subYears(16)->format('Y-m-d')],
+                'gender' => 'required|in:male,female,others',
+            ]);
 
-        // Create new user
-        $user = User::create([
-            'full_name' => $data['full_name'],
-            'email' => $data['email'],
-            'birth_date' => $data['birth_date'],
-            'gender' => $data['gender'],
-            'password' => bcrypt($data['password'])
-        ]);
+            Log::info('Dữ liệu: ', $data);
 
-        // Create user profile
-        UserProfile::create([
-            'user_id' => $user->id,
-            'full_name' => $data['full_name'],
-            'date_of_birth' => $data['date_of_birth'],
-            'gender' => $data['gender'],
-        ]);
+            // Create new user
+            $user = User::create([
+                'full_name' => $data['full_name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password'])
+            ]);
 
-        $user->load('profile');
+            // Create user profile
+            UserProfile::create([
+                'user_id' => $user->id,
+                'full_name' => $data['full_name'],
+                'date_of_birth' => $data['date_of_birth'],
+                'gender' => $data['gender'],
+            ]);
 
-        $token = $user->createToken('apiToken')->plainTextToken;
+            $user->load('profile');
 
-        $res = [
-            'message' => 'Registration successful',
-            'user' => $user,
-            'token' => $token   
-        ];
+            $token = $user->createToken('apiToken')->plainTextToken;
 
-        // Return response
-        return response($res, 201);
+            $res = [
+                'message' => 'Registration successful',
+                'user' => $user,
+                'token' => $token   
+            ];
+
+            // Return success response
+            return new Response($res, 201);
+
+        } catch (ValidationException $e) {
+            // Check if the error is related to duplicate email
+            $errors = $e->validator->errors()->toArray();
+            
+            if (isset($errors['email']) && in_array('The email has already been taken.', $errors['email'])) {
+                return new Response([
+                    'message' => 'Registration failed',
+                    'errors' => [
+                        'email' => ['Email đã tồn tại.']
+                    ]
+                ], 422);
+            }
+            
+            // Return other validation errors
+            return new Response([
+                'message' => 'Registration failed',
+                'errors' => $errors
+            ], 422);
+        } catch (\Exception $e) {
+            // Handle other exceptions
+            Log::error('Registration error: ' . $e->getMessage());
+            
+            return new Response([
+                'message' => 'Registration failed',
+                'error' => 'An error occurred during registration. Please try again.'
+            ], 500);
+        }
     }
 }
