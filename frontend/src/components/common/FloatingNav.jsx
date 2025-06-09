@@ -19,13 +19,6 @@ const FloatingNav = ({ onOpenNotification, onOpenMessages, onOpenFriendRequest }
 
   const navItems = [
     {
-      icon: 'fas fa-sign-out-alt',
-      label: 'Đăng xuất',
-      onClick: handleLogout,
-      position: 'bottom-right',
-      hoverWidth: '145px'
-    },
-    {
       icon: 'fas fa-user-friends',
       label: 'Lời mời kết bạn',
       onClick: onOpenFriendRequest,
