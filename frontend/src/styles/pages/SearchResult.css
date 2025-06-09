@@ -1,0 +1,36 @@
+.search-result-page {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search-result-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.search-result-container h1 {
+  margin: 0 0 20px 0;
+  color: #1c1e21;
+  font-size: 24px;
+}
+
+.search-filters {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dddfe2;
+}
+
+.search-results {
+  min-height: 400px;
+}
+
+.pagination {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #dddfe2;
+  display: flex;
+  justify-content: center;
+} 

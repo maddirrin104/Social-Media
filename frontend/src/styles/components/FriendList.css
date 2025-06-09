@@ -1,0 +1,38 @@
+.friend-list {
+  background-color: var(--card-background);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.friend-list h2 {
+  margin: 0 0 1.5rem;
+  color: var(--text-color);
+  font-size: 1.25rem;
+}
+
+.friends-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.friend-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.friend-card:hover {
+  background-color: var(--hover-color);
+}
+
+.friend-card h3 {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 1rem;
+  text-align: center;
+} 
