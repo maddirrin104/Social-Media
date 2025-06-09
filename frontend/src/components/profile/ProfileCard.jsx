@@ -5,10 +5,32 @@ import Button from '../common/Button';
 import Card from '../common/Card';
 import { FaUserFriends, FaInstagram, FaEnvelope, FaTiktok, FaMapMarkerAlt } from 'react-icons/fa';
 import '../../styles/components/ProfileCard.css';
+import { getFriendshipStatus, friendships } from '../../data/friendships';
+import FriendButton from '../friends/FriendButton';
+import useFriendActions from '../../hooks/useFriendActions';
 
 const ProfileCard = ({ profile }) => {
   const { user: currentUser } = useAuth();
   const isOwnProfile = currentUser.id === profile.id;
+
+  // Lấy trạng thái quan hệ
+  const status = getFriendshipStatus(currentUser.id, profile.id, friendships);
+  // Kiểm tra đã gửi lời mời chưa
+  const isSent = friendships.some(f =>
+    f.status === 'pending' &&
+    f.user1Id === currentUser.id &&
+    f.user2Id === profile.id
+  );
+  const { sendRequest, cancelRequest, acceptRequest, unfriend, loadingId } = useFriendActions();
+
+  // Hàm xử lý action
+  const handleFriendAction = () => {
+    if (status === 'none') sendRequest(profile);
+    else if (status === 'pending') {
+      if (isSent) cancelRequest(profile);
+      else acceptRequest(profile);
+    } else if (status === 'accepted') unfriend(profile);
+  };
 
   return (
     <Card className="profile-card-sidebar">
@@ -31,7 +53,13 @@ const ProfileCard = ({ profile }) => {
           <Button className="profile-btn-edit" variant="primary">Chỉnh sửa thông tin</Button>
         ) : (
           <div className="profile-actions-row">
-            <Button variant="primary" className="profile-btn-friend">Kết bạn</Button>
+            <FriendButton
+              className="profile-btn-friend"
+              status={status}
+              isSent={isSent}
+              loading={loadingId === profile.id}
+              onClick={handleFriendAction}
+            />
             <Button variant="outline" className="profile-btn-message" >Nhắn tin</Button>
           </div>
         )}

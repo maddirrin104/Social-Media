@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext';
 // Pages
 import Home from '../pages/Home';
 import Profile from '../pages/Profile';
-import Friends from '../pages/Friends';
 import Notifications from '../pages/Notifications';
 import SearchResult from '../pages/SearchResult';
 import AdminDashboard from '../pages/AdminDashboard';
@@ -42,14 +41,6 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <Profile />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/friends"
-        element={
-          <ProtectedRoute>
-            <Friends />
           </ProtectedRoute>
         }
       />
