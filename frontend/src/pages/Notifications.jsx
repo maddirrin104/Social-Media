@@ -1,5 +1,5 @@
 import React from 'react';
-import NotificationList from '../components/notifications/NotificationList';
+import NotificationList from '../components/notifications/NotificationModal';
 import '../styles/pages/Notifications.css';
 import { notifications as sampleNotifications } from '../data/notification';
 

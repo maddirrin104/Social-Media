@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import AppRoutes from './routes/AppRoutes';
 import FloatingNav from './components/common/FloatingNav';
-import FloatingSearch from './components/common/FloatingSearch';
 import { useAuth } from './context/AuthContext';
 import ScrollToTop from './components/common/ScrollToTop';
-import Modal from './components/common/Modal';
+import NotificationModal from './components/notifications/NotificationModal';
 import { notifications } from './data/notification';
-import NotificationList from './components/notifications/NotificationList';
 import HeadBar from './components/common/HeadBar';
 import './App.css';
 
@@ -26,14 +24,12 @@ function App() {
         <ScrollToTop />
         <AppRoutes />
       </main>
-      <Modal
+      <NotificationModal
         open={openNotificationModal}
         onClose={() => setOpenNotificationModal(false)}
-        title="Thông báo"
-        width={550}
-      >
-        <NotificationList notifications={notifications} userId={user?.id} />
-      </Modal>
+        notifications={notifications}
+        userId={user?.id}
+      />
     </div>
   );
 }
