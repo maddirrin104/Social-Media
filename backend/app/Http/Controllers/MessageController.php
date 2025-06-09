@@ -156,14 +156,14 @@ class MessageController extends Controller
     {
         $user = Auth::user();
         
-        // Tìm tin nhắn và kiểm tra quyền truy cập
+        // tìm tin nhắn và kiểm tra quyền truy cập
         $message = Message::whereHas('conversation.participants', function (Builder $query) use ($user) {
             $query->where('users.id', $user->id)
                   ->whereNull('conversation_participants.left_at');
-        })->where('sender_id', $user->id) // Chỉ cho phép xóa tin nhắn của chính mình
+        })->where('sender_id', $user->id) // chỉ cho phép xóa tin nhắn của chính mình
         ->findOrFail($messageId);
         
-        // Xóa file đính kèm nếu có
+        // xóa file đính kèm nếu có
         if ($message->media_url) {
             $path = str_replace('/storage/', '', $message->media_url);
             Storage::disk('public')->delete($path);
