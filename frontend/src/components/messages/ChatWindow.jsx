@@ -1,26 +1,18 @@
 import React from 'react';
+import { users } from '../../data/users';
+import '../../styles/components/ChatWindow.css';
 
-const users = [
-  { id: 1, name: 'Margot Robbie', avatar: 'https://randomuser.me/api/portraits/women/1.jpg', online: true },
-  { id: 2, name: 'Katy Pery', avatar: 'https://randomuser.me/api/portraits/women/2.jpg', online: true },
-  { id: 3, name: 'Will Smith', avatar: 'https://randomuser.me/api/portraits/men/3.jpg', online: false, lastActive: '5 min' },
-  { id: 4, name: 'Jeremy Clarkson', avatar: 'https://randomuser.me/api/portraits/men/4.jpg', online: false, lastActive: '7 min' },
-  { id: 5, name: 'James Anderson', avatar: 'https://randomuser.me/api/portraits/men/5.jpg', online: false },
-  { id: 6, name: 'Charlotte Lebon', avatar: 'https://randomuser.me/api/portraits/women/6.jpg', online: false },
-  { id: 7, name: 'Beth Behrs', avatar: 'https://randomuser.me/api/portraits/women/7.jpg', online: false },
-  { id: 8, name: 'Tom Selleck', avatar: 'https://randomuser.me/api/portraits/men/8.jpg', online: false },
-];
-
+// Dữ liệu tin nhắn mẫu cho các userId thật
 const messagesData = {
-  1: [
-    { fromMe: false, text: 'Hi Jenny how are you today ?', time: '9:34 PM' },
-    { fromMe: false, text: 'Did you train yesterday ?', time: '9:34 PM' },
-    { fromMe: true, text: 'Great. What about you ?', time: '9:34 PM' },
-    { fromMe: true, text: 'Of course I did. Speaking of which check this out', time: '9:34 PM' },
-    { fromMe: false, text: 'Good job, you look good and healthy!', time: '9:34 PM' },
-    { fromMe: false, text: 'Keep it up. See you next week', time: '9:34 PM' },
+  102: [
+    { fromMe: false, text: 'Chào bạn!', time: '9:34 PM' },
+    { fromMe: true, text: 'Chào bạn, khoẻ không?', time: '9:35 PM' },
   ],
-  // Thêm dữ liệu mẫu cho các user khác nếu muốn
+  105: [
+    { fromMe: false, text: 'Đi chơi không?', time: '8:00 PM' },
+    { fromMe: true, text: 'Ok luôn!', time: '8:01 PM' },
+  ],
+  // Thêm các userId thật khác nếu muốn
 };
 
 const ChatWindow = ({ userId }) => {
@@ -35,47 +27,39 @@ const ChatWindow = ({ userId }) => {
     }
   };
 
-  if (!user) return <div style={{flex:1, display:'flex', alignItems:'center', justifyContent:'center', color:'#aaa'}}>Chọn một người để bắt đầu trò chuyện</div>;
+  if (!user) return <div className="chat-window-empty">Chọn một người để bắt đầu trò chuyện</div>;
 
   return (
-    <div style={{flex:1, display:'flex', flexDirection:'column', height:'100%'}}>
+    <div className="chat-window">
       {/* ChatHeader */}
-      <div style={{display:'flex', alignItems:'center', borderBottom:'1px solid #eee', padding:'12px 20px', background:'#fff'}}>
-        <img src={user.avatar} alt={user.name} style={{width:40, height:40, borderRadius:'50%', marginRight:12}} />
+      <div className="chat-window-header">
+        <img src={user.avatar} alt={user.name} className="chat-window-avatar" />
         <div>
-          <div style={{fontWeight:600, fontSize:18}}>{user.name}</div>
-          <div style={{fontSize:13, color:user.online?'#4caf50':'#aaa'}}>{user.online?'online':user.lastActive?`active ${user.lastActive}`:'offline'}</div>
+          <div className="chat-window-name">{user.name}</div>
+          {/* Có thể bổ sung trạng thái online nếu muốn */}
         </div>
       </div>
       {/* ChatMessages */}
-      <div style={{flex:1, padding:20, overflowY:'auto', background:'#f9f9fb'}}>
+      <div className="chat-window-messages">
         {messages.map((msg, idx) => (
-          <div key={idx} style={{display:'flex', justifyContent:msg.fromMe?'flex-end':'flex-start', marginBottom:8}}>
-            <div style={{
-              background: msg.fromMe ? '#3ec6e0' : '#f1f1f1',
-              color: msg.fromMe ? '#fff' : '#333',
-              borderRadius: 18,
-              padding: '10px 16px',
-              maxWidth: 320,
-              fontSize: 15,
-              boxShadow: '0 1px 2px rgba(0,0,0,0.03)'
-            }}>
+          <div key={idx} className={`chat-message-row${msg.fromMe ? ' me' : ''}`}>
+            <div className={`chat-message-bubble${msg.fromMe ? ' me' : ''}`}>
               {msg.text}
             </div>
           </div>
         ))}
       </div>
       {/* ChatInput */}
-      <div style={{display:'flex', alignItems:'center', padding:'12px 20px', borderTop:'1px solid #eee', background:'#fff'}}>
+      <div className="chat-window-input-row">
         <input
           type="text"
+          className="chat-window-input"
           placeholder={`Reply to ${user.name}...`}
           value={input}
           onChange={e => setInput(e.target.value)}
-          style={{flex:1, padding:10, borderRadius:20, border:'1px solid #ddd', marginRight:12}}
           onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
         />
-        <button onClick={handleSend} style={{background:'#3ec6e0', color:'#fff', border:'none', borderRadius:'50%', width:40, height:40, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20, cursor:'pointer'}}>
+        <button className="chat-window-send-btn" onClick={handleSend}>
           <i className="fas fa-paper-plane"></i>
         </button>
       </div>
