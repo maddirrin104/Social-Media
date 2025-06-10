@@ -6,7 +6,7 @@ export const posts = [
     image: "/public/assets/post/1.jpg",
     likes: 10,
     comments: 3,
-    createdAt: new Date("2024-03-20T10:30:00").getTime(),
+    createdAt: new Date("2025-06-10T10:30:00").getTime(),
     likedBy: [102, 103],
     commentList: [
       {
@@ -33,7 +33,7 @@ export const posts = [
     image: "/public/assets/post/2.jpg",
     likes: 5,
     comments: 1,
-    createdAt: new Date("2024-03-20T09:15:00").getTime(),
+    createdAt: new Date("2025-06-10T14:22:00").getTime(),
     likedBy: [101],
     commentList: [
       {

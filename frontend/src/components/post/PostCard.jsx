@@ -2,21 +2,11 @@ import React, { useState } from 'react';
 import Avatar from '../common/Avatar';
 import Button from '../common/Button';
 import { Link } from 'react-router-dom';
+import TimeAgo from '../common/TimeAgo';
 import '../../styles/components/PostCard.css';
 import CommentList from './CommentList';
 
 const PostCard = ({ post }) => {
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('vi-VN', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-
   const [commentList, setCommentList] = useState(() => post.commentList || []);
   const [likes, setLikes] = useState(post.likes || 0);
   const [liked, setLiked] = useState(false);
@@ -42,7 +32,7 @@ const PostCard = ({ post }) => {
             <Link to={`/profile/${post.author.id}`} className="post-author-link">
               <h3>{post.author.name}</h3>
             </Link>
-            <span className="post-time">{formatDate(post.createdAt)}</span>
+            <span className="post-time"><TimeAgo dateString={post.createdAt} /></span>
           </div>
         </div>
       </div>

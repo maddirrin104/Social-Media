@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import FloatingSearch from './FloatingSearch';
 import Avatar from './Avatar';
@@ -27,9 +27,9 @@ const HeadBar = () => {
       <div className="headbar-left">
         <FloatingSearch />
       </div>
-      <div className="headbar-center">
+      <Link to="/" className="headbar-center">
         <img src="/assets/LLlogo-02.png" alt="Logo" className="headbar-logo" />
-      </div>
+      </Link>
       <div className="headbar-right">
         <div className="user-info" onClick={handleProfileClick}>
           <span className="username">{user?.name}</span>

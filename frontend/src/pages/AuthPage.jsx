@@ -19,14 +19,16 @@ const AuthPage = () => {
       <div className="overlay-container">
         <div className="overlay">
           <div className="overlay-panel overlay-left">
-            <h1>Chào mừng trở lại!</h1>
+            <img src='../../public/assets/LLlogoWhite-01.png' alt="Logo" className="auth-logo" />
+            <h1>Đã có tài khoản?</h1>
             <p>Để kết nối với chúng tôi, vui lòng đăng nhập bằng thông tin cá nhân của bạn</p>
             <Button className="ghost" id="signIn" onClick={() => handleSwitch(false)}>
               Đăng nhập
             </Button>
           </div>
           <div className="overlay-panel overlay-right">
-            <h1>Xin chào, bạn mới!</h1>
+            <img src='../../public/assets/LLlogoWhite-01.png' alt="Logo" className="auth-logo" />
+            <h1>Chưa có tài khoản?</h1>
             <p>Nhập thông tin cá nhân để bắt đầu hành trình cùng chúng tôi</p>
             <Button className="ghost" id="signUp" onClick={() => handleSwitch(true)}>
               Đăng ký
