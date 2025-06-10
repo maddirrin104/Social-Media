@@ -1,0 +1,74 @@
+.admin-post-management {
+  padding: 2rem;
+}
+
+.admin-post-header {
+  margin-bottom: 2rem;
+}
+
+.admin-post-header h2 {
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+}
+
+.admin-post-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.admin-post-table {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.admin-post-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-post-table th,
+.admin-post-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.admin-post-table th {
+  background-color: var(--bg-secondary);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.admin-post-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-post-title {
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-post-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.admin-post-status.published {
+  background-color: var(--success-color-light);
+  color: var(--success-color);
+}
+
+.admin-post-status.pending {
+  background-color: var(--warning-color-light);
+  color: var(--warning-color);
+}
+
+.admin-post-actions {
+  display: flex;
+  gap: 0.5rem;
+} 
