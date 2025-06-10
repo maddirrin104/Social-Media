@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import '../../styles/components/LoginForm.css';
+import {loginAPI, register} from '../../utils/api'
 
 const LoginForm = ({ onSubmit }) => {
   const navigate = useNavigate();

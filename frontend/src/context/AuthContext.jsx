@@ -1,22 +1,34 @@
 import { createContext, useContext, useState } from 'react';
-import { users } from '../data/users';
+// import { users } from '../data/users';
+import { loginAPI, registerAPI, logoutAPI } from '../utils/api';  
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
+  //đăng nhập
   const login = async ({ email, password }) => {
-    const foundUser = users.find(u => u.email === email && u.password === password);
-    if (foundUser) {
-      setUser(foundUser);
-      return foundUser;
-    } else {
-      throw new Error('Email hoặc mật khẩu không đúng');
-    }
+    const data = await loginAPI(email, password);
+    setUser(data.user);
+    return data;
+  };
+  
+  //đăng kí
+  const register = async ({ full_name, email, password, password_confirmation }) => {
+    const data = await registerAPI(
+      full_name,
+      email,
+      password,
+      password_confirmation
+    );
+    setUser(data.user);
+    return data;
   };
 
-  const logout = () => {
+  //đăng xuất
+  const logout = async () => {
+    await logoutAPI();
     setUser(null);
   };
 
@@ -25,7 +37,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAdmin }}>
+    <AuthContext.Provider value={{ user, login, logout, register, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );

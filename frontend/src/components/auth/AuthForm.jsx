@@ -8,10 +8,10 @@ const AuthForm = ({ mode, onSwitch }) => {
   const navigate = useNavigate();
   const { login, register } = useAuth();
   const [formData, setFormData] = useState({
-    name: '',
+    full_name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    password_confirmation: ''
   });
   const [errors, setErrors] = useState({});
   const [errorMsg, setErrorMsg] = useState('');
@@ -26,14 +26,14 @@ const AuthForm = ({ mode, onSwitch }) => {
     setErrorMsg('');
     const newErrors = {};
     if (mode === 'register') {
-      if (!formData.name) newErrors.name = 'Vui lòng nhập họ tên';
+      if (!formData.full_name) newErrors.full_name = 'Vui lòng nhập họ tên';
       if (!formData.email) newErrors.email = 'Vui lòng nhập email';
       if (!formData.password) newErrors.password = 'Vui lòng nhập mật khẩu';
-      if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Mật khẩu không khớp';
+      if (formData.password !== formData.password_confirmation) newErrors.password_confirmation = 'Mật khẩu không khớp';
       if (Object.keys(newErrors).length === 0) {
         try {
           await register(formData);
-          navigate('/login');
+          navigate('/');
         } catch (err) {
           setErrorMsg(err.message || 'Đăng ký thất bại');
         }
@@ -43,7 +43,10 @@ const AuthForm = ({ mode, onSwitch }) => {
       if (!formData.password) newErrors.password = 'Vui lòng nhập mật khẩu';
       if (Object.keys(newErrors).length === 0) {
         try {
-          await login(formData);
+          await login({
+            email: formData.email,
+            password: formData.password
+          });
           navigate('/');
         } catch (err) {
           setErrorMsg(err.message || 'Đăng nhập thất bại');
@@ -65,11 +68,11 @@ const AuthForm = ({ mode, onSwitch }) => {
         <Input
           id="register-name"
           type="text"
-          name="name"
+          name="full_name"
           placeholder="Họ tên"
-          value={formData.name}
+          value={formData.full_name}
           onChange={handleChange}
-          error={errors.name}
+          error={errors.full_name}
         />
       )}
       <Input
@@ -94,11 +97,11 @@ const AuthForm = ({ mode, onSwitch }) => {
         <Input
           id="register-confirm-password"
           type="password"
-          name="confirmPassword"
+          name="password_confirmation"
           placeholder="Xác nhận mật khẩu"
-          value={formData.confirmPassword}
+          value={formData.password_confirmation}
           onChange={handleChange}
-          error={errors.confirmPassword}
+          error={errors.password_confirmation}
         />
       )}
       {mode === 'login' && <a href="#" style={{margin: '10px 0'}}>Quên mật khẩu?</a>}
