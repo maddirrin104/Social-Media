@@ -16,6 +16,9 @@ class PostResource extends JsonResource
                 'id' => $comment->id,
                 'userId' => $comment->user_id,
                 'name' => $comment->user ? $comment->user->name : null,
+                'avatar' => $comment->user && $comment->user->avatar
+                    ? asset('storage/' . $comment->user->avatar)
+                    : asset('storage/avatars/defaultAvatar.png'),
                 'content' => $comment->content,
             ];
         }) : [];

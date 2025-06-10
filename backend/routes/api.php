@@ -10,8 +10,10 @@ use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
-// Routes cho người dùng
-Route::prefix('auth')->group(function () {
+
+
+// Routes cho auth
+Route::prefix('users')->group(function () {
     Route::post('register', [RegisterController::class, 'register']);
     Route::post('login', [LoginController::class, 'login']);
     Route::middleware('auth:sanctum')->post('logout', [LogoutController::class, 'logout']);
@@ -25,8 +27,8 @@ Route::put('reset-password/{token}', [ResetPasswordController::class, 'reset']);
 // Routes cho chat
 Route::middleware('auth:sanctum')->group(function () {
     // Tìm kiếm người dùng
-    Route::get('/users/search', [UserController::class, 'search']);
-    Route::get('/users/friends', [UserController::class, 'friends']);
+    // Route::get('/users/search', [UserController::class, 'search']);
+    // Route::get('/users/friends', [UserController::class, 'friends']);
 
     // Cuộc trò chuyện
     Route::get('/conversations', [ConversationController::class, 'index']);

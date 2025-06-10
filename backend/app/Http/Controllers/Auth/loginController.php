@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\UserResource;
 
 class LoginController extends Controller
 {
@@ -28,7 +29,7 @@ class LoginController extends Controller
         $token = $user->createToken('apiToken')->plainTextToken;
 
         $res = [
-            'user' => $user,
+            'user' => new UserResource($user),
             'token' => $token
         ];
 
@@ -37,10 +38,6 @@ class LoginController extends Controller
 
     public function me(Request $request)
     {
-        $user = $request->user();
-    
-        return response([
-            'user' => $user
-        ]);
+        return new UserResource($request->user());
     }
 }

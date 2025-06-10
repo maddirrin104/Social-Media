@@ -4,50 +4,47 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
     /**
-     * Tìm kiếm người dùng để bắt đầu cuộc trò chuyện.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * Display a listing of the resource.
      */
-    public function search(Request $request)
+    public function index()
     {
-        $request->validate([
-            'query' => 'required|string|min:2',
-        ]);
-        
-        $user = Auth::user();
-        $query = $request->query('query');
-        
-        // Tìm người dùng theo tên hoặc email
-        $users = User::where('id', '!=', $user->id)
-            ->where(function ($q) use ($query) {
-                $q->where('full_name', 'like', "%{$query}%")
-                  ->orWhere('email', 'like', "%{$query}%");
-            })
-            ->with('profile:user_id,profile_picture')
-            ->limit(10)
-            ->get(['id', 'full_name', 'email']);
-        
-        return response()->json($users);
+        //
     }
 
     /**
-     * Lấy danh sách bạn bè để bắt đầu cuộc trò chuyện.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * Store a newly created resource in storage.
      */
-    public function friends()
+    public function store(Request $request)
     {
-        $user = Auth::user();
-        
-        // Lấy danh sách bạn bè
-        $friends = $user->friends();
-        
-        return response()->json($friends);
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(User $user)
+    {
+        return new UserResource($user);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, User $user)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(User $user)
+    {
+        //
     }
 }

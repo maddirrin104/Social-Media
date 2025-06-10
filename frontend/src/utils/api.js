@@ -5,11 +5,6 @@ const api = axios.create({
   withCredentials: true
 });
 
-const api_notInterceptors = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000/api",
-  withCredentials: true
-});
-
 // Add a request interceptor
 api.interceptors.request.use(
   (config) => {
@@ -37,7 +32,7 @@ api.interceptors.response.use(
 //register
 const registerAPI = async (name, email, password) => {
   try {
-    const response = await api_notInterceptors.post("/auth/register", {
+    const response = await api.post("/users/register", {
       name,
       email,
       password,
@@ -45,7 +40,7 @@ const registerAPI = async (name, email, password) => {
     });
     const data = response.data;
     if (data?.token) {
-      localStorage.setItem("access_token", data.token);     
+      localStorage.setItem("access_token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user)); 
     }
 
@@ -59,13 +54,17 @@ const registerAPI = async (name, email, password) => {
 //login
 const loginAPI = async (email, password) => {
   try {
-    const response = await api_notInterceptors.post("/auth/login", { email, password });
+    const response = await api.post("/users/login", { email, password });
     const data = response.data;
 
     if (data?.token) {
       localStorage.setItem("access_token", data.token);     // Lưu token
       localStorage.setItem("user", JSON.stringify(data.user)); // Lưu user
     }
+
+    
+    console.log("localStorage:", localStorage.getItem("access_token"));
+    console.log("localStorage token:", data.token);
 
     return data;
   } catch (error) {
@@ -77,7 +76,7 @@ const loginAPI = async (email, password) => {
 //logout
 const logoutAPI = async () => {
   try {
-    await api.post("/auth/logout");
+    await api.post("/users/logout");
     localStorage.removeItem("access_token"); // Xóa token
     localStorage.removeItem("user"); // Xóa user
   } catch (error) {
@@ -90,7 +89,7 @@ const logoutAPI = async () => {
 const resetPasswordAPI =  {
   requestPasswordReset: async (email) => {
     try {
-      const response = await api_notInterceptors.post('/reset-password', { email });
+      const response = await api.post('/reset-password', { email });
       return response.data;
     } catch (error) {
       console.error('Request password reset error:', error);
@@ -101,7 +100,7 @@ const resetPasswordAPI =  {
   // Đặt lại mật khẩu mới với token
   resetPassword: async (token, password, password_confirmation) => {
     try {
-      const response = await api_notInterceptors.put(`/reset-password/${token}`, {
+      const response = await api.put(`/reset-password/${token}`, {
         password,
         password_confirmation
       });
@@ -164,7 +163,6 @@ const postAPI = {
 };
 
 export {
-    api_notInterceptors,
     api,
     loginAPI,
     logoutAPI,

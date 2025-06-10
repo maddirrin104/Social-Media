@@ -1,15 +1,31 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 // import { users } from '../data/users';
-import { loginAPI, registerAPI, logoutAPI } from '../utils/api';  
+import { loginAPI, registerAPI, logoutAPI, api } from '../utils/api';  
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      api.get("/users/me")
+        .then((res) => {
+          setUser(res.data);
+        })
+        .catch(() => {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("user");
+          setUser(null);
+        });
+    }
+  }, []);
+
   //đăng nhập
   const login = async ({ email, password }) => {
     const data = await loginAPI(email, password);
+    localStorage.setItem("user", JSON.stringify(data.user));
     setUser(data.user);
     return data;
   };
@@ -22,6 +38,7 @@ export const AuthProvider = ({ children }) => {
       password,
       password_confirmation
     );
+    localStorage.setItem("user", JSON.stringify(data.user));
     setUser(data.user);
     return data;
   };
@@ -29,6 +46,8 @@ export const AuthProvider = ({ children }) => {
   //đăng xuất
   const logout = async () => {
     await logoutAPI();
+    localStorage.removeItem("user");
+    localStorage.removeItem("access_token");
     setUser(null);
   };
 
