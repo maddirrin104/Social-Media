@@ -91,32 +91,32 @@ const EditProfileModal = ({ isOpen, onClose, profile, onSave }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <div className="modal-header">
+    <div className="edit-profile-modal-overlay">
+      <div className="edit-profile-modal-content">
+        <div className="edit-profile-modal-header">
           <h2>Chỉnh sửa thông tin</h2>
-          <button className="modal-close" onClick={onClose}>&times;</button>
+          <button className="edit-profile-modal-close" onClick={onClose}>&times;</button>
         </div>
 
-        <div className="edit-profile-tabs">
+        <div className="edit-profile-modal-tabs">
           <button
-            className={`tab-button ${activeTab === 'profile' ? 'active' : ''}`}
+            className={`edit-profile-modal-tab-button ${activeTab === 'profile' ? 'active' : ''}`}
             onClick={() => setActiveTab('profile')}
           >
             Thông tin cá nhân
           </button>
           <button
-            className={`tab-button ${activeTab === 'password' ? 'active' : ''}`}
+            className={`edit-profile-modal-tab-button ${activeTab === 'password' ? 'active' : ''}`}
             onClick={() => setActiveTab('password')}
           >
             Đổi mật khẩu
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="edit-profile-form">
+        <form onSubmit={handleSubmit} className="edit-profile-modal-form">
           {activeTab === 'profile' ? (
-            <div className="profile-tab">
-              <div className="avatar-upload">
+            <div className="edit-profile-modal-profile-tab">
+              <div className="edit-profile-modal-avatar-upload">
                 <Avatar src={formData.avatar} alt="Avatar" size="large" />
                 <input
                   type="file"
@@ -125,9 +125,13 @@ const EditProfileModal = ({ isOpen, onClose, profile, onSave }) => {
                   id="avatar-input"
                   className="hidden"
                 />
-                <label htmlFor="avatar-input" className="avatar-upload-button">
+                <Button
+                  size="small"
+                  variant="primary"
+                  onClick={() => document.getElementById('avatar-input').click()}
+                >
                   Thay đổi ảnh đại diện
-                </label>
+                </Button>
               </div>
 
               <Input
@@ -178,7 +182,7 @@ const EditProfileModal = ({ isOpen, onClose, profile, onSave }) => {
               />
             </div>
           ) : (
-            <div className="password-tab">
+            <div className="edit-profile-modal-password-tab">
               <Input
                 label="Mật khẩu hiện tại"
                 name="currentPassword"
@@ -208,7 +212,7 @@ const EditProfileModal = ({ isOpen, onClose, profile, onSave }) => {
             </div>
           )}
 
-          <div className="modal-actions">
+          <div className="edit-profile-modal-actions">
             <Button variant="outline" onClick={onClose}>
               Hủy
             </Button>
