@@ -6,6 +6,7 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -18,7 +19,12 @@ export const AuthProvider = ({ children }) => {
           localStorage.removeItem("access_token");
           localStorage.removeItem("user");
           setUser(null);
+        })
+        .finally(() => {
+          setLoading(false);
         });
+    } else {
+      setLoading(false);
     }
   }, []);
 
@@ -54,6 +60,10 @@ export const AuthProvider = ({ children }) => {
   const isAdmin = () => {
     return user?.role === 'admin';
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <AuthContext.Provider value={{ user, login, logout, register, isAdmin }}>
