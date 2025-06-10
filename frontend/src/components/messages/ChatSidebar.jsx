@@ -1,6 +1,7 @@
 import React from 'react';
 import { getFriendList, friendships } from '../../data/friendships';
 import { users } from '../../data/users';
+import '../../styles/components/ChatSidebar.css';
 
 const ChatSidebar = ({ selectedId, onSelect, userId }) => {
   const [search, setSearch] = React.useState('');
@@ -8,24 +9,24 @@ const ChatSidebar = ({ selectedId, onSelect, userId }) => {
   const friends = userId ? getFriendList(userId, friendships) : [];
   const filtered = friends.filter(u => u.name.toLowerCase().includes(search.toLowerCase()));
   return (
-    <div style={{width: 260, background: '#f7f9fa', borderRight: '1px solid #eee', height: '100%', display: 'flex', flexDirection: 'column'}}>
+    <div className="chat-sidebar">
       <input
         type="text"
+        className="chat-sidebar-search"
         placeholder="Search contact"
         value={search}
         onChange={e => setSearch(e.target.value)}
-        style={{margin: 16, padding: 8, borderRadius: 8, border: '1px solid #ddd'}}
       />
-      <div style={{flex: 1, overflowY: 'auto'}}>
+      <div className="chat-sidebar-list">
         {filtered.map(u => (
           <div
             key={u.id}
             onClick={() => onSelect(u.id)}
-            style={{display: 'flex', alignItems: 'center', padding: '10px 16px', cursor: 'pointer', background: selectedId === u.id ? '#e6f7ff' : 'transparent'}}
+            className={`chat-sidebar-item${selectedId === u.id ? ' selected' : ''}`}
           >
-            <img src={u.avatar} alt={u.name} style={{width: 40, height: 40, borderRadius: '50%', marginRight: 12}} />
+            <img src={u.avatar} alt={u.name} className="chat-sidebar-avatar" />
             <div>
-              <div style={{fontWeight: 600}}>{u.name}</div>
+              <div className="chat-sidebar-name">{u.name}</div>
               {/* Có thể bổ sung trạng thái online nếu muốn */}
             </div>
           </div>
