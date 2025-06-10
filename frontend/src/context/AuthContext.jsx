@@ -15,9 +15,9 @@ export const AuthProvider = ({ children }) => {
   };
   
   //đăng kí
-  const register = async ({ full_name, email, password, password_confirmation }) => {
+  const register = async ({ name, email, password, password_confirmation }) => {
     const data = await registerAPI(
-      full_name,
+      name,
       email,
       password,
       password_confirmation

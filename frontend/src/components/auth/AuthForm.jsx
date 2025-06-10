@@ -8,7 +8,7 @@ const AuthForm = ({ mode, onSwitch }) => {
   const navigate = useNavigate();
   const { login, register } = useAuth();
   const [formData, setFormData] = useState({
-    full_name: '',
+    name: '',
     email: '',
     password: '',
     password_confirmation: ''
@@ -26,7 +26,7 @@ const AuthForm = ({ mode, onSwitch }) => {
     setErrorMsg('');
     const newErrors = {};
     if (mode === 'register') {
-      if (!formData.full_name) newErrors.full_name = 'Vui lòng nhập họ tên';
+      if (!formData.name) newErrors.name = 'Vui lòng nhập họ tên';
       if (!formData.email) newErrors.email = 'Vui lòng nhập email';
       if (!formData.password) newErrors.password = 'Vui lòng nhập mật khẩu';
       if (formData.password !== formData.password_confirmation) newErrors.password_confirmation = 'Mật khẩu không khớp';
@@ -68,11 +68,11 @@ const AuthForm = ({ mode, onSwitch }) => {
         <Input
           id="register-name"
           type="text"
-          name="full_name"
+          name="name"
           placeholder="Họ tên"
-          value={formData.full_name}
+          value={formData.name}
           onChange={handleChange}
-          error={errors.full_name}
+          error={errors.name}
         />
       )}
       <Input

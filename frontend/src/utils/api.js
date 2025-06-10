@@ -35,10 +35,10 @@ api.interceptors.response.use(
 );
 
 //register
-const registerAPI = async (full_name, email, password) => {
+const registerAPI = async (name, email, password) => {
   try {
     const response = await api_notInterceptors.post("/auth/register", {
-      full_name,
+      name,
       email,
       password,
       password_confirmation: password,
