@@ -1,17 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\registerController;
-use App\Http\Controllers\Auth\loginController;
-use App\Http\Controllers\Auth\logoutController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 
 // Routes cho người dùng
 Route::prefix('auth')->group(function () {
-    Route::post('register', [registerController::class, 'register']);
-    Route::post('login', [loginController::class, 'login']);
-    Route::middleware('auth:sanctum')->post('logout', [logoutController::class, 'logout']);
-    Route::middleware('auth:sanctum')->get('me', [loginController::class, 'me']);
+    Route::post('register', [RegisterController::class, 'register']);
+    Route::post('login', [LoginController::class, 'login']);
+    Route::middleware('auth:sanctum')->post('logout', [LogoutController::class, 'logout']);
+    Route::middleware('auth:sanctum')->get('me', [LoginController::class, 'me']);
 });
 
 // Routes cho reset mật khẩu

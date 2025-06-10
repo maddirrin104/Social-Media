@@ -5,24 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Friendship extends Model
+class PostComment extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user1_id', 'user2_id', 'status', 'created_at'
+        'post_id', 'user_id', 'content', 'created_at'
     ];
 
     public $timestamps = false;
 
     // Relationships
-    public function user1()
+    public function post()
     {
-        return $this->belongsTo(User::class, 'user1_id');
+        return $this->belongsTo(Post::class);
     }
 
-    public function user2()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'user2_id');
+        return $this->belongsTo(User::class);
     }
 }

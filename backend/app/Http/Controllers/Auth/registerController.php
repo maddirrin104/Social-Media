@@ -9,47 +9,36 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
-class registerController extends Controller
+class RegisterController extends Controller
 {
     public function register(Request $request)
     {
         try {
             // Validate input data
             $data = $request->validate([
-                'full_name' => 'required|string|max:255',
+                'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users,email',
-                'password' => 'required|string|min:8|confirmed',
-                'date_of_birth' => ['required', 'date', 'before_or_equal:' . now()->subYears(16)->format('Y-m-d')],
-                'gender' => 'required|in:male,female,others',
+                'password' => 'required|string|min:8|confirmed'
             ]);
 
             Log::info('Dữ liệu: ', $data);
 
             // Create new user
             $user = User::create([
-                'full_name' => $data['full_name'],
+                'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => bcrypt($data['password'])
+                'password' => Hash::make($data['password'])
             ]);
-
-            // Create user profile
-            UserProfile::create([
-                'user_id' => $user->id,
-                'full_name' => $data['full_name'],
-                'date_of_birth' => $data['date_of_birth'],
-                'gender' => $data['gender'],
-            ]);
-
-            $user->load('profile');
 
             $token = $user->createToken('apiToken')->plainTextToken;
 
             $res = [
                 'message' => 'Registration successful',
                 'user' => $user,
-                'token' => $token   
+                'token' => $token
             ];
 
             // Return success response
@@ -63,7 +52,7 @@ class registerController extends Controller
                 return new Response([
                     'message' => 'Registration failed',
                     'errors' => [
-                        'email' => ['Email đã tồn tại trong hệ thống.']
+                        'email' => ['Email đã tồn tại.']
                     ]
                 ], 422);
             }
