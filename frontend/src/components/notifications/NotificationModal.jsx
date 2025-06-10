@@ -20,7 +20,11 @@ const NotificationModal = ({ open, onClose, notifications = [], userId, title = 
           ) : (
             <div className="notification-list">
               {filtered.map((noti, idx) => (
-                <NotificationItem key={noti.id || idx} notification={noti} />
+                <NotificationItem
+                  key={noti.id || idx} 
+                  notification={noti} 
+                  onClose={onClose}  
+                />
               ))}
             </div>
           )}

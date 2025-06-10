@@ -3,6 +3,7 @@ import { friendships, getReceivedFriendRequests, getSentFriendRequests, getFrien
 import { users } from '../../data/users';
 import FriendButton from './FriendButton';
 import useFriendActions from '../../hooks/useFriendActions';
+import '../../styles/components/Friends.css';
 
 const TAB_RECEIVED = 'received';
 const TAB_SENT = 'sent';
@@ -43,45 +44,32 @@ const Friends = ({ open, onClose, userId }) => {
 
   return open ? (
     <div className="modal-overlay" onClick={onClose}>
-      <div
-        className="modal-content"
-        style={{ width: 420, maxWidth: '95vw', maxHeight: '90vh', padding: 0 }}
-        onClick={e => e.stopPropagation()}
-      >
+      <div className="modal-content friends-modal-content" onClick={e => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose} aria-label="Đóng">&times;</button>
-        <div className="modal-title" style={{marginBottom:0, padding:'20px 0 0 0', textAlign:'center'}}>Kết bạn</div>
-        <div style={{display:'flex', borderBottom:'1px solid #eee', margin:'0 20px'}}>
+        <div className="modal-title friends-modal-title">Kết bạn</div>
+        <div className="friends-tabs">
           {tabList.map(t => (
             <div
               key={t.key}
+              className={`friends-tab ${tab === t.key ? 'active' : ''}`}
               onClick={() => setTab(t.key)}
-              style={{
-                flex:1,
-                textAlign:'center',
-                padding:'12px 0',
-                cursor:'pointer',
-                fontWeight: tab === t.key ? 700 : 400,
-                borderBottom: tab === t.key ? '2px solid #3ec6e0' : '2px solid transparent',
-                color: tab === t.key ? '#3ec6e0' : '#333',
-                transition: 'all 0.2s'
-              }}
             >
               {t.label}
             </div>
           ))}
         </div>
-        <div style={{padding:20, maxHeight: '60vh', overflowY:'auto'}}>
+        <div className="friends-list">
           {list.length === 0 ? (
-            <div style={{color:'#aaa', textAlign:'center', marginTop:30}}>Không có dữ liệu</div>
+            <div className="friends-empty">Không có dữ liệu</div>
           ) : (
             list.map(u => (
-              <div key={u.id} style={{display:'flex', alignItems:'center', marginBottom:18}}>
-                <img src={u.avatar} alt={u.name} style={{width:44, height:44, borderRadius:'50%', marginRight:14}} />
-                <div style={{flex:1}}>
-                  <div style={{fontWeight:600}}>{u.name}</div>
-                  {tab === TAB_FRIENDS && <div style={{fontSize:13, color:'#888'}}>Bạn bè</div>}
-                  {tab === TAB_RECEIVED && <div style={{fontSize:13, color:'#888'}}>Đã gửi cho bạn</div>}
-                  {tab === TAB_SENT && <div style={{fontSize:13, color:'#888'}}>Bạn đã gửi</div>}
+              <div key={u.id} className="friends-item">
+                <img src={u.avatar} alt={u.name} className="friends-avatar" />
+                <div className="friends-info">
+                  <div className="friends-name">{u.name}</div>
+                  {tab === TAB_FRIENDS && <div className="friends-status">Bạn bè</div>}
+                  {tab === TAB_RECEIVED && <div className="friends-status">Đã gửi cho bạn</div>}
+                  {tab === TAB_SENT && <div className="friends-status">Bạn đã gửi</div>}
                 </div>
                 <FriendButton
                   status={tab === TAB_FRIENDS ? 'accepted' : 'pending'}

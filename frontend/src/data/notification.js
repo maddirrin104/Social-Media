@@ -12,7 +12,7 @@ export const notifications = [
     receiverId: 1,
     type: "like",
     title: `${getUserName(2)} đã thích bài viết của bạn`,
-    createdAt: "2025-06-01T09:15:00Z",
+    createdAt: new Date("2025-06-10T09:15:00").getTime(),
     isRead: false,
   },
   {
@@ -21,7 +21,7 @@ export const notifications = [
     receiverId: 1,
     type: "friend_request",
     title: `${getUserName(3)} đã gửi lời mời kết bạn`,
-    createdAt: "2025-06-02T14:30:00Z",
+    createdAt: new Date("2025-06-10T14:30:00").getTime(),
     isRead: true,
   },
   {
@@ -30,7 +30,7 @@ export const notifications = [
     receiverId: 1,
     type: "comment",
     title: `${getUserName(4)} đã bình luận bài viết của bạn`,
-    createdAt: "2025-06-03T11:45:00Z",
+    createdAt: new Date("2025-06-09T11:45:00").getTime(),
     isRead: false,
   },
   {
@@ -39,7 +39,7 @@ export const notifications = [
     receiverId: 1,
     type: "like",
     title: `${getUserName(5)} đã thích bài viết của bạn`,
-    createdAt: "2025-06-04T16:20:00Z",
+    createdAt: new Date("2025-06-09T16:20:00").getTime(),
     isRead: false,
   },
   {
@@ -48,7 +48,7 @@ export const notifications = [
     receiverId: 3,
     type: "friend_request",
     title: `${getUserName(2)} đã gửi lời mời kết bạn`,
-    createdAt: "2025-06-05T08:10:00Z",
+    createdAt: new Date("2025-06-09T08:10:00").getTime(),
     isRead: true,
   },
   {
@@ -57,7 +57,7 @@ export const notifications = [
     receiverId: 4,
     type: "comment",
     title: `${getUserName(1)} đã bình luận bài viết của bạn`,
-    createdAt: "2025-06-06T19:55:00Z",
+    createdAt: new Date("2025-06-09T19:55:00").getTime(),
     isRead: false,
   },
   {
@@ -66,7 +66,7 @@ export const notifications = [
     receiverId: 2,
     type: "like",
     title: `${getUserName(4)} đã thích bài viết của bạn`,
-    createdAt: "2025-06-02T07:30:00Z",
+    createdAt: new Date("2025-06-09T07:30:00").getTime(),
     isRead: true,
   },
   {
@@ -75,7 +75,7 @@ export const notifications = [
     receiverId: 3,
     type: "comment",
     title: `${getUserName(5)} đã bình luận bài viết của bạn`,
-    createdAt: "2025-06-03T21:05:00Z",
+    createdAt: new Date("2025-06-09T21:05:00").getTime(),
     isRead: false,
   },
   {
@@ -84,7 +84,7 @@ export const notifications = [
     receiverId: 5,
     type: "friend_request",
     title: `${getUserName(3)} đã gửi lời mời kết bạn`,
-    createdAt: "2025-06-04T13:40:00Z",
+    createdAt: new Date("2025-06-09T13:40:00").getTime(),
     isRead: false,
   },
   {
@@ -93,7 +93,7 @@ export const notifications = [
     receiverId: 5,
     type: "like",
     title: `${getUserName(1)} đã thích bài viết của bạn`,
-    createdAt: "2025-06-05T10:25:00Z",
+    createdAt: new Date("2025-06-09T10:25:00").getTime(),
     isRead: true,
   },
   {
@@ -102,7 +102,7 @@ export const notifications = [
     receiverId: 4,
     type: "comment",
     title: `${getUserName(2)} đã bình luận bài viết của bạn`,
-    createdAt: "2025-06-01T12:10:00Z",
+    createdAt: new Date("2025-06-09T12:10:00").getTime(),
     isRead: false,
   },
   {
@@ -111,7 +111,7 @@ export const notifications = [
     receiverId: 2,
     type: "like",
     title: `${getUserName(3)} đã thích bài viết của bạn`,
-    createdAt: "2025-06-02T18:45:00Z",
+    createdAt: new Date("2025-06-09T18:45:00").getTime(),
     isRead: false,
   },
   {
@@ -120,7 +120,7 @@ export const notifications = [
     receiverId: 5,
     type: "friend_request",
     title: `${getUserName(4)} đã gửi lời mời kết bạn`,
-    createdAt: "2025-06-03T09:30:00Z",
+    createdAt: new Date("2025-06-09T09:30:00").getTime(),
     isRead: true,
   },
   {
@@ -129,7 +129,7 @@ export const notifications = [
     receiverId: 2,
     type: "comment",
     title: `${getUserName(5)} đã bình luận bài viết của bạn`,
-    createdAt: "2025-06-04T15:00:00Z",
+    createdAt: new Date("2025-06-09T15:00:00").getTime(),
     isRead: false,
   },
   {
@@ -138,7 +138,7 @@ export const notifications = [
     receiverId: 3,
     type: "like",
     title: `${getUserName(1)} đã thích bài viết của bạn`,
-    createdAt: "2025-06-05T17:20:00Z",
+    createdAt: new Date("2025-06-09T17:20:00").getTime(),
     isRead: false,
   },
   {
@@ -147,7 +147,7 @@ export const notifications = [
     receiverId: 5,
     type: "friend_request",
     title: `${getUserName(2)} đã gửi lời mời kết bạn`,
-    createdAt: "2025-06-06T08:40:00Z",
+    createdAt: new Date("2025-06-09T08:40:00").getTime(),
     isRead: true,
   },
   {
@@ -156,7 +156,7 @@ export const notifications = [
     receiverId: 4,
     type: "comment",
     title: `${getUserName(3)} đã bình luận bài viết của bạn`,
-    createdAt: "2025-06-01T20:15:00Z",
+    createdAt: new Date("2025-06-09T20:15:00").getTime(),
     isRead: false,
   },
   {
@@ -165,7 +165,7 @@ export const notifications = [
     receiverId: 1,
     type: "like",
     title: `${getUserName(4)} đã thích bài viết của bạn`,
-    createdAt: "2025-06-02T10:55:00Z",
+    createdAt: new Date("2025-06-09T10:55:00").getTime(),
     isRead: false,
   },
   {
@@ -174,7 +174,7 @@ export const notifications = [
     receiverId: 2,
     type: "comment",
     title: `${getUserName(5)} đã bình luận bài viết của bạn`,
-    createdAt: "2025-06-03T13:25:00Z",
+    createdAt: new Date("2025-06-09T13:25:00").getTime(),
     isRead: true,
   },
   {
@@ -183,7 +183,7 @@ export const notifications = [
     receiverId: 4,
     type: "friend_request",
     title: `${getUserName(1)} đã gửi lời mời kết bạn`,
-    createdAt: "2025-06-04T22:10:00Z",
+    createdAt: new Date("2025-06-09T22:10:00").getTime(),
     isRead: false,
   },
   {
@@ -192,7 +192,7 @@ export const notifications = [
     receiverId: 1,
     type: "like",
     title: `${getUserName(2)} đã thích bài viết của bạn`,
-    createdAt: "2025-06-05T11:35:00Z",
+    createdAt: new Date("2025-06-09T11:35:00").getTime(),
     isRead: false,
   },
   {
@@ -201,7 +201,7 @@ export const notifications = [
     receiverId: 5,
     type: "comment",
     title: `${getUserName(3)} đã bình luận bài viết của bạn`,
-    createdAt: "2025-06-06T16:50:00Z",
+    createdAt: new Date("2025-06-09T16:50:00").getTime(),
     isRead: false,
   },
   {
@@ -210,7 +210,7 @@ export const notifications = [
     receiverId: 3,
     type: "friend_request",
     title: `${getUserName(4)} đã gửi lời mời kết bạn`,
-    createdAt: "2025-06-01T15:05:00Z",
+    createdAt: new Date("2025-06-09T15:05:00").getTime(),
     isRead: true,
   },
   {
@@ -219,7 +219,7 @@ export const notifications = [
     receiverId: 1,
     type: "like",
     title: `${getUserName(5)} đã thích bài viết của bạn`,
-    createdAt: "2025-06-02T19:30:00Z",
+    createdAt: new Date("2025-06-09T08:20:00").getTime(),
     isRead: false,
   },
   {
@@ -228,7 +228,7 @@ export const notifications = [
     receiverId: 2,
     type: "comment",
     title: `${getUserName(1)} đã bình luận bài viết của bạn`,
-    createdAt: "2025-06-03T08:20:00Z",
+    createdAt: new Date("2025-06-09T14:15:00").getTime(),
     isRead: false,
   },
   {
@@ -237,7 +237,7 @@ export const notifications = [
     receiverId: 5,
     type: "friend_request",
     title: `${getUserName(2)} đã gửi lời mời kết bạn`,
-    createdAt: "2025-06-04T14:15:00Z",
+    createdAt: new Date("2025-06-09T21:40:00").getTime(),
     isRead: true,
   },
   {
@@ -246,7 +246,7 @@ export const notifications = [
     receiverId: 1,
     type: "like",
     title: `${getUserName(3)} đã thích bài viết của bạn`,
-    createdAt: "2025-06-05T21:40:00Z",
+    createdAt: new Date("2025-06-09T10:05:00").getTime(),
     isRead: false,
   },
   {
@@ -255,7 +255,7 @@ export const notifications = [
     receiverId: 5,
     type: "comment",
     title: `${getUserName(4)} đã bình luận bài viết của bạn`,
-    createdAt: "2025-06-06T10:05:00Z",
+    createdAt: new Date("2025-06-09T18:55:00").getTime(),
     isRead: false,
   },
   {
@@ -264,7 +264,7 @@ export const notifications = [
     receiverId: 4,
     type: "friend_request",
     title: `${getUserName(5)} đã gửi lời mời kết bạn`,
-    createdAt: "2025-06-01T18:55:00Z",
+    createdAt: new Date("2025-06-09T20:10:00").getTime(),
     isRead: false,
   },
   {
@@ -273,7 +273,7 @@ export const notifications = [
     receiverId: 3,
     type: "like",
     title: `${getUserName(1)} đã thích bài viết của bạn`,
-    createdAt: "2025-06-02T13:10:00Z",
+    createdAt: new Date("2025-06-09T17:00:00").getTime(),
     isRead: true,
   },
 ]; 
