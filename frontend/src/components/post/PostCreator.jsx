@@ -2,23 +2,39 @@ import React, { useState } from 'react';
 import Button from '../common/Button';
 import Avatar from '../common/Avatar';
 import { useAuth } from '../../context/AuthContext';
+import { postAPI } from '../../utils/api';
 import '../../styles/components/PostCreator.css';
 
 const PostCreator = () => {
   const { user } = useAuth();
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!content.trim() && !image) return;
 
-    // TODO: Implement post creation
-    console.log('Creating post:', { content, image });
-    
-    // Reset form
-    setContent('');
-    setImage(null);
+    setLoading(true);
+    setError('');
+    try {
+      const formData = new FormData();
+      formData.append('content', content);
+      if (image) formData.append('image', image);
+
+      // Gọi API tạo bài viết
+      await postAPI.createPost(formData);
+
+      // Reset form nếu thành công
+      setContent('');
+      setImage(null);
+      // Có thể gọi props.onPostCreated() để reload danh sách bài viết nếu muốn
+    } catch (err) {
+      setError(err.message || 'Có lỗi xảy ra, vui lòng thử lại!');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleImageChange = (e) => {
@@ -37,6 +53,7 @@ const PostCreator = () => {
             placeholder="Bạn đang nghĩ gì?"
             value={content}
             onChange={(e) => setContent(e.target.value)}
+            disabled={loading}
           />
           <div className="post-actions">
             <div className="post-attachments">
@@ -52,8 +69,8 @@ const PostCreator = () => {
                 hidden
               />
             </div>
-            <Button type="submit" variant="primary">
-              Đăng
+            <Button type="submit" variant="primary" disabled={loading}>
+              {loading ? 'Đang đăng...' : 'Đăng'}
             </Button>
           </div>
         </div>
@@ -64,14 +81,16 @@ const PostCreator = () => {
               type="button"
               className="remove-image"
               onClick={() => setImage(null)}
+              disabled={loading}
             >
               <i className="fas fa-times"></i>
             </button>
           </div>
         )}
+        {error && <div className="post-error">{error}</div>}
       </form>
     </div>
   );
 };
 
-export default PostCreator; 
+export default PostCreator;

@@ -143,6 +143,25 @@ const chatAPI = {
   searchUsers: (query) => api.get(`/users/search?query=${query}`),
 };
 
+//bài viết nha bro
+const postAPI = {
+  //đăng bài 
+  createPost: async (formData) => {
+    // formData là FormData đã có content, image (nếu có)
+    const response = await api.post("/posts", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", 
+      },
+    });
+    return response.data;
+  },
+
+  // lấy danh sách
+  getPosts: async () => {
+    const response = await api.get("/posts");
+    return response.data;
+  },
+};
 
 export {
     api_notInterceptors,
@@ -151,7 +170,8 @@ export {
     logoutAPI,
     registerAPI,
     resetPasswordAPI,
-    chatAPI
+    chatAPI,
+    postAPI 
 }
 
 

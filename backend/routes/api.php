@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostController;
 // Routes cho người dùng
 Route::prefix('auth')->group(function () {
     Route::post('register', [RegisterController::class, 'register']);
@@ -38,6 +39,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/messages/{messageId}/read', [MessageController::class, 'markAsRead']);
     Route::put('/conversations/{conversationId}/read', [MessageController::class, 'markAllAsRead']);
     Route::delete('/messages/{messageId}', [MessageController::class, 'destroy']);
+});
+
+// Routes cho bài viết
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/posts', [PostController::class, 'store']);
+    Route::get('/posts', [PostController::class, 'index']);
+    Route::delete('/posts/{post}', [PostController::class, 'destroy']);
+    Route::post('/posts/{post}/like', [PostController::class, 'like']);
+    Route::post('/posts/{post}/comment', [PostController::class, 'comment']);
+    Route::delete('/posts/{post}/comment/{comment}', [PostController::class, 'deleteComment']);
+    Route::delete('/posts/{post}/like', [PostController::class, 'unlike']);
 });
 
 //test route
