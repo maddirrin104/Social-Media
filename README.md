@@ -105,3 +105,6 @@ Frontend sẽ chạy ở địa chỉ: http://localhost:3000
 ## Liên hệ
 
 Nếu gặp vấn đề trong quá trình cài đặt, vui lòng liên hệ với nhóm phát triển.
+
+
+php artisan storage:link

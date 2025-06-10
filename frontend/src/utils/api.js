@@ -112,6 +112,16 @@ const resetPasswordAPI =  {
   }
 };
 
+const getMeAPI = async () => {
+  try {
+    const response = await api.get("/users/me");
+    return response.data;
+  } catch (error) {
+    console.error("getMeAPI error:", error);
+    throw error;
+  }
+};
+
 //chat api
 const chatAPI = {
   // Conversations
@@ -169,7 +179,8 @@ export {
     registerAPI,
     resetPasswordAPI,
     chatAPI,
-    postAPI 
+    postAPI,
+    getMeAPI
 }
 
 

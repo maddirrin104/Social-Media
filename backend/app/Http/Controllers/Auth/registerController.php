@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use App\Http\Resources\UserResource;
 
 class RegisterController extends Controller
 {
@@ -36,7 +37,7 @@ class RegisterController extends Controller
 
             $res = [
                 'message' => 'Registration successful',
-                'user' => $user,
+                'user' => new UserResource($user),
                 'token' => $token
             ];
 

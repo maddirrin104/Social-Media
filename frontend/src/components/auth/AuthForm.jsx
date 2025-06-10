@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +15,17 @@ const AuthForm = ({ mode, onSwitch }) => {
   });
   const [errors, setErrors] = useState({});
   const [errorMsg, setErrorMsg] = useState('');
+
+  useEffect(() => {
+    setFormData({
+      name: '',
+      email: '',
+      password: '',
+      password_confirmation: ''
+    });
+    setErrors({});
+    setErrorMsg('');
+  }, [mode]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
