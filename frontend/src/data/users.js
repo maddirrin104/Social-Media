@@ -1,6 +1,6 @@
 export const users = [
   {
-    id: 101,
+    id: 1,
     name: "Quốc Đạt",
     email: "quocdat@gmail.com",
     password: "quocdat",
@@ -16,7 +16,7 @@ export const users = [
     tiktok: "@datlossless"
   },
   {
-    id: 102,
+    id: 2,
     name: "Nguyen Thi Thanh Phuong",
     email: "thanhphuong@gmail.com",
     password: "thanhphuong",
@@ -32,7 +32,7 @@ export const users = [
     tiktok: "@phuong.tiktok"
   },
   {
-    id: 103,
+    id: 3,
     name: "Minh Đức",
     email: "minhduc@gmail.com",
     password: "minhduc",
@@ -48,7 +48,7 @@ export const users = [
     tiktok: "@ducminh"
   },
   {
-    id: 104,
+    id: 4,
     name: "Minh An",
     email: "minhan@gmail.com",
     password: "minhan",
@@ -64,7 +64,7 @@ export const users = [
     tiktok: "@anminh"
   },
   {
-    id: 105,
+    id: 5,
     name: "Huỳnh Văn Nhật",
     email: "vannhat@gmail.com",
     password: "vannhat",

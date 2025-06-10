@@ -1,0 +1,85 @@
+.friends-modal-content {
+  width: 420px;
+  max-width: 95vw;
+  max-height: 90vh;
+  padding: 0;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.friends-modal-title {
+  margin-bottom: 0;
+  padding: 20px 0 0 0;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.friends-tabs {
+  display: flex;
+  border-bottom: 1px solid #eee;
+  margin: 0 20px;
+}
+
+.friends-tab {
+  flex: 1;
+  text-align: center;
+  padding: 12px 0;
+  cursor: pointer;
+  font-weight: 400;
+  border-bottom: 2px solid transparent;
+  color: #333;
+  transition: all 0.2s;
+}
+
+.friends-tab.active {
+  font-weight: 700;
+  border-bottom-color: #3ec6e0;
+  color: #3ec6e0;
+}
+
+.friends-list {
+  padding: 20px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.friends-empty {
+  color: #aaa;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.friends-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.friends-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  margin-right: 14px;
+}
+
+.friends-info {
+  flex: 1;
+}
+
+.friends-name {
+  text-align: left;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.friends-status {
+  text-align: left;
+  font-size: 14px;
+  color: #888;
+} 

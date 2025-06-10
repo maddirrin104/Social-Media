@@ -34,7 +34,7 @@ const HeadBar = () => {
         <div className="user-info" onClick={handleProfileClick}>
           <span className="username">{user?.name}</span>
           <Avatar 
-            src={user?.avatar} 
+            src={user?.avatar}
             alt={user?.name || 'User avatar'}
             size="small"
           />

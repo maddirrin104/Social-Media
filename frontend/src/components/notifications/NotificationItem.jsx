@@ -2,9 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { users } from '../../data/users';
 import Avatar from '../common/Avatar';
+import TimeAgo from '../common/TimeAgo';
 import '../../styles/components/NotificationItem.css';
 
-const NotificationItem = ({ notification }) => {
+const NotificationItem = ({ notification, onClose }) => {
   const navigate = useNavigate();
   const sender = users.find(u => u.id === notification.senderId);
 
@@ -16,6 +17,7 @@ const NotificationItem = ({ notification }) => {
     } else {
       navigate('/notifications');
     }
+    onClose?.();
   };
 
   return (
@@ -29,10 +31,7 @@ const NotificationItem = ({ notification }) => {
       <div className="notification-content">
         <div className="notification-title">{notification.title}</div>
         <div className="notification-time">
-          {new Date(notification.createdAt).toLocaleString('vi-VN', {
-            year: 'numeric', month: '2-digit', day: '2-digit',
-            hour: '2-digit', minute: '2-digit'
-          })}
+          <TimeAgo dateString={notification.createdAt} />
         </div>
       </div>
     </div>

@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext';
 // Pages
 import Home from '../pages/Home';
 import Profile from '../pages/Profile';
-import Notifications from '../pages/Notifications';
 import SearchResult from '../pages/SearchResult';
 import AdminDashboard from '../pages/AdminDashboard';
 import AuthPage from '../pages/AuthPage'; //login&register
@@ -41,14 +40,6 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <Profile />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/notifications"
-        element={
-          <ProtectedRoute>
-            <Notifications />
           </ProtectedRoute>
         }
       />

@@ -16,17 +16,20 @@
 /* Header */
 .post-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #d1d1d1;
-  margin-bottom: 15px;
+  align-items: center;
+  padding-bottom: 1rem;
 }
 
 .post-header-left {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.post-header-right {
+  display: flex;
+  align-items: center;
 }
 
 .post-avatar {
@@ -180,4 +183,16 @@
 
 .post-author-link:hover {
   color: var(--primary-color, #1877f2);
+}
+
+.post-delete-button {
+  color: var(--text-secondary);
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.post-delete-button:hover {
+  color: var(--error-color);
+  background-color: var(--error-color-light);
 } 

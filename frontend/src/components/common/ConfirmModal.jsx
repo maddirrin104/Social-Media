@@ -1,20 +1,21 @@
 import React from 'react';
-import '../styles/components/ConfirmModal.css';
+import Button from './Button';
+import '../../styles/components/ConfirmModal.css';
 
 const ConfirmModal = ({ isOpen, message, onConfirm, onCancel }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="confirm-modal-overlay">
+      <div className="confirm-modal-content">
         <p>{message}</p>
-        <div className="modal-actions">
-          <button onClick={onCancel} className="modal-button cancel">
+        <div className="confirm-modal-actions">
+          <Button variant="outline" onClick={onCancel}>
             Hủy
-          </button>
-          <button onClick={onConfirm} className="modal-button confirm">
+          </Button>
+          <Button variant="primary" onClick={onConfirm}>
             Xác nhận
-          </button>
+          </Button>
         </div>
       </div>
     </div>
