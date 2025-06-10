@@ -1,42 +1,52 @@
-// Quản lý trạng thái đăng nhập
-import { createContext, useState, useEffect } from "react";
-import { users } from "../data/users";
+import { createContext, useContext, useState } from 'react';
+// import { users } from '../data/users';
+import { loginAPI, registerAPI, logoutAPI } from '../utils/api';  
 
-// 1️⃣ Tạo context
-export const AuthContext = createContext();
+const AuthContext = createContext(null);
 
-// 2️⃣ Provider để bọc ứng dụng
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // Lưu thông tin người dùng
+  const [user, setUser] = useState(null);
 
-  // Load user từ localStorage khi khởi động ứng dụng
-  useEffect(() => {
-    const savedUser = localStorage.getItem("loggedInUser");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-  }, []);
-
-  // Hàm đăng nhập giả lập
-  const login = (email, password) => {
-    const foundUser = users.find((u) => u.email === email && u.password === password);
-    if (foundUser) {
-      setUser(foundUser);
-      localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
-      return true;
-    }
-    return false;
+  //đăng nhập
+  const login = async ({ email, password }) => {
+    const data = await loginAPI(email, password);
+    setUser(data.user);
+    return data;
+  };
+  
+  //đăng kí
+  const register = async ({ full_name, email, password, password_confirmation }) => {
+    const data = await registerAPI(
+      full_name,
+      email,
+      password,
+      password_confirmation
+    );
+    setUser(data.user);
+    return data;
   };
 
-  // Hàm đăng xuất
-  const logout = () => {
+  //đăng xuất
+  const logout = async () => {
+    await logoutAPI();
     setUser(null);
-    localStorage.removeItem("loggedInUser");
+  };
+
+  const isAdmin = () => {
+    return user?.role === 'admin';
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, register, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+}; 

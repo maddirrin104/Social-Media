@@ -1,5 +1,5 @@
-import React from "react";
-import "./ConfirmModal.css";
+import React from 'react';
+import '../styles/components/ConfirmModal.css';
 
 const ConfirmModal = ({ isOpen, message, onConfirm, onCancel }) => {
   if (!isOpen) return null;
@@ -21,4 +21,4 @@ const ConfirmModal = ({ isOpen, message, onConfirm, onCancel }) => {
   );
 };
 
-export default ConfirmModal; 
+export default ConfirmModal;

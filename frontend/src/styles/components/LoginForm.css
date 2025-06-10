@@ -1,0 +1,50 @@
+.login-form-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.login-form h1 {
+  text-align: center;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.login-form label {
+  color: #edeae1;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 1rem;
+  color: #edeae1;
+}
+
+.register-link span {
+  color: var(--primary-color);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.register-link a {
+  color: #d8d2bf;
+}
+
+.register-link span:hover {
+  text-decoration: underline;
+} 

@@ -1,0 +1,50 @@
+.register-form-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.register-form h1 {
+  text-align: center;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.register-form label {
+  color: #edeae1;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 1rem;
+  color: #edeae1;
+}
+
+.login-link span {
+  color: var(--primary-color);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.login-link a {
+  color: #d8d2bf;
+}
+
+.login-link span:hover {
+  text-decoration: underline;
+} 

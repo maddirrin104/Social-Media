@@ -1,0 +1,47 @@
+.profile-page {
+  width: 100%;
+  display: flex;
+  padding-top: 40px;
+  justify-content: center;
+}
+
+.profile-content {
+  display: flex;
+  gap: 2.5rem;
+  width: 100%;
+  max-width: 1250px;
+  align-items: flex-start;
+}
+
+.profile-sidebar {
+  width: 400px;
+  min-width: 240px;
+  max-width: 400px;
+  flex-shrink: 0;
+  position: fixed;
+  top: 140px;
+  left: 300px;
+  z-index: 10;
+}
+
+.profile-posts {
+  flex: 1;
+  min-width: 0;
+  margin-top: 68px;
+  padding-left: 300px;
+}
+
+.profile-posts.not-own-profile {
+  margin-top: 10px;
+}
+
+.profile-posts-header {
+  margin-top: 1rem;
+  text-align: left;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* .profile-posts {
+  max-width: 1000px;
+}  */
