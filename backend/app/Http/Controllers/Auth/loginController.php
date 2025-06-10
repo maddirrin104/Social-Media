@@ -25,7 +25,7 @@ class loginController extends Controller
 
         if (!$user || !Hash::check($data['password'], $user->password)) {
             return response([
-                'msg' => 'incorrect username or password'
+                'message' => 'incorrect username or password'
             ], 401);
         }
 

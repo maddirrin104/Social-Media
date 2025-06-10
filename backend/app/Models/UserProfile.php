@@ -22,8 +22,6 @@ class UserProfile extends Model
         'bio',
         'profile_picture',
         'cover_photo',
-        'date_of_birth',
-        'gender',
         'location',
         'website',
         'phone'
@@ -35,7 +33,6 @@ class UserProfile extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'date_of_birth' => 'date',
         'updated_at' => 'datetime',
     ];
 

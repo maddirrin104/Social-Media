@@ -20,7 +20,6 @@ class Reaction extends Model
     protected $fillable = [
         'user_id',
         'post_id',
-        'comment_id',
         'reaction_type'
     ];
 
@@ -47,13 +46,5 @@ class Reaction extends Model
     public function post()
     {
         return $this->belongsTo(Post::class, 'post_id');
-    }
-
-    /**
-     * Get the comment that the reaction belongs to.
-     */
-    public function comment()
-    {
-        return $this->belongsTo(Comment::class, 'comment_id');
     }
 }

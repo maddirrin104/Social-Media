@@ -20,9 +20,7 @@ class registerController extends Controller
             $data = $request->validate([
                 'full_name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users,email',
-                'password' => 'required|string|min:8|confirmed',
-                'date_of_birth' => ['required', 'date', 'before_or_equal:' . now()->subYears(16)->format('Y-m-d')],
-                'gender' => 'required|in:male,female,others',
+                'password' => 'required|string|min:8|confirmed'
             ]);
 
             Log::info('Dữ liệu: ', $data);
@@ -37,9 +35,7 @@ class registerController extends Controller
             // Create user profile
             UserProfile::create([
                 'user_id' => $user->id,
-                'full_name' => $data['full_name'],
-                'date_of_birth' => $data['date_of_birth'],
-                'gender' => $data['gender'],
+                'full_name' => $data['full_name']
             ]);
 
             $user->load('profile');
@@ -49,7 +45,7 @@ class registerController extends Controller
             $res = [
                 'message' => 'Registration successful',
                 'user' => $user,
-                'token' => $token   
+                'token' => $token
             ];
 
             // Return success response

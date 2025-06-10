@@ -18,8 +18,6 @@ return new class extends Migration
             $table->text('bio')->nullable();
             $table->string('profile_picture')->nullable();
             $table->string('cover_photo')->nullable();
-            $table->date('date_of_birth');
-            $table->string('gender');
             $table->string('location')->nullable();
             $table->string('website')->nullable();
             $table->string('phone')->nullable();
