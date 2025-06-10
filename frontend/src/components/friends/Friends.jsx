@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { friendships, getReceivedFriendRequests, getSentFriendRequests, getFriendList } from '../../data/friendships';
 import { users } from '../../data/users';
-import '../../styles/components/Modal.css';
 import FriendButton from './FriendButton';
 import useFriendActions from '../../hooks/useFriendActions';
 

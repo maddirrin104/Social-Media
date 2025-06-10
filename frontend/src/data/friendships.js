@@ -11,29 +11,29 @@ export const FriendshipStatus = {
 export const friendships = [
   {
     id: 1,
-    user1Id: 101,  // Quốc Đạt
-    user2Id: 102,  // Nguyễn Văn A
+    user1Id: 1,  // Quốc Đạt
+    user2Id: 2,  // Nguyễn Văn A
     status: FriendshipStatus.ACCEPTED,
     createdAt: Date.now() - 7 * 24 * 60 * 60 * 1000 // 7 ngày trước
   },
   {
     id: 2,
-    user1Id: 103,  // Trần Thị B
-    user2Id: 101,  // Quốc Đạt
+    user1Id: 3,  // Trần Thị B
+    user2Id: 1,  // Quốc Đạt
     status: FriendshipStatus.PENDING,
     createdAt: Date.now() - 2 * 24 * 60 * 60 * 1000 // 2 ngày trước
   },
   {
     id: 3,
-    user1Id: 101,  // Quốc Đạt
-    user2Id: 104,  // Lê Văn C
+    user1Id: 1,  // Quốc Đạt
+    user2Id: 4,  // Lê Văn C
     status: FriendshipStatus.PENDING,
     createdAt: Date.now() - 24 * 60 * 60 * 1000 // 1 ngày trước
   },
   {
     id: 4,
-    user1Id: 105,  // Phạm Thị D
-    user2Id: 101,  // Quốc Đạt
+    user1Id: 5,  // Phạm Thị D
+    user2Id: 1,  // Quốc Đạt
     status: FriendshipStatus.ACCEPTED,
     createdAt: Date.now() - 14 * 24 * 60 * 60 * 1000 // 14 ngày trước
   }

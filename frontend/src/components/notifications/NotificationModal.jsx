@@ -1,7 +1,6 @@
 import React from 'react';
 import NotificationItem from './NotificationItem';
-import '../../styles/components/NotificationList.css';
-import '../../styles/components/Modal.css';
+import '../../styles/components/NotificationModal.css';
 
 const NotificationModal = ({ open, onClose, notifications = [], userId, title = 'Thông báo', width = 550 }) => {
   if (!open) return null;
@@ -9,13 +8,13 @@ const NotificationModal = ({ open, onClose, notifications = [], userId, title = 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div
-        className="modal-content"
+        className="notification-modal-content"
         style={{ width }}
         onClick={e => e.stopPropagation()}
       >
-        <button className="modal-close" onClick={onClose} aria-label="Đóng">&times;</button>
-        {title && <div className="modal-title">{title}</div>}
-        <div className="modal-body">
+        <button className="notification-modal-close" onClick={onClose} aria-label="Đóng">&times;</button>
+        {title && <div className="notification-modal-title">{title}</div>}
+        <div className="notification-modal-body">
           {filtered.length === 0 ? (
             <div className="notification-empty">Không có thông báo nào.</div>
           ) : (

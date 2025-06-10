@@ -3,13 +3,19 @@ import Avatar from '../common/Avatar';
 import Button from '../common/Button';
 import { Link } from 'react-router-dom';
 import TimeAgo from '../common/TimeAgo';
+import ConfirmModal from '../common/ConfirmModal';
+import { useAuth } from '../../context/AuthContext';
 import '../../styles/components/PostCard.css';
 import CommentList from './CommentList';
 
 const PostCard = ({ post }) => {
+  const { user: currentUser } = useAuth();
   const [commentList, setCommentList] = useState(() => post.commentList || []);
   const [likes, setLikes] = useState(post.likes || 0);
   const [liked, setLiked] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const isOwnPost = currentUser.id === post.author.id;
 
   const handleLike = () => {
     if (liked) {
@@ -19,6 +25,12 @@ const PostCard = ({ post }) => {
       setLikes(likes + 1);
       setLiked(true);
     }
+  };
+
+  const handleDelete = () => {
+    // TODO: Implement delete post logic
+    console.log('Deleting post:', post.id);
+    setIsDeleteModalOpen(false);
   };
 
   return (
@@ -35,6 +47,17 @@ const PostCard = ({ post }) => {
             <span className="post-time"><TimeAgo dateString={post.createdAt} /></span>
           </div>
         </div>
+        {isOwnPost && (
+          <div className="post-header-right">
+            <Button 
+              variant="text" 
+              className="post-delete-button"
+              onClick={() => setIsDeleteModalOpen(true)}
+            >
+              <i className="fas fa-trash"></i>
+            </Button>
+          </div>
+        )}
       </div>
       <div className="post-content-wrapper">
         {post.image && (
@@ -61,6 +84,13 @@ const PostCard = ({ post }) => {
           <CommentList className="comments-list" commentList={commentList} setCommentList={setCommentList} />
         </div>
       </div>
+
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        message="Bạn có chắc chắn muốn xóa bài viết này?"
+        onConfirm={handleDelete}
+        onCancel={() => setIsDeleteModalOpen(false)}
+      />
     </div>
   );
 };
