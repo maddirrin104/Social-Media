@@ -101,6 +101,24 @@ const getUserByIdAPI = async (userId) => {
   }
 };
 
+// Lấy thông tin tất cả người dùng 
+const getAllUsersAPI = async () => {
+  const response = await api.get('/users');
+  return response.data; // trả về danh sách người dùng
+}
+
+// Cập nhật thông tin người dùng
+const updateUser = async (data) => {
+  const response = await api.put('/user', data);
+  return response.data; // trả về { message, user }
+};
+
+// Xóa user
+const deleteUserAPI = async (userId) => {
+  const response = await api.delete(`/users/${userId}`);
+  return response.data; 
+}
+
 //bài viết nha bro
 const postAPI = {
   // Đăng bài
@@ -203,11 +221,6 @@ const getSentRequests = async () => {
   return response.data;
 };
 
-// Cập nhật thông tin người dùng
-const updateUser = async (data) => {
-  const response = await api.put('/user', data);
-  return response.data; // trả về { message, user }
-};
 
 export {
     api,
@@ -225,7 +238,9 @@ export {
     getFriends,
     getReceivedRequests,
     getSentRequests,
-    updateUser
+    updateUser,
+    getAllUsersAPI,
+    deleteUserAPI
 }
 
 

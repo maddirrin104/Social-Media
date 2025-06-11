@@ -41,7 +41,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 //get all users
 Route::middleware('auth:sanctum')->get('/users', [UserController::class, 'index']);
-
+// xóa user
+Route::middleware('auth:sanctum')->delete('/users/{id}', [UserController::class, 'destroy'])->middleware('auth:sanctum');
 //get user by id
 Route::middleware('auth:sanctum')->get('/users/{id}', [UserController::class, 'show']);
 
@@ -60,6 +61,8 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::put('/user', [UserController::class, 'update']); // Cập nhật thông tin user hiện tại
 });
+
+
 
 //test route
 Route::get('test', function () {

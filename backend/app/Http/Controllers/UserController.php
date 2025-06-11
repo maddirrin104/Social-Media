@@ -2,26 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\AllUserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Post;
+use App\Models\PostLike;
+use App\Models\PostComment;
+use App\Models\Notification;
+use App\Models\Friendship;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $users = User::withCount(['posts', 'comments', 'likes'])
-            ->get();
-
-        return AllUserResource::collection($users);
-    }
+        public function index()
+        {
+            $users = User::where('role', 'user')->get();
+            return UserResource::collection($users);
+        }
 
     /**
      * Store a newly created resource in storage.
@@ -113,8 +116,49 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+        // Chỉ admin mới được xóa user khác
+        $authUser = auth()->user();
+        if (!$authUser || ($authUser->role !== 'admin' && $authUser->id != $id)) {
+            return response()->json(['message' => 'Không có quyền xóa user này!'], 403);
+        }
+
+        $user = User::find($id);
+        if (!$user) return response()->json(['message' => 'Không tìm thấy user!'], 404);
+
+        DB::beginTransaction();
+        try {
+            // Lấy tất cả post của user
+            $postIds = Post::where('user_id', $id)->pluck('id');
+
+            // Xóa like của user với các post khác
+            PostLike::where('user_id', $id)->delete();
+            // Xóa like trên các post của user
+            PostLike::whereIn('post_id', $postIds)->delete();
+
+            // Xóa comment của user với các post khác
+            PostComment::where('user_id', $id)->delete();
+            // Xóa comment trên các post của user
+            PostComment::whereIn('post_id', $postIds)->delete();
+
+            // Xóa notifications gửi hoặc nhận liên quan user này
+            Notification::where('sender_id', $id)->orWhere('receiver_id', $id)->delete();
+
+            // Xóa friendships liên quan user này
+            Friendship::where('user1_id', $id)->orWhere('user2_id', $id)->delete();
+
+            // Xóa post (và các ảnh đi kèm nếu có, bổ sung code nếu muốn)
+            Post::where('user_id', $id)->delete();
+
+            // Cuối cùng xóa user
+            $user->delete();
+
+            DB::commit();
+            return response()->json(['message' => 'Đã xóa user và toàn bộ dữ liệu liên quan!']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Xóa thất bại!', 'error' => $e->getMessage()], 500);
+        }
     }
 }

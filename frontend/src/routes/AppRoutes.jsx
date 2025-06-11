@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 // Pages
@@ -11,9 +11,14 @@ import AuthPage from '../pages/AuthPage'; //login&register
 // Protected Route Component
 const ProtectedRoute = ({ children, requireAdmin = false }) => {
   const { user, isAdmin } = useAuth();
+  const location = useLocation();
 
   if (!user) {
     return <Navigate to="/login" />;
+  }
+
+  if (isAdmin() && location.pathname !== '/admin') {
+    return <Navigate to="/admin" />;
   }
 
   if (requireAdmin && !isAdmin()) {
@@ -54,7 +59,17 @@ const AppRoutes = () => {
       <Route
         path="/admin"
         element={
+          <ProtectedRoute requireAdmin={true}>
             <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
         }
       />
     </Routes>
@@ -62,3 +77,4 @@ const AppRoutes = () => {
 };
 
 export default AppRoutes; 
+export { ProtectedRoute }; 

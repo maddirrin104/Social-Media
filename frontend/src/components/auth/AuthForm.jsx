@@ -54,11 +54,16 @@ const AuthForm = ({ mode, onSwitch }) => {
       if (!formData.password) newErrors.password = 'Vui lòng nhập mật khẩu';
       if (Object.keys(newErrors).length === 0) {
         try {
-          await login({
+          const res = await login({
             email: formData.email,
             password: formData.password
           });
-          navigate('/');
+
+          if (res.user.role === 'admin') {
+            navigate('/admin');
+          } else if (res.user.role === 'user') {  
+            navigate('/');
+          }
         } catch (err) {
           setErrorMsg(err.message || 'Đăng nhập thất bại');
         }

@@ -1,46 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '../common/Button';
-import { users as mockUsers } from '../../data/users';
+import ConfirmModal from '../common/ConfirmModal';
 import '../../styles/components/admin/UserManagement.css';
+import { getAllUsersAPI, deleteUserAPI } from '../../utils/api';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState(null); // để disable nút khi đang xóa
+  const [deleteUserId, setDeleteUserId] = useState(null);
   const [error, setError] = useState(null);
-
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  // Lấy users từ API thật
   useEffect(() => {
-    setUsers(mockUsers);
-    setLoading(false);
+    fetchUsers();
   }, []);
 
-  // Hàm này chỉ dùng cho dữ liệu giả
-  const handleDeleteUser = (userId) => {
-    setUsers(users.filter(user => user.id !== userId));
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      let data = await getAllUsersAPI();
+      if (data && data.data) data = data.data;
+      setUsers(Array.isArray(data) ? data : []);
+    } catch  {
+      setError('Lỗi tải danh sách người dùng!');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // --- CODE API THẬT (giữ lại để sau này dùng) ---
-  // const fetchUsers = async () => {
-  //   try {
-  //     const response = await api.get('/admin/users');
-  //     setUsers(response.data);
-  //     setLoading(false);
-  //   } catch (err) {
-  //     setError('Không thể tải danh sách người dùng');
-  //     setLoading(false);
-  //   }
-  // };
-  // const handleToggleStatus = async (userId, currentStatus) => {
-  //   try {
-  //     await api.put(`/admin/users/${userId}/toggle-status`);
-  //     setUsers(users.map(user => 
-  //       user.id === userId 
-  //         ? { ...user, status: currentStatus === 'active' ? 'inactive' : 'active' }
-  //         : user
-  //     ));
-  //   } catch (err) {
-  //     setError('Không thể thay đổi trạng thái người dùng');
-  //   }
-  // };
+  // Hàm xóa user thật sự trên backend
+  const handleDeleteUser = async (userId) => {
+    setIsDeleteModalOpen(false);
+    setDeletingId(userId);
+    try {
+      await deleteUserAPI(userId);
+      setUsers(users => users.filter(user => user.id !== userId));
+    } catch {
+      alert('Xóa user thất bại!');
+    } finally {
+      setDeletingId(null);
+      setDeleteUserId(null);
+    }
+  };
 
   if (loading) return <div className="admin-loading">Đang tải...</div>;
   if (error) return <div className="admin-error">{error}</div>;
@@ -77,9 +80,13 @@ const UserManagement = () => {
                   <Button
                     variant="danger"
                     size="small"
-                    onClick={() => handleDeleteUser(user.id)}
+                    disabled={deletingId === user.id}
+                    onClick={() => {
+                      setDeleteUserId(user.id);
+                      setIsDeleteModalOpen(true);
+                    }}
                   >
-                    Xóa
+                    {deletingId === user.id ? 'Đang xóa...' : 'Xóa'}
                   </Button>
                 </td>
               </tr>
@@ -87,8 +94,14 @@ const UserManagement = () => {
           </tbody>
         </table>
       </div>
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        message="Bạn có chắc chắn muốn xóa người dùng này?"
+        onConfirm={() => handleDeleteUser(deleteUserId)}
+        onCancel={() => { setIsDeleteModalOpen(false); setDeleteUserId(null); }}
+      />
     </div>
   );
 };
 
-export default UserManagement; 
+export default UserManagement;
