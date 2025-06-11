@@ -32,6 +32,8 @@ class PostResource extends JsonResource
             'avatar'  => $user->avatar ? asset('storage/' . $user->avatar) : asset('storage/avatars/defaultAvatar.png'),
         ] : null;
 
+        $likesRelation = $this->whenLoaded('likes', fn () => $this->getRelation('likes'));
+
         return [
             'id' => $this->id,
             'userId' => $this->user_id,
@@ -39,9 +41,9 @@ class PostResource extends JsonResource
             'content' => $this->content,
             'image' => $this->image ? asset('storage/' . $this->image) : null,
             'likes'     => (int)($this->likes_count ?? $this->likes),
-            'liked' => is_iterable($this->likes)
-                ? $this->likes->contains('user_id', auth()->id())
-                : false,
+            'liked' => ($likesRelation && !$likesRelation instanceof \Illuminate\Http\Resources\MissingValue)
+                             ? $likesRelation->contains('user_id', $request->user()?->id)
+                             : $this->likes()->where('user_id', $request->user()?->id)->exists(),
             'comments'  => (int)($this->comments_count ?? $this->comments),
             'createdAt' => (int)$this->created_at, // Đổi sang dạng timestamp JS
             'commentList' => $commentList,

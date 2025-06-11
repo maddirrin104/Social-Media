@@ -30,7 +30,7 @@ const PostCard = ({ post, onDeleted }) => {
         const res = await postAPI.likePost(post.id);
         setLikes(res.likes);
         setLiked(true);
-      }
+      } 
     } finally {
       setLoadingLike(false);
     }
