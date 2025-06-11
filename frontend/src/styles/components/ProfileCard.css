@@ -135,6 +135,12 @@
   padding: 0.5rem 1rem;
 }
 
+.profile-info-empty {
+  font-style: italic;
+  font-weight: 400;
+  color: #aaa;
+}
+
 @media (max-width: 900px) {
   .profile-card-sidebar {
     width: 100%;

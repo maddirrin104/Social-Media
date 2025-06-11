@@ -43,11 +43,11 @@ const ProfileCard = ({ profile, onProfileUpdated }) => {
           <h1>{profile.name}</h1>
           <p className="bio-sidebar">{profile.bio}</p>
           <div className="profile-extra-info">
-            <div className="profile-info-row"><FaUserFriends className="profile-info-icon" /> {profile.friendCount} bạn bè</div>
-            <div className="profile-info-row"><FaMapMarkerAlt className="profile-info-icon" /> Đến từ {profile.hometown}</div>
-            <div className="profile-info-row"><FaInstagram className="profile-info-icon" /> {profile.instagram}</div>
-            <div className="profile-info-row"><FaEnvelope className="profile-info-icon" /> {profile.email}</div>
-            <div className="profile-info-row"><FaTiktok className="profile-info-icon" /> {profile.tiktok}</div>
+            <div className="profile-info-row"><FaUserFriends className="profile-info-icon" /> {profile.friendCount !== undefined && profile.friendCount !== null ? profile.friendCount : <span className="profile-info-empty">chưa cập nhật</span>} bạn bè</div>
+            <div className="profile-info-row"><FaMapMarkerAlt className="profile-info-icon" /> Đến từ {profile.hometown ? profile.hometown : <span className="profile-info-empty">chưa cập nhật</span>}</div>
+            <div className="profile-info-row"><FaInstagram className="profile-info-icon" /> {profile.instagram ? profile.instagram : <span className="profile-info-empty">chưa cập nhật</span>}</div>
+            <div className="profile-info-row"><FaEnvelope className="profile-info-icon" /> {profile.email ? profile.email : <span className="profile-info-empty">chưa cập nhật</span>}</div>
+            <div className="profile-info-row"><FaTiktok className="profile-info-icon" /> {profile.tiktok ? profile.tiktok : <span className="profile-info-empty">chưa cập nhật</span>}</div>
           </div>
         </div>
         <div className="profile-actions-sidebar">
