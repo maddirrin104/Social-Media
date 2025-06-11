@@ -1,14 +1,37 @@
-.friends-modal-content {
-  width: 420px;
-  max-width: 95vw;
-  max-height: 90vh;
-  padding: 0;
+.friends-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.modal-close {
+.friends-modal-content {
+  background: white;
+  border-radius: 8px;
+  width: 50%;
+  height: 50vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.friends-modal-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s;
 }
 
 .friends-modal-title {
@@ -19,13 +42,13 @@
   font-weight: 600;
 }
 
-.friends-tabs {
+.friends-modal-tabs {
   display: flex;
   border-bottom: 1px solid #eee;
   margin: 0 20px;
 }
 
-.friends-tab {
+.friends-modal-tab {
   flex: 1;
   text-align: center;
   padding: 12px 0;
@@ -36,42 +59,42 @@
   transition: all 0.2s;
 }
 
-.friends-tab.active {
+.friends-modal-tab.active {
   font-weight: 700;
   border-bottom-color: #3ec6e0;
   color: #3ec6e0;
 }
 
-.friends-list {
+.friends-modal-list {
   padding: 20px;
   max-height: 60vh;
   overflow-y: auto;
 }
 
-.friends-empty {
+.friends-modal-empty {
   color: #aaa;
   text-align: center;
   margin-top: 30px;
 }
 
-.friends-item {
+.friends-modal-item {
   display: flex;
   align-items: center;
   margin-bottom: 18px;
 }
 
-.friends-avatar {
+.friends-modal-avatar {
   width: 44px;
   height: 44px;
   border-radius: 50%;
   margin-right: 14px;
 }
 
-.friends-info {
+.friends-modal-info {
   flex: 1;
 }
 
-.friends-name {
+.friends-modal-name {
   text-align: left;
   font-size: 18px;
   font-weight: 600;
