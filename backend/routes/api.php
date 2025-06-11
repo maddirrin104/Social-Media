@@ -56,6 +56,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/friends/requests/sent', [FriendshipController::class, 'listSentRequests']); // Lời mời đã gửi
 }); 
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::put('/user', [UserController::class, 'update']); // Cập nhật thông tin user hiện tại
+});
+
 //test route
 Route::get('test', function () {
     return response()->json(['message' => 'Test route OK']);

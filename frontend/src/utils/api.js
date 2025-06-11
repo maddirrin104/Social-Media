@@ -203,6 +203,12 @@ const getSentRequests = async () => {
   return response.data;
 };
 
+// Cập nhật thông tin người dùng
+const updateUser = async (data) => {
+  const response = await api.put('/user', data);
+  return response.data; // trả về { message, user }
+};
+
 export {
     api,
     loginAPI,
@@ -218,7 +224,8 @@ export {
     unfriend,
     getFriends,
     getReceivedRequests,
-    getSentRequests
+    getSentRequests,
+    updateUser
 }
 
 
