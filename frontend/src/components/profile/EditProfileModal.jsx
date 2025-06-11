@@ -19,6 +19,7 @@ const EditProfileModal = ({ isOpen, onClose, profile, onSave }) => {
     confirmPassword: ''
   });
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
 
@@ -82,11 +83,15 @@ const EditProfileModal = ({ isOpen, onClose, profile, onSave }) => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      onSave(formData);
+      setLoading(true);
+      try {
+        await onSave(formData);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -216,7 +221,7 @@ const EditProfileModal = ({ isOpen, onClose, profile, onSave }) => {
             <Button variant="outline" onClick={onClose}>
               Hủy
             </Button>
-            <Button type="submit" variant="primary">
+            <Button type="submit" variant="primary" disabled={loading}>
               Lưu thay đổi
             </Button>
           </div>

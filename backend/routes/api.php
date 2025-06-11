@@ -56,6 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/friends/requests/sent', [FriendshipController::class, 'listSentRequests']); // Lời mời đã gửi
 }); 
 
+// cập nhật thông tin user
 Route::middleware('auth:sanctum')->group(function () {
     Route::put('/user', [UserController::class, 'update']); // Cập nhật thông tin user hiện tại
 });

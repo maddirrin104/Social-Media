@@ -63,7 +63,7 @@
       <div className="profile-page">
         <div className="profile-content">
           <div className="profile-sidebar">
-            <ProfileCard profile={profile} />
+            <ProfileCard profile={profile} onProfileUpdated={setProfile} />
           </div>
           <div className={`profile-posts${!isOwnProfile ? ' not-own-profile' : ''}`}>
             {isOwnProfile && <PostCreator onPostCreated={handlePostCreated} />}
