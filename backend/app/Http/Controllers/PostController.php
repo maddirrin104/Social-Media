@@ -23,7 +23,16 @@ class PostController extends Controller
 
         return PostResource::collection($posts);
     }
+    public function getPostsByUser($userId)
+    {
+        $posts = Post::with(['user', 'likes', 'comments.user'])
+            ->withCount(['likes', 'comments'])
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
+        return PostResource::collection($posts);
+    }
     /**
      * Store a newly created resource in storage.
      */

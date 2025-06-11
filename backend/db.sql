@@ -72,6 +72,18 @@ CREATE TABLE friendships (
     FOREIGN KEY (user2_id) REFERENCES users(id)
 );
 
+CREATE TABLE messages (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    sender_id INT NOT NULL,
+    receiver_id INT NOT NULL,
+    content TEXT NOT NULL,
+    created_at BIGINT NOT NULL, -- lưu timestamp (ms) từ getTime()
+    is_read BOOLEAN DEFAULT FALSE,
+
+    FOREIGN KEY (sender_id) REFERENCES users(id),
+    FOREIGN KEY (receiver_id) REFERENCES users(id)
+);
+
 -- INDEXES for fast lookup (optional but recommended)
 CREATE INDEX idx_user_email ON users(email);
 CREATE INDEX idx_post_user ON posts(user_id);
