@@ -62,10 +62,6 @@ const loginAPI = async (email, password) => {
       localStorage.setItem("user", JSON.stringify(data.user)); // Lưu user
     }
 
-    
-    console.log("localStorage:", localStorage.getItem("access_token"));
-    console.log("localStorage token:", data.token);
-
     return data;
   } catch (error) {
     console.error("Login error:", error);

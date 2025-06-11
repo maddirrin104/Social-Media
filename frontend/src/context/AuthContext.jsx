@@ -1,36 +1,31 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 // import { users } from '../data/users';
-import { loginAPI, registerAPI, logoutAPI, getMeAPI } from '../utils/api';  
+import { loginAPI, registerAPI, logoutAPI, getMeAPI, api } from '../utils/api';  
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    // Khôi phục user nếu đã lưu trong localStorage
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    } else {setLoading(true);}
+
     const token = localStorage.getItem("access_token");
     if (token) {
-      getMeAPI()
-        .then(data => setUser(data))
-        .catch(() => {
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("user");
-          setUser(null);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     } else {
-      setLoading(false);
+      delete api.defaults.headers.common['Authorization'];
     }
   }, []);
 
   //đăng nhập
   const login = async ({ email, password }) => {
     const data = await loginAPI(email, password);
-    localStorage.setItem("user", JSON.stringify(data.user));
-    localStorage.setItem("access_token", data.token);
     setUser(data.user);
     return data;
   };
@@ -43,8 +38,7 @@ export const AuthProvider = ({ children }) => {
       password,
       password_confirmation
     );
-    localStorage.setItem("user", JSON.stringify(data.user));
-    localStorage.setItem("access_token", data.token);
+
     setUser(data.user);
     return data;
   };
