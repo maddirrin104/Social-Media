@@ -1,33 +1,56 @@
 import React from 'react';
 import { users } from '../../data/users';
+import { messages } from '../../data/messages';
+import { useAuth } from '../../context/AuthContext';
 import '../../styles/components/ChatWindow.css';
 
-// Dữ liệu tin nhắn mẫu cho các userId thật
-const messagesData = {
-  102: [
-    { fromMe: false, text: 'Chào bạn!', time: '9:34 PM' },
-    { fromMe: true, text: 'Chào bạn, khoẻ không?', time: '9:35 PM' },
-  ],
-  105: [
-    { fromMe: false, text: 'Đi chơi không?', time: '8:00 PM' },
-    { fromMe: true, text: 'Ok luôn!', time: '8:01 PM' },
-  ],
-  // Thêm các userId thật khác nếu muốn
-};
-
 const ChatWindow = ({ userId }) => {
+  const { user: currentUser } = useAuth();
   const user = users.find(u => u.id === userId);
   const [input, setInput] = React.useState('');
-  const [messages, setMessages] = React.useState(messagesData[userId] || []);
+
+  // Lọc tin nhắn giữa currentUser và userId
+  const filteredMessages = React.useMemo(() => {
+    if (!currentUser || !userId) return [];
+    return messages
+      .filter(
+        m =>
+          (m.senderId === currentUser.id && m.receiverId === userId) ||
+          (m.senderId === userId && m.receiverId === currentUser.id)
+      )
+      .sort((a, b) => a.createdAt - b.createdAt);
+  }, [currentUser, userId]);
+
+  const [localMessages, setLocalMessages] = React.useState([]);
+
+  React.useEffect(() => {
+    setLocalMessages(filteredMessages);
+  }, [filteredMessages]);
+
+  // Tự động cuộn xuống dưới cùng khi có tin nhắn mới
+  const messagesEndRef = React.useRef(null);
+  React.useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [localMessages]);
 
   const handleSend = () => {
-    if (input.trim()) {
-      setMessages([...messages, { fromMe: true, text: input, time: new Date().toLocaleTimeString() }]);
+    if (input.trim() && currentUser && userId) {
+      const newMsg = {
+        id: Date.now(),
+        senderId: currentUser.id,
+        receiverId: userId,
+        content: input,
+        createdAt: Date.now(),
+        isRead: false
+      };
+      setLocalMessages([...localMessages, newMsg]);
       setInput('');
     }
   };
 
-  if (!user) return <div className="chat-window-empty">Chọn một người để bắt đầu trò chuyện</div>;
+  if (!userId || !user) return <div className="chat-window-empty">Chọn một người để bắt đầu trò chuyện</div>;
 
   return (
     <div className="chat-window">
@@ -41,13 +64,17 @@ const ChatWindow = ({ userId }) => {
       </div>
       {/* ChatMessages */}
       <div className="chat-window-messages">
-        {messages.map((msg, idx) => (
-          <div key={idx} className={`chat-message-row${msg.fromMe ? ' me' : ''}`}>
-            <div className={`chat-message-bubble${msg.fromMe ? ' me' : ''}`}>
-              {msg.text}
+        {localMessages.map((msg, idx) => (
+          <div
+            key={msg.id || idx}
+            className={`chat-message-row${msg.senderId === currentUser.id ? ' me' : ''}`}
+          >
+            <div className={`chat-message-bubble${msg.senderId === currentUser.id ? ' me' : ''}`}>
+              {msg.content}
             </div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
       {/* ChatInput */}
       <div className="chat-window-input-row">
