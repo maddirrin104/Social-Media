@@ -5,6 +5,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .chat-sidebar-search {
@@ -25,6 +26,7 @@
   flex: 1;
   overflow-y: auto;
   padding-bottom: 10px;
+  min-height: 0;
 }
 
 .chat-sidebar-item {

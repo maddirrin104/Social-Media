@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import React from 'react';
 // import { users } from '../data/users';
 import { loginAPI, registerAPI, logoutAPI, getMeAPI } from '../utils/api';  
 
@@ -82,7 +83,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="global-loading-screen">
+        <div className="global-loading-spinner"></div>
+        <div className="global-loading-text">Loading...</div>
+      </div>
+    );
   }
 
   return (
