@@ -4,5 +4,6 @@
 
 .posts-container {
   width: 1240px;
+  height: 100%;
   margin: 60px auto;
 }
