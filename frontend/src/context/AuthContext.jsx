@@ -6,27 +6,52 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Khôi phục user nếu đã lưu trong localStorage
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    } else {setLoading(true);}
+    const fetchUser = async () => {
+      const storedUser = localStorage.getItem("user");
+          if (storedUser) {
+            setUser(JSON.parse(storedUser));
+            setIsAuthenticated(true);
+          }
+      try {
+        const res = await getMeAPI();
+        setUser(res.data);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+        setUser(null);
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    const token = localStorage.getItem("access_token");
-    if (token) {
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    } else {
-      delete api.defaults.headers.common['Authorization'];
-    }
+    fetchUser();
   }, []);
+
+
+  // useEffect(() => {
+  //   const storedUser = localStorage.getItem("user");
+  //   if (storedUser) {
+  //     setUser(JSON.parse(storedUser));
+  //   } else {setLoading(true);}
+
+  //   const token = localStorage.getItem("access_token");
+  //   if (token) {
+  //     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  //   } else {
+  //     delete api.defaults.headers.common['Authorization'];
+  //   }
+  // }, []);
 
   //đăng nhập
   const login = async ({ email, password }) => {
     const data = await loginAPI(email, password);
     setUser(data.user);
+    setIsAuthenticated(true);
     return data;
   };
   
@@ -38,7 +63,7 @@ export const AuthProvider = ({ children }) => {
       password,
       password_confirmation
     );
-
+    setIsAuthenticated(true);
     setUser(data.user);
     return data;
   };
@@ -49,6 +74,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     localStorage.removeItem("access_token");
     setUser(null);
+    setIsAuthenticated(false);
   };
 
   const isAdmin = () => {
@@ -60,7 +86,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, register, isAdmin }}>
+    <AuthContext.Provider value={{ user,setUser,  login, logout, register, isAdmin, isAuthenticated, setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
