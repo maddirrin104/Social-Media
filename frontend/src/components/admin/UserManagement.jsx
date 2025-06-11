@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../common/Button';
+import ConfirmModal from '../common/ConfirmModal';
 import { users as mockUsers } from '../../data/users';
 import '../../styles/components/admin/UserManagement.css';
 
@@ -7,6 +8,8 @@ const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [deleteUserId, setDeleteUserId] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     setUsers(mockUsers);
@@ -16,6 +19,8 @@ const UserManagement = () => {
   // Hàm này chỉ dùng cho dữ liệu giả
   const handleDeleteUser = (userId) => {
     setUsers(users.filter(user => user.id !== userId));
+    setIsDeleteModalOpen(false);
+    setDeleteUserId(null);
   };
 
   // --- CODE API THẬT (giữ lại để sau này dùng) ---
@@ -77,7 +82,10 @@ const UserManagement = () => {
                   <Button
                     variant="danger"
                     size="small"
-                    onClick={() => handleDeleteUser(user.id)}
+                    onClick={() => {
+                      setDeleteUserId(user.id);
+                      setIsDeleteModalOpen(true);
+                    }}
                   >
                     Xóa
                   </Button>
@@ -87,6 +95,12 @@ const UserManagement = () => {
           </tbody>
         </table>
       </div>
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        message="Bạn có chắc chắn muốn xóa người dùng này?"
+        onConfirm={() => handleDeleteUser(deleteUserId)}
+        onCancel={() => { setIsDeleteModalOpen(false); setDeleteUserId(null); }}
+      />
     </div>
   );
 };
