@@ -1,0 +1,95 @@
+.admin-user-management {
+  padding: 2rem;
+}
+
+.admin-user-header {
+  margin-bottom: 2rem;
+}
+
+.admin-user-header h2 {
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+}
+
+.admin-user-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.admin-stat-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+}
+
+.admin-stat-label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.admin-stat-value {
+  display: block;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.admin-user-table {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.admin-user-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-user-table th,
+.admin-user-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.admin-user-table th {
+  background-color: var(--bg-secondary);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.admin-user-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-user-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.admin-user-status.active {
+  background-color: var(--success-color-light);
+  color: var(--success-color);
+}
+
+.admin-user-status.inactive {
+  background-color: var(--danger-color-light);
+  color: var(--danger-color);
+}
+
+.admin-loading,
+.admin-error {
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.admin-error {
+  color: var(--danger-color);
+} 

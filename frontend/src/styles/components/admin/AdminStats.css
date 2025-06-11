@@ -1,0 +1,57 @@
+.admin-stats {
+  padding: 2rem;
+}
+
+.admin-stats-header {
+  margin-bottom: 2rem;
+}
+
+.admin-stats-header h2 {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.admin-stats-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin-stats-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: var(--primary-color-light);
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.admin-stats-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.admin-stats-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.admin-stats-value {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  font-weight: 600;
+} 

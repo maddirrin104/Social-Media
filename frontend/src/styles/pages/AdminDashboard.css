@@ -1,1 +1,12 @@
- 
+.admin-dashboard {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+}
+
+.admin-main {
+  flex: 1;
+  margin-left: 250px;
+  padding: 2rem;
+  background-color: var(--bg-primary);
+} 
