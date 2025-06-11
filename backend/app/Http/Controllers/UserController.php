@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AllUserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
@@ -13,7 +14,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::withCount(['posts', 'comments', 'likes'])
+            ->get();
+
+        return AllUserResource::collection($users);
     }
 
     /**
@@ -27,8 +31,15 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show($id)
     {
+        $user = User::with([
+            'sentFriendships',
+            'receivedFriendships',
+            'notificationsSent',
+            'notificationsReceived'
+        ])->findOrFail($id);
+
         return new UserResource($user);
     }
 

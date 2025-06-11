@@ -7,42 +7,55 @@ import ConfirmModal from '../common/ConfirmModal';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/components/PostCard.css';
 import CommentList from './CommentList';
+import { postAPI } from '../../utils/api';
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, onDeleted }) => {
   const { user: currentUser } = useAuth();
-  const [commentList, setCommentList] = useState(() => post.commentList || []);
+  const [commentList, setCommentList] = useState(post.commentList || []);
   const [likes, setLikes] = useState(post.likes || 0);
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(post.liked);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [loadingLike, setLoadingLike] = useState(false);
 
-  const isOwnPost = currentUser.id === post.author.id;
+  const isOwnPost = currentUser.id === (post.author?.id ?? post.userId);
 
-  const handleLike = () => {
-    if (liked) {
-      setLikes(likes - 1);
-      setLiked(false);
-    } else {
-      setLikes(likes + 1);
-      setLiked(true);
+  const handleLike = async () => {
+    setLoadingLike(true);
+    try {
+      if (liked) {
+        const res = await postAPI.unlikePost(post.id);
+        setLikes(res.likes); // Backend trả về số lượng likes mới
+        setLiked(false);
+      } else {
+        const res = await postAPI.likePost(post.id);
+        setLikes(res.likes);
+        setLiked(true);
+      }
+    } finally {
+      setLoadingLike(false);
     }
   };
 
-  const handleDelete = () => {
-    // TODO: Implement delete post logic
-    console.log('Deleting post:', post.id);
-    setIsDeleteModalOpen(false);
+  const handleDelete = async () => {
+    try {
+      await postAPI.deletePost(post.id);
+      setIsDeleteModalOpen(false);
+      if (onDeleted) onDeleted(post.id);
+    } catch {
+      // Show error nếu cần
+    }
   };
 
   return (
     <div className="post-card">
       <div className="post-header">
         <div className="post-header-left">
-          <Link to={`/profile/${post.author.id}`} className="post-avatar-link">
-            <Avatar src={post.author.avatar} alt={post.author.name} size="small" />
+          <Link to={`/profile/${post.author?.id || post.userId}`} className="post-avatar-link">
+            <Avatar src={post.author?.avatar} alt={post.author?.name} size="small" />
           </Link>
           <div className="post-info">
-            <Link to={`/profile/${post.author.id}`} className="post-author-link">
-              <h3>{post.author.name}</h3>
+            <Link to={`/profile/${post.author?.id || post.userId}`} className="post-author-link">
+              <h3>{post.author?.name}</h3>
             </Link>
             <span className="post-time"><TimeAgo dateString={post.createdAt} /></span>
           </div>
@@ -72,7 +85,12 @@ const PostCard = ({ post }) => {
             <p>{post.content}</p>
           </div>
           <div className="post-actions">
-            <Button variant="text" className={`action-button${liked ? ' liked' : ''}`} onClick={handleLike}>
+            <Button
+              variant="text"
+              className={`action-button${liked ? ' liked' : ''}`}
+              onClick={handleLike}
+              disabled={loadingLike}
+            >
               <i className="fas fa-heart"></i>
               <span>{likes}</span>
             </Button>
@@ -81,10 +99,14 @@ const PostCard = ({ post }) => {
               <span>{commentList.length}</span>
             </Button>
           </div>
-          <CommentList className="comments-list" commentList={commentList} setCommentList={setCommentList} />
+          <CommentList
+            className="comments-list"
+            postId={post.id}
+            commentList={commentList}
+            setCommentList={setCommentList}
+          />
         </div>
       </div>
-
       <ConfirmModal
         isOpen={isDeleteModalOpen}
         message="Bạn có chắc chắn muốn xóa bài viết này?"
@@ -95,4 +117,4 @@ const PostCard = ({ post }) => {
   );
 };
 
-export default PostCard; 
+export default PostCard;

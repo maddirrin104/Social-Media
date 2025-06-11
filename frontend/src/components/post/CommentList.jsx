@@ -3,7 +3,7 @@ import CommentItem from './CommentItem';
 import CommentForm from './CommentForm';
 import '../../styles/components/CommentList.css';
 
-const CommentList = ({ commentList, setCommentList }) => {
+const CommentList = ({ postId, commentList, setCommentList }) => {
   const commentsListRef = useRef(null);
 
   // Auto scroll to bottom when commentList changes
@@ -29,7 +29,7 @@ const CommentList = ({ commentList, setCommentList }) => {
         )}
       </div>
       <div className="comment-input-wrapper">
-      <CommentForm commentList={commentList} setCommentList={setCommentList} />
+        <CommentForm postId={postId} setCommentList={setCommentList} />
       </div>
     </div>
   );

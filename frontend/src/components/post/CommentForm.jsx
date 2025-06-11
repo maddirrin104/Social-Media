@@ -2,22 +2,33 @@ import React, { useState } from 'react';
 import { IoSend } from 'react-icons/io5';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/components/CommentForm.css';
+import { postAPI } from '../../utils/api';
 
-const CommentForm = ({ commentList, setCommentList }) => {
+const CommentForm = ({ postId, setCommentList }) => {
   const [content, setContent] = useState('');
   const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!content.trim()) return;
-    const newComment = {
-      id: commentList.length > 0 ? commentList[commentList.length-1].id + 1 : 1,
-      userId: user.id,
-      content,
-      createdAt: Date.now(),
-    };
-    setCommentList([...commentList, newComment]);
-    setContent('');
+    if (!content.trim() || loading) return;
+    setLoading(true);
+    try {
+      // Gọi API comment
+      const res = await postAPI.commentPost(postId, { content });
+      // res.comment là comment mới, res.comments là số lượng mới
+      setCommentList(prev => [...prev, {
+        ...res.comment,
+        // Nếu API không trả về tên/avatar user, bạn có thể bổ sung từ context user
+        name: user.name,
+        avatar: user.avatar
+      }]);
+      setContent('');
+    } catch  {
+      // thông báo lỗi nếu muốn
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -36,8 +47,9 @@ const CommentForm = ({ commentList, setCommentList }) => {
         onChange={e => setContent(e.target.value)}
         rows={2}
         onKeyDown={handleKeyDown}
+        disabled={loading}
       />
-      <button className="comment-post-btn" type="submit">
+      <button className="comment-post-btn" type="submit" disabled={loading || !content.trim()}>
         <IoSend size={20} />
       </button>
     </form>

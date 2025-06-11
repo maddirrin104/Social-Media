@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class AllUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -24,8 +24,11 @@ class UserResource extends JsonResource
             'friendCount' => $this->friend_count,
             'hometown' => $this->hometown,
             'instagram' => $this->instagram,
-            'tiktok' => $this->tiktok
+            'tiktok' => $this->tiktok,
         ];
     }
 
 }
+
+
+

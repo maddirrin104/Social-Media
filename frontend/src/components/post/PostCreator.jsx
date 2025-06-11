@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { postAPI } from '../../utils/api';
 import '../../styles/components/PostCreator.css';
 
-const PostCreator = () => {
+const PostCreator = ({ onPostCreated }) => {
   const { user } = useAuth();
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
@@ -23,13 +23,11 @@ const PostCreator = () => {
       formData.append('content', content);
       if (image) formData.append('image', image);
 
-      // Gọi API tạo bài viết
       await postAPI.createPost(formData);
 
-      // Reset form nếu thành công
       setContent('');
       setImage(null);
-      // Có thể gọi props.onPostCreated() để reload danh sách bài viết nếu muốn
+      if (onPostCreated) onPostCreated(); // gọi reload danh sách bài viết
     } catch (err) {
       setError(err.message || 'Có lỗi xảy ra, vui lòng thử lại!');
     } finally {

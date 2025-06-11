@@ -1,33 +1,4 @@
-import axios from "axios";
-
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000/api",
-  withCredentials: true
-});
-
-// Add a request interceptor
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("access_token");
-    config.headers.Authorization = token ? `Bearer ${token}` : "";
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-// Add a response interceptor
-api.interceptors.response.use(
-  response => response,
-  error => {
-    const customError = {
-      message: error.response?.data?.message || error.message || "Something went wrong",
-      statusCode: error.response?.status || 500,
-      data: error.response?.data || {},
-      originalError: error
-    };
-    return Promise.reject(customError);
-  }
-);
+import api from "./axiosInstance";
 
 //register
 const registerAPI = async (name, email, password) => {
@@ -108,6 +79,7 @@ const resetPasswordAPI =  {
   }
 };
 
+//lấy thông tin người dùng hiện tại
 const getMeAPI = async () => {
   try {
     const response = await api.get("/users/me");
@@ -118,54 +90,117 @@ const getMeAPI = async () => {
   }
 };
 
-//chat api
-const chatAPI = {
-  // Conversations
-  getConversations: () => api.get('/conversations'),
-  getConversation: (id) => api.get(`/conversations/${id}`),
-  createConversation: (userId) => api.post('/conversations', { user_id: userId }),
-  
-  // Messages
-  getMessages: (conversationId) => api.get(`/conversations/${conversationId}/messages`),
-  sendMessage: (conversationId, content, media = null) => {
-    const formData = new FormData();
-    formData.append('content', content);
-    
-    if (media) {
-      formData.append('media', media);
-    }
-    
-    return api.post(`/conversations/${conversationId}/messages`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  },
-  markAllAsRead: (conversationId) => api.put(`/conversations/${conversationId}/read`),
-  deleteMessage: (messageId) => api.delete(`/messages/${messageId}`),
-  
-  // Users
-  searchUsers: (query) => api.get(`/users/search?query=${query}`),
+//lấy thông tin người dùng theo id
+const getUserByIdAPI = async (userId) => {
+  try {
+    const response = await api.get(`/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error("getUserByIdAPI error:", error);
+    throw error;
+  }
 };
 
 //bài viết nha bro
 const postAPI = {
-  //đăng bài 
+  // Đăng bài
   createPost: async (formData) => {
-    // formData là FormData đã có content, image (nếu có)
     const response = await api.post("/posts", formData, {
       headers: {
-        "Content-Type": "multipart/form-data", 
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
   },
 
-  // lấy danh sách
+  // Lấy danh sách bài viết
   getPosts: async () => {
     const response = await api.get("/posts");
+    return response.data.data;
+  },
+
+  // Lấy bài viết theo user
+  getPostByUser: async (userId) => {
+    const response = await api.get(`/posts/${userId}`);
     return response.data;
   },
+
+  // Xóa bài viết
+  deletePost: async (postId) => {
+    const response = await api.delete(`/posts/${postId}`);
+    return response.data;
+  },
+
+  // Like bài viết
+  likePost: async (postId) => {
+    const response = await api.post(`/posts/${postId}/like`);
+    return response.data;
+  },
+
+  // Bỏ like bài viết
+  unlikePost: async (postId) => {
+    const response = await api.delete(`/posts/${postId}/like`);
+    return response.data;
+  },
+
+  // Bình luận bài viết
+  commentPost: async (postId, commentData) => {
+    // commentData là object: { content: "Nội dung", ... }
+    const response = await api.post(`/posts/${postId}/comment`, commentData);
+    return response.data;
+  },
+
+  // Xóa comment
+  deleteComment: async (postId, commentId) => {
+    const response = await api.delete(`/posts/${postId}/comment/${commentId}`);
+    return response.data;
+  }
+};
+
+// Gửi lời mời kết bạn
+const sendRequest = async (user) => {
+    const response =await api.post(`/friends/request/${user.id}`);
+    console.log('Đã gửi lời mời kết bạn tới', user.name);
+    return response.data;
+};
+
+// Huỷ lời mời đã gửi
+const cancelRequest = async (user) => {
+    const response = await api.delete(`/friends/request/${user.id}`);
+    console.log('Đã huỷ lời mời kết bạn với', user.name);
+    return response.data;
+};
+
+// Chấp nhận lời mời
+const acceptRequest = async (user) => {
+  const response = await api.post(`/friends/accept/${user.id}`);
+  console.log('Đã chấp nhận lời mời kết bạn từ', user.name);
+  return response.data;
+};
+
+// Huỷ kết bạn
+const unfriend = async (user) => {
+  const response = await api.delete(`/friends/${user.id}`);
+  console.log('Đã huỷ kết bạn với', user.name)
+  return response.data;
+};
+
+// Lấy danh sách bạn bè
+const getFriends = async () => {
+  const response = await api.get('/friends');
+  return response.data;
+};
+
+// Lấy danh sách lời mời đã nhận
+const getReceivedRequests = async () => {
+  const response = await api.get('/friends/requests/received');
+  return response.data;
+};
+
+// Lấy danh sách lời mời đã gửi
+const getSentRequests = async () => {
+  const response = await api.get('/friends/requests/sent');
+  return response.data;
 };
 
 export {
@@ -174,9 +209,16 @@ export {
     logoutAPI,
     registerAPI,
     resetPasswordAPI,
-    chatAPI,
     postAPI,
-    getMeAPI
+    getMeAPI,
+    getUserByIdAPI,
+    sendRequest,
+    cancelRequest,
+    acceptRequest,
+    unfriend,
+    getFriends,
+    getReceivedRequests,
+    getSentRequests
 }
 
 
