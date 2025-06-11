@@ -19,18 +19,18 @@ const FloatingNav = ({ onOpenNotification, onOpenMessages, onOpenFriendRequest }
 
   const navItems = [
     {
-      icon: 'fas fa-user-friends',
-      label: 'Lời mời kết bạn',
-      onClick: onOpenFriendRequest,
-      position: 'bottom-right',
-      hoverWidth: '180px'
-    },
-    {
       icon: 'fas fa-envelope',
       label: 'Tin nhắn',
       onClick: onOpenMessages,
       position: 'bottom-right',
       hoverWidth: '130px'
+    },
+    {
+      icon: 'fas fa-user-friends',
+      label: 'Lời mời kết bạn',
+      onClick: onOpenFriendRequest,
+      position: 'bottom-right',
+      hoverWidth: '180px'
     },
     {
       icon: 'fas fa-bell',

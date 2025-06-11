@@ -3,6 +3,7 @@
 }
 
 .posts-container {
-  max-width: 1240px;
+  width: 1240px;
+  height: 100%;
   margin: 60px auto;
 }

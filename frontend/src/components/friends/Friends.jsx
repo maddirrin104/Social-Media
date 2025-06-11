@@ -43,30 +43,30 @@ const Friends = ({ open, onClose, userId }) => {
   };
 
   return open ? (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content friends-modal-content" onClick={e => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose} aria-label="Đóng">&times;</button>
-        <div className="modal-title friends-modal-title">Kết bạn</div>
-        <div className="friends-tabs">
+    <div className="friends-modal-overlay" onClick={onClose}>
+      <div className="friends-modal-content" onClick={e => e.stopPropagation()}>
+        <button className="friends-modal-close" onClick={onClose} aria-label="Đóng">&times;</button>
+        <div className="friends-modal-title">Kết bạn</div>
+        <div className="friends-modal-tabs">
           {tabList.map(t => (
             <div
               key={t.key}
-              className={`friends-tab ${tab === t.key ? 'active' : ''}`}
+              className={`friends-modal-tab ${tab === t.key ? 'active' : ''}`}
               onClick={() => setTab(t.key)}
             >
               {t.label}
             </div>
           ))}
         </div>
-        <div className="friends-list">
+        <div className="friends-modal-list">
           {list.length === 0 ? (
-            <div className="friends-empty">Không có dữ liệu</div>
+            <div className="friends-modal-empty">Không có dữ liệu</div>
           ) : (
             list.map(u => (
-              <div key={u.id} className="friends-item">
-                <img src={u.avatar} alt={u.name} className="friends-avatar" />
-                <div className="friends-info">
-                  <div className="friends-name">{u.name}</div>
+              <div key={u.id} className="friends-modal-item">
+                <img src={u.avatar} alt={u.name} className="friends-modal-avatar" />
+                <div className="friends-modal-info">
+                  <div className="friends-modal-name">{u.name}</div>
                   {tab === TAB_FRIENDS && <div className="friends-status">Bạn bè</div>}
                   {tab === TAB_RECEIVED && <div className="friends-status">Đã gửi cho bạn</div>}
                   {tab === TAB_SENT && <div className="friends-status">Bạn đã gửi</div>}

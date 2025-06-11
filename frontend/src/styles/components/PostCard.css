@@ -8,6 +8,7 @@
   margin-bottom: 1rem;
   transition: box-shadow 0.2s;
   overflow: hidden;
+  min-height: 40vh;
 }
 .post-card:hover {
   box-shadow: 0 4px 16px rgba(0,0,0,0.10);
@@ -62,7 +63,7 @@
 .post-content-wrapper {
   display: flex;
   gap: 20px;
-  min-height: 100px;
+  min-height: 180px;
   max-height: 80vh;
   /* overflow: hidden; */
 }

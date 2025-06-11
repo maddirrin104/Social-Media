@@ -17,6 +17,9 @@ function App() {
   const [openFriendsModal, setOpenFriendsModal] = useState(false);
   const [selectedChatId, setSelectedChatId] = useState(null);
 
+  // Log trạng thái modal Friends mỗi lần render
+  console.log('openFriendsModal:', openFriendsModal);
+
   return (
     <div className="app">
       {user && (
