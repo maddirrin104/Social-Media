@@ -222,15 +222,5 @@ class PostController extends Controller
             'comments' => $post->comments_count
         ]);
     }
-
-    public function searchByContent(Request $request)
-    {
-        $query = $request->query('q', ''); // lấy từ khóa tìm kiếm từ query param 'q'
-        $posts = Post::where('content', 'like', '%' . $query . '%')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return response()->json($posts);
-    }
     
 }

@@ -174,12 +174,14 @@ class UserController extends Controller
 
     public function searchByName(Request $request)
     {
-        $query = $request->query('q', ''); // Lấy từ khóa tìm kiếm từ query param 'q'
+        $query = $request->query('q', '');
         $users = User::where('name', 'like', '%' . $query . '%')
-            ->select('id', 'name', 'avatar')
+            ->select('id', 'name', 'avatar', 'hometown')
             ->get();
 
         return response()->json($users);
     }
+
+
 
 }
