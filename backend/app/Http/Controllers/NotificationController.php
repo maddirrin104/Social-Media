@@ -10,9 +10,16 @@ class NotificationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $me = $request->user();
+
+        $notifications = \DB::table('notifications')
+            ->where('receiver_id', $me->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($notifications);
     }
 
     /**

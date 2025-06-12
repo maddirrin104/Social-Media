@@ -47,6 +47,8 @@ Route::middleware('auth:sanctum')->get('/users', [UserController::class, 'index'
 Route::middleware('auth:sanctum')->delete('/users/{id}', [UserController::class, 'destroy']);
 //get user by id
 Route::middleware('auth:sanctum')->get('/users/{id}', [UserController::class, 'show']);
+// api lấy nhiều user cùng lúc
+Route::middleware('auth:sanctum')->get('/users', [UserController::class, 'userNotiList']);
 
 // Routes cho kết bạn
 Route::middleware('auth:sanctum')->group(function () {
@@ -63,10 +65,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // cập nhật thông tin user
 Route::middleware('auth:sanctum')->group(function () {
-    Route::put('/user', [UserController::class, 'update']); // Cập nhật thông tin user hiện tại
+    Route::put('/users/list', [UserController::class, 'update']); // Cập nhật thông tin user hiện tại
 });
 
-
+// Routes cho thông báo
+Route::middleware('auth:sanctum')->group(function () {
+    // Lấy danh sách thông báo
+    Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index']); 
+});
 
 //test route
 Route::get('test', function () {
