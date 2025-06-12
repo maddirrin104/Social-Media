@@ -66,17 +66,21 @@ class FriendshipController extends Controller
     {
         $me = $request->user();
 
-        $updated = DB::table('friendships')
-            ->where('user1_id', $user->id)
-            ->where('user2_id', $me->id)
-            ->where('status', 'pending')
-            ->update(['status' => 'accepted']);
+        DB::beginTransaction();
+        try {
+            $updated = DB::table('friendships')
+                ->where('user1_id', $user->id)
+                ->where('user2_id', $me->id)
+                ->where('status', 'pending')
+                ->update(['status' => 'accepted']);
 
-        if ($updated) {
-            // Tăng friend_count cho cả hai user
+            if (!$updated) {
+                DB::rollBack();
+                return response()->json(['message' => 'Không tìm thấy lời mời để chấp nhận.'], 404);
+            }
+
             DB::table('users')->where('id', $me->id)->increment('friend_count');
             DB::table('users')->where('id', $user->id)->increment('friend_count');
-            // Notification cho user gửi lời mời
             DB::table('notifications')->insert([
                 'sender_id' => $me->id,
                 'receiver_id' => $user->id,
@@ -85,9 +89,12 @@ class FriendshipController extends Controller
                 'created_at' => now(),
                 'is_read' => false,
             ]);
+            DB::commit();
             return response()->json(['message' => 'Đã chấp nhận lời mời kết bạn.']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Lỗi hệ thống!'], 500);
         }
-        return response()->json(['message' => 'Không tìm thấy lời mời để chấp nhận.'], 404);
     }
 
     // Huỷ kết bạn (xoá relationship đã accepted)
@@ -118,20 +125,22 @@ class FriendshipController extends Controller
     {
         $me = $request->user();
 
-        // Lấy tất cả user là bạn bè accepted với mình
-        $friends = DB::table('friendships')
+        $friendIds = DB::table('friendships')
             ->where(function($q) use ($me) {
                 $q->where('user1_id', $me->id)->orWhere('user2_id', $me->id);
             })
             ->where('status', 'accepted')
             ->get()
             ->map(function($f) use ($me) {
-                $friendId = $f->user1_id == $me->id ? $f->user2_id : $f->user1_id;
-                return User::select('id', 'name', 'avatar', 'bio')->find($friendId);
+                return $f->user1_id == $me->id ? $f->user2_id : $f->user1_id;
             })
-            ->filter();
+            ->toArray();
 
-        return response()->json($friends->values());
+        $friends = User::whereIn('id', $friendIds)
+            ->select('id', 'name', 'avatar', 'bio')
+            ->get();
+
+        return response()->json($friends);
     }
 
     public function listReceivedRequests(Request $request)
