@@ -121,14 +121,6 @@ const deleteUserAPI = async (userId) => {
   return response.data; 
 }
 
-//tìm user theo tên
-const searchUser = async (query) => {
-  const response = await api.get('/users/search', {
-    params: { q: query }
-  });
-  return response.data; // trả về danh sách người dùng tìm được
-}
-
 //bài viết nha bro
 const postAPI = {
   // Đăng bài
