@@ -1,92 +1,77 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import PostCard from '../components/post/PostCard';
-import ProfileCard from '../components/profile/ProfileCard';
 import Button from '../components/common/Button';
 import { useAuth } from '../context/AuthContext';
+import SearchItem from '../components/search/SearchItem';
+import { postAPI } from '../utils/api';
+import { getAllUsersAPI } from '../utils/api';
 import '../styles/pages/SearchResult.css';
 
 const SearchResult = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState('posts'); // 'posts' or 'users'
-  const [searchResults, setSearchResults] = useState({
-    posts: [],
-    users: []
-  });
+  const { user, isAuthenticated } = useAuth();
+  const [activeTab, setActiveTab] = useState('posts');
+  const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (!user) return;
-    const searchParams = new URLSearchParams(location.search);
-    const query = searchParams.get('q');
-    const page = parseInt(searchParams.get('page')) || 1;
-    const type = searchParams.get('type') || 'posts';
-
-    if (query) {
-      setCurrentPage(page);
-      setActiveTab(type);
-      fetchSearchResults(query, type, page);
-    }
-  }, [location.search, user]);
-
-  const fetchSearchResults = async (query, type, page) => {
-    setLoading(true);
+  const fetchPosts = async () => {
     try {
-      // TODO: Thay thế bằng API thật
-      // const response = await searchAPI.search(query, type, page);
-      // setSearchResults(prev => ({
-      //   ...prev,
-      //   [type]: response.data
-      // }));
-      // setTotalPages(response.totalPages);
-
-      // Mock data tạm thời
-      setTimeout(() => {
-        setSearchResults({
-          posts: [
-            {
-              id: 1,
-              content: 'Bài viết tìm kiếm 1',
-              user: { id: 1, username: 'user1', avatar: 'https://via.placeholder.com/40' },
-              createdAt: new Date().toISOString(),
-              likes: 10,
-              comments: 5
-            }
-          ],
-          users: [
-            {
-              id: 1,
-              username: 'user1',
-              avatar: 'https://via.placeholder.com/40',
-              bio: 'User bio'
-            }
-          ]
-        });
-        setTotalPages(1);
-        setLoading(false);
-      }, 1000);
-    } catch (error) {
-      console.error('Error fetching search results:', error);
+      console.log('Fetching posts...');
+      setLoading(true);
+      setError(null);
+      const postList = await postAPI.getPosts();
+      console.log('Posts response:', postList);
+      setPosts(Array.isArray(postList) ? postList : []);
+    } catch (err) {
+      console.error('Error fetching posts:', err);
+      setError('Lỗi tải danh sách bài viết!');
+    } finally {
       setLoading(false);
     }
   };
 
-  const handlePageChange = (newPage) => {
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.set('page', newPage);
-    navigate(`/search-result?${searchParams.toString()}`);
+  const fetchUsers = async () => {
+    try {
+      console.log('Fetching users...');
+      setLoading(true);
+      setError(null);
+      let data = await getAllUsersAPI();
+      console.log('Users response:', data);
+      if (data && data.data) data = data.data;
+      setUsers(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error('Error fetching users:', err);
+      setError('Lỗi tải danh sách người dùng!');
+    } finally {
+      setLoading(false);
+    }
   };
 
+  useEffect(() => {
+    console.log('Is authenticated:', isAuthenticated);
+    console.log('User:', user);
+    console.log('Active tab:', activeTab);
+    
+    if (!isAuthenticated) {
+      setLoading(false);
+      setError('Vui lòng đăng nhập để xem kết quả tìm kiếm');
+      return;
+    }
+
+    if (activeTab === 'posts') {
+      fetchPosts();
+    } else {
+      fetchUsers();
+    }
+  }, [isAuthenticated, user, activeTab]);
+
   const handleTabChange = (tab) => {
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.set('type', tab);
-    searchParams.set('page', '1');
-    navigate(`/search-result?${searchParams.toString()}`);
+    setActiveTab(tab);
   };
+
+  if (loading) return <div className="search-loading">Đang tải...</div>;
+  if (error) return <div className="search-error">{error}</div>;
 
   return (
     <div className="search-result-page">
@@ -108,65 +93,33 @@ const SearchResult = () => {
             </Button>
           </div>
         </div>
-
-        {loading ? (
-          <div className="search-loading">
-            <i className="fas fa-spinner fa-spin"></i>
-            <span>Đang tìm kiếm...</span>
-          </div>
-        ) : (
-          <>
-            <div className="search-results">
-              {activeTab === 'posts' ? (
-                searchResults.posts.length > 0 ? (
-                  searchResults.posts.map(post => (
-                    <PostCard key={post.id} post={post} />
-                  ))
-                ) : (
-                  <div className="no-results">
-                    <i className="fas fa-search"></i>
-                    <p>Không tìm thấy bài viết nào</p>
-                  </div>
-                )
-              ) : (
-                searchResults.users.length > 0 ? (
-                  <div className="users-grid">
-                    {searchResults.users.map(user => (
-                      <ProfileCard key={user.id} user={user} />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="no-results">
-                    <i className="fas fa-search"></i>
-                    <p>Không tìm thấy người dùng nào</p>
-                  </div>
-                )
-              )}
-            </div>
-
-            {totalPages > 1 && (
-              <div className="pagination">
-                <Button
-                  variant="secondary"
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                >
-                  <i className="fas fa-chevron-left"></i>
-                </Button>
-                <span className="page-info">
-                  Trang {currentPage} / {totalPages}
-                </span>
-                <Button
-                  variant="secondary"
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                >
-                  <i className="fas fa-chevron-right"></i>
-                </Button>
+        <div className="search-results">
+          {activeTab === 'posts' ? (
+            posts.length > 0 ? (
+              posts.map(post => (
+                <PostCard key={post.id} post={post} />
+              ))
+            ) : (
+              <div className="no-results">
+                <i className="fas fa-search"></i>
+                <p>Không tìm thấy bài viết nào</p>
               </div>
-            )}
-          </>
-        )}
+            )
+          ) : (
+            users.length > 0 ? (
+              <div className="user-search-list">
+                {users.map(user => (
+                  <SearchItem key={user.id} user={user} />
+                ))}
+              </div>
+            ) : (
+              <div className="no-results">
+                <i className="fas fa-search"></i>
+                <p>Không tìm thấy người dùng nào</p>
+              </div>
+            )
+          )}
+        </div>
       </div>
     </div>
   );
