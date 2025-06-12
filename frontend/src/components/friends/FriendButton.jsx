@@ -5,56 +5,51 @@ import ConfirmModal from '../common/ConfirmModal';
 /**
  * status: 'none' | 'pending' | 'accepted'
  * isSent: true nếu là lời mời đã gửi, false nếu là lời mời đã nhận
- * onSendRequest: gửi lời mời
- * onCancelRequest: huỷ lời mời đã gửi
- * onAcceptRequest: chấp nhận lời mời đã nhận
- * onUnfriend: huỷ kết bạn
  * loading: trạng thái loading (nếu cần)
+ * onClick: callback cho mọi thao tác (sẽ tự động xác định action)
  * className: class CSS tùy chỉnh
  */
 const FriendButton = ({
   status = 'none',
   isSent = false,
-  onSendRequest,
-  onCancelRequest,
-  onAcceptRequest,
-  onUnfriend,
   loading = false,
+  onClick,
   className,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   let label = 'Kết bạn';
   let color = '#3ec6e0';
-  let onClick = onSendRequest;
 
-  let modalMessage = '';
-  let modalConfirm = null;
-
-  if (status === 'pending') {
-    if (isSent) {
-      label = 'Đã gửi lời mời';
-      color = '#aaa';
-      onClick = () => setModalOpen(true);
-      modalMessage = 'Bạn có muốn hủy lời mời kết bạn này?';
-      modalConfirm = onCancelRequest;
-    } else {
-      label = 'Chấp nhận';
-      color = '#4caf50';
-      onClick = onAcceptRequest;
-    }
+  // pending mình gửi thì click hỏi confirm hủy
+  // pending mình nhận thì click là accept luôn
+  // accepted thì click hỏi confirm hủy kết bạn
+  let needConfirm = false;
+  let confirmMessage = '';
+  if (status === 'pending' && isSent) {
+    label = 'Đã gửi lời mời';
+    color = '#aaa';
+    needConfirm = true;
+    confirmMessage = 'Bạn có muốn hủy lời mời kết bạn này?';
+  } else if (status === 'pending' && !isSent) {
+    label = 'Chấp nhận';
+    color = '#4caf50';
   } else if (status === 'accepted') {
     label = 'Bạn bè';
     color = '#f44336';
-    onClick = () => setModalOpen(true);
-    modalMessage = 'Bạn có chắc chắn muốn hủy kết bạn không?';
-    modalConfirm = onUnfriend;
+    needConfirm = true;
+    confirmMessage = 'Bạn có chắc chắn muốn hủy kết bạn không?';
   }
+
+  const handleClick = () => {
+    if (needConfirm) setModalOpen(true);
+    else if (onClick) onClick();
+  };
 
   return (
     <>
       <Button
-        onClick={onClick}
+        onClick={handleClick}
         disabled={loading}
         className={className}
         style={{ width: '100%', height: '100%', background: color, color: '#fff' }}
@@ -63,10 +58,10 @@ const FriendButton = ({
       </Button>
       <ConfirmModal
         isOpen={modalOpen}
-        message={modalMessage}
+        message={confirmMessage}
         onConfirm={async () => {
           setModalOpen(false);
-          if (modalConfirm) await modalConfirm();
+          if (onClick) await onClick();
         }}
         onCancel={() => setModalOpen(false)}
       />

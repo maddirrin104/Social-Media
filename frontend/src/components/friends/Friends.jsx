@@ -7,17 +7,19 @@ import '../../styles/components/Friends.css';
 const TAB_RECEIVED = 'received';
 const TAB_SENT = 'sent';
 const TAB_FRIENDS = 'friends';
+const TAB_SUGGEST = 'suggest';
 
 const tabList = [
   { key: TAB_RECEIVED, label: 'Lời mời đã nhận' },
   { key: TAB_SENT, label: 'Lời mời đã gửi' },
   { key: TAB_FRIENDS, label: 'Tất cả bạn bè' },
+  { key: TAB_SUGGEST, label: 'Gợi ý kết bạn' }
 ];
 
 const Friends = ({ open, onClose, userId }) => {
   const [tab, setTab] = useState(TAB_RECEIVED);
   const { sendRequest, cancelRequest, acceptRequest, unfriend, loadingId } = useFriendActions();
-  const { friends, received, sent, loading, refetch } = useFriendLists(userId);
+  const { friends, received, sent, suggestions, loading, refetch } = useFriendLists(userId);
 
   // Hàm xử lý action, gọi lại refetch sau khi xong
   const handleAction = async (user, tab) => {
@@ -27,6 +29,8 @@ const Friends = ({ open, onClose, userId }) => {
       await cancelRequest(user);
     } else if (tab === TAB_FRIENDS) {
       await unfriend(user);
+    } else if (tab === TAB_SUGGEST) {
+      await sendRequest(user);
     }
     refetch();
   };
@@ -36,12 +40,14 @@ const Friends = ({ open, onClose, userId }) => {
   if (tab === TAB_RECEIVED) list = received;
   if (tab === TAB_SENT) list = sent;
   if (tab === TAB_FRIENDS) list = friends;
+  if (tab === TAB_SUGGEST) list = suggestions;
 
   // Xác định trạng thái bạn bè để truyền vào FriendButton
   const getFriendStatus = (user) => {
     if (tab === TAB_FRIENDS) return { status: 'accepted', isSent: false };
     if (tab === TAB_RECEIVED) return { status: 'pending', isSent: false };
     if (tab === TAB_SENT) return { status: 'pending', isSent: true };
+    if (tab === TAB_SUGGEST) return { status: 'none', isSent: false };
     return { status: 'none', isSent: false };
   };
 
@@ -82,10 +88,7 @@ const Friends = ({ open, onClose, userId }) => {
                     status={friendStatus.status}
                     isSent={friendStatus.isSent}
                     loading={loadingId === u.id}
-                    onSendRequest={null}
-                    onCancelRequest={() => handleAction(u, TAB_SENT)}
-                    onAcceptRequest={() => handleAction(u, TAB_RECEIVED)}
-                    onUnfriend={() => handleAction(u, TAB_FRIENDS)}
+                    onClick={() => handleAction(u, tab)}
                     className="profile-btn-friend"
                   />
                 </div>

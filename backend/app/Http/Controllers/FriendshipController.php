@@ -191,8 +191,15 @@ class FriendshipController extends Controller
             ->first();
 
         if (!$friendship) {
-            return response()->json(['status' => 'not_friends']);
+            return response()->json(['status' => 'none']);
         }
-        return response()->json(['status' => $friendship->status]);
+
+        // Xác định isSent: true nếu mình là người gửi
+        $isSent = ($friendship->user1_id == $me->id);
+
+        return response()->json([
+            'status' => $friendship->status,
+            'isSent' => $isSent,
+        ]);
     }
 }
