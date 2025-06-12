@@ -80,41 +80,43 @@
 
 .profile-actions-row {
   display: flex;
+  align-items: center;
   flex-direction: row;
   gap: 1.2rem;
-  justify-content: center;
-  width: 100%;
+  justify-content: space-between;
 }
 
 .profile-btn-friend {
-  background: var(--primary-color);
-  width: 50%;
-  height: 40px;
+  width: 130px !important;
+  height: 40px !important;
   color: #fff;
   border: none;
   border-radius: 999px;
-  padding: 0.5rem 1rem;
   font-size: 1.15rem;
   font-weight: 500;
   transition: background 0.2s;
   box-shadow: none;
+  padding: 0;
+  margin: 0;
+  background: var(--primary-color);
 }
 .profile-btn-friend:hover {
   background: var(--primary-color-light);
 }
 
 .profile-btn-message {
-  width: 50%;
+  width: 130px;
   height: 40px;
   background: #fff;
   color: var(--primary-color);
   border: 2px solid var(--primary-color);
   border-radius: 999px;
-  padding: 0.5rem 1rem;
   font-size: 1.15rem;
   font-weight: 500;
   transition: background 0.2s, color 0.2s;
   box-shadow: none;
+  padding: 0;
+  margin: 0;
 }
 .profile-btn-message:hover {
   background: #ffe6ed;

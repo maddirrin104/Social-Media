@@ -6,7 +6,7 @@
 
 .search-result-container {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 60px auto;
 }
 
 .search-header {
@@ -91,4 +91,4 @@
   .users-grid {
     grid-template-columns: 1fr;
   }
-} 
+}
