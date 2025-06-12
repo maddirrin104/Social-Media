@@ -180,13 +180,6 @@ const postAPI = {
     const response = await api.delete(`/posts/${postId}/admin`);
     return response.data;
   },
-
-  searchPost: async (query) => {
-    const response = await api.get(`/posts/search`, {
-      params: { q: query }
-    });
-    return response.data;
-  }
 };
 
 // Gửi lời mời kết bạn
@@ -261,7 +254,6 @@ export {
     getAllUsersAPI,
     deleteUserAPI,
     getNotifications,
-    searchUser,
 }
 
 

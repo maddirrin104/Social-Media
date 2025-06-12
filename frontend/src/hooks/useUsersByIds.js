@@ -5,7 +5,7 @@ export default function useUsersByIds(ids = []) {
   const [users, setUsers] = useState({});
   useEffect(() => {
     if (!ids.length) return;
-    api.get('/users/noti', { params: { ids: ids.join(',') } })
+    api.get('notifications/user', { params: { ids: ids.join(',') } })
       .then(res => {
         // Giả sử API trả về mảng user [{id, name, avatar, ...}]
         const usersObj = {};
@@ -13,6 +13,6 @@ export default function useUsersByIds(ids = []) {
         setUsers(usersObj);
       })
       .catch(() => setUsers({}));
-  }, [ids]); 
+  }, [ids]);
   return users;
 }

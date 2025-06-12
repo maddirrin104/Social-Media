@@ -8,8 +8,6 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/';
 
 function getAvatarUrl(avatarPath) {
   if (!avatarPath) return '/images/default-avatar.png';
-  // Nếu backend trả 'avatars/user1.jpg', cần thêm '/storage/' hoặc domain tùy cấu hình BE
-  // Nếu public_path('storage'), thì ảnh sẽ ở '/storage/avatars/user1.jpg'
   if (avatarPath.startsWith('http')) return avatarPath;
   return BASE_URL + 'storage/' + avatarPath;
 }

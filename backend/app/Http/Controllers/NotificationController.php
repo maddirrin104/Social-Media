@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class NotificationController extends Controller
 {
@@ -27,6 +28,17 @@ class NotificationController extends Controller
         return response()->json($notifications);
     }
 
+    public function userNotiList(Request $request) {
+        $ids = explode(',', $request->query('ids', ''));
+        $ids = array_filter($ids, fn($id) => is_numeric($id) && $id); // loại bỏ rỗng và không phải số
+        
+        if (empty($ids)) {
+            return response()->json([]);
+        }
+
+        $users = User::whereIn('id', $ids)->select('id', 'name', 'avatar')->get();
+        return response()->json($users);
+    }
     /**
      * Store a newly created resource in storage.
      */

@@ -172,16 +172,5 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-    public function searchByName(Request $request)
-    {
-        $query = $request->query('q', '');
-        $users = User::where('name', 'like', '%' . $query . '%')
-            ->select('id', 'name', 'avatar', 'hometown')
-            ->get();
-
-        return response()->json($users);
-    }
-
-
 
 }
