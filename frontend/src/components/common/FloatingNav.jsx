@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/components/FloatingNav.css';
 
@@ -7,6 +7,8 @@ const FloatingNav = ({ onOpenNotification, onOpenMessages, onOpenFriendRequest }
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
+  const isHome = location.pathname === '/';
+  const isOwnProfile = location.pathname === `/profile/${user?.id}`;
 
   const handleLogout = async () => {
     try {
@@ -14,6 +16,22 @@ const FloatingNav = ({ onOpenNotification, onOpenMessages, onOpenFriendRequest }
       navigate('/login');
     } catch (error) {
       console.error('Logout failed:', error);
+    }
+  };
+
+  const handleHomeClick = () => {
+    if (isHome) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/');
+    }
+  };
+
+  const handleProfileClick = () => {
+    if (isOwnProfile) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate(`/profile/${user.id}`);
     }
   };
 
@@ -42,14 +60,14 @@ const FloatingNav = ({ onOpenNotification, onOpenMessages, onOpenFriendRequest }
     {
       icon: 'fas fa-user',
       label: 'Trang cá nhân',
-      onClick: () => navigate(`/profile/${user.id}`),
+      onClick: handleProfileClick,
       position: 'bottom-right',
       hoverWidth: '170px'
     },
     {
       icon: 'fas fa-home',
       label: 'Trang chủ',
-      onClick: () => navigate('/'),
+      onClick: handleHomeClick,
       position: 'bottom-right',
       hoverWidth: '142px'
     }

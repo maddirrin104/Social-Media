@@ -23,7 +23,7 @@
 
 body {
   min-height: 100vh;
-  background: linear-gradient(-45deg, var(--primary-color-light), var(--secondary-color-light));
+  background: linear-gradient(-45deg, #565752, var(--secondary-color-light));
   background-size: 200% 200%;
   background-attachment: fixed;
   animation: gradientBG 8s ease infinite;
