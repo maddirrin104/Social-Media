@@ -3,7 +3,7 @@ import CommentItem from './CommentItem';
 import CommentForm from './CommentForm';
 import '../../styles/components/CommentList.css';
 
-const CommentList = ({ postId, commentList, setCommentList }) => {
+const CommentList = ({ postId, commentList, setCommentList, allowComment = true }) => {
   const commentsListRef = useRef(null);
 
   // Auto scroll to bottom when commentList changes
@@ -28,9 +28,11 @@ const CommentList = ({ postId, commentList, setCommentList }) => {
           ))
         )}
       </div>
-      <div className="comment-input-wrapper">
-        <CommentForm postId={postId} setCommentList={setCommentList} />
-      </div>
+      {allowComment && (
+        <div className="comment-input-wrapper">
+          <CommentForm postId={postId} setCommentList={setCommentList} />
+        </div>
+      )}
     </div>
   );
 };

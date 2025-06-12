@@ -16,7 +16,7 @@ const PostCard = ({ post, onDeleted }) => {
   const [liked, setLiked] = useState(post.liked);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [loadingLike, setLoadingLike] = useState(false);
-  const [deleting, setDeleting] = useState(false); // thêm để disable nút khi xóa
+  const [deleting, setDeleting] = useState(false);
 
   const isOwnPost = currentUser.id === (post.author?.id ?? post.userId);
   const isAdmin = currentUser.role === 'admin';
@@ -94,26 +94,29 @@ const PostCard = ({ post, onDeleted }) => {
           <div className="post-content">
             <p>{post.content}</p>
           </div>
-          <div className="post-actions">
-            <Button
-              variant="text"
-              className={`action-button${liked ? ' liked' : ''}`}
-              onClick={handleLike}
-              disabled={loadingLike}
-            >
-              <i className="fas fa-heart"></i>
-              <span>{likes}</span>
-            </Button>
-            <Button variant="text" className="action-button">
-              <i className="fas fa-comment"></i>
-              <span>{commentList.length}</span>
-            </Button>
-          </div>
+          {!isAdmin && (
+            <div className="post-actions">
+              <Button
+                variant="text"
+                className={`action-button${liked ? ' liked' : ''}`}
+                onClick={handleLike}
+                disabled={loadingLike}
+              >
+                <i className="fas fa-heart"></i>
+                <span>{likes}</span>
+              </Button>
+              <Button variant="text" className="action-button">
+                <i className="fas fa-comment"></i>
+                <span>{commentList.length}</span>
+              </Button>
+            </div>
+          )}
           <CommentList
             className="comments-list"
             postId={post.id}
             commentList={commentList}
             setCommentList={setCommentList}
+            allowComment={!isAdmin}
           />
         </div>
       </div>
