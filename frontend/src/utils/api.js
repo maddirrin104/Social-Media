@@ -172,6 +172,11 @@ const postAPI = {
   deleteComment: async (postId, commentId) => {
     const response = await api.delete(`/posts/${postId}/comment/${commentId}`);
     return response.data;
+  },
+
+  adminDeletePost: async (postId) => {
+    const response = await api.delete(`/posts/${postId}/admin`);
+    return response.data;
   }
 };
 

@@ -16,6 +16,7 @@ const PostCard = ({ post, onDeleted }) => {
   const [liked, setLiked] = useState(post.liked);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [loadingLike, setLoadingLike] = useState(false);
+  const [deleting, setDeleting] = useState(false); // thêm để disable nút khi xóa
 
   const isOwnPost = currentUser.id === (post.author?.id ?? post.userId);
   const isAdmin = currentUser.role === 'admin';
@@ -25,25 +26,32 @@ const PostCard = ({ post, onDeleted }) => {
     try {
       if (liked) {
         const res = await postAPI.unlikePost(post.id);
-        setLikes(res.likes); // Backend trả về số lượng likes mới
+        setLikes(res.likes);
         setLiked(false);
       } else {
         const res = await postAPI.likePost(post.id);
         setLikes(res.likes);
         setLiked(true);
-      } 
+      }
     } finally {
       setLoadingLike(false);
     }
   };
 
   const handleDelete = async () => {
+    setDeleting(true);
     try {
-      await postAPI.deletePost(post.id);
+      if (isAdmin) {
+        await postAPI.adminDeletePost(post.id);
+      } else {
+        await postAPI.deletePost(post.id);
+      }
       setIsDeleteModalOpen(false);
       if (onDeleted) onDeleted(post.id);
     } catch {
-      // Show error nếu cần
+      // Bạn có thể show error ở đây nếu muốn
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -67,6 +75,7 @@ const PostCard = ({ post, onDeleted }) => {
               variant="text" 
               className="post-delete-button"
               onClick={() => setIsDeleteModalOpen(true)}
+              disabled={deleting}
             >
               <i className="fas fa-trash"></i>
             </Button>
@@ -113,6 +122,7 @@ const PostCard = ({ post, onDeleted }) => {
         message="Bạn có chắc chắn muốn xóa bài viết này?"
         onConfirm={handleDelete}
         onCancel={() => setIsDeleteModalOpen(false)}
+        loading={deleting}
       />
     </div>
   );

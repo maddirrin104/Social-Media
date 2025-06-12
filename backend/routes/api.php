@@ -37,12 +37,14 @@ Route::middleware('auth:sanctum')->group(function () {
     //like, comment
     Route::post('/posts/{post}/like', [PostController::class, 'like']);
     Route::post('/posts/{post}/comment', [PostController::class, 'comment']);
+    //quyền xóa post của admin
+    Route::delete('/posts/{post}/admin', [PostController::class, 'adminDestroy']);
 });
 
 //get all users
 Route::middleware('auth:sanctum')->get('/users', [UserController::class, 'index']);
 // xóa user
-Route::middleware('auth:sanctum')->delete('/users/{id}', [UserController::class, 'destroy'])->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->delete('/users/{id}', [UserController::class, 'destroy']);
 //get user by id
 Route::middleware('auth:sanctum')->get('/users/{id}', [UserController::class, 'show']);
 
