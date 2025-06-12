@@ -72,21 +72,23 @@ const PostCreator = ({ onPostCreated }) => {
             </Button>
           </div>
         </div>
-        {image && (
-          <div className="image-preview">
-            <img src={URL.createObjectURL(image)} alt="Preview" />
-            <button
-              type="button"
-              className="remove-image"
-              onClick={() => setImage(null)}
-              disabled={loading}
-            >
-              <i className="fas fa-times"></i>
-            </button>
-          </div>
-        )}
-        {error && <div className="post-error">{error}</div>}
       </form>
+      <div className="post-extend">
+          {image && (
+            <div className="image-preview">
+              <img src={URL.createObjectURL(image)} alt="Preview" />
+              <button
+                type="button"
+                className="remove-image"
+                onClick={() => setImage(null)}
+                disabled={loading}
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+          )}
+          {error && <div className="post-error">{error}</div>}
+        </div>
     </div>
   );
 };

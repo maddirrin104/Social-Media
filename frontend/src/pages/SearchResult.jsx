@@ -110,18 +110,20 @@ const SearchResult = () => {
         <div className="search-header">
           <h1>Kết quả tìm kiếm: {query}</h1>
           <div className="search-tabs">
-            <Button
-              variant={activeTab === 'posts' ? 'primary' : 'secondary'}
+            <button
+              className={`search-tab-btn${activeTab === 'posts' ? ' active' : ''}`}
+              type="button"
               onClick={() => handleTabChange('posts')}
             >
               Bài viết
-            </Button>
-            <Button
-              variant={activeTab === 'users' ? 'primary' : 'secondary'}
+            </button>
+            <button
+              className={`search-tab-btn${activeTab === 'users' ? ' active' : ''}`}
+              type="button"
               onClick={() => handleTabChange('users')}
             >
               Người dùng
-            </Button>
+            </button>
           </div>
         </div>
         <div className="search-results">

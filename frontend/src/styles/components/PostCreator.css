@@ -57,6 +57,13 @@
   gap: 1rem;
 }
 
+.post-extend {
+  display: flex;
+  margin-left: 1rem;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .post-attachments {
   display: flex;
   gap: 0.5rem;

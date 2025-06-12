@@ -3,6 +3,7 @@ import FriendButton from './FriendButton';
 import useFriendActions from '../../hooks/useFriendActions';
 import useFriendLists from '../../hooks/useFriendLists';
 import '../../styles/components/Friends.css';
+import { Link } from 'react-router-dom';
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/';
 
@@ -94,7 +95,7 @@ const Friends = ({ open, onClose, userId }) => {
                 <div key={u.id} className="friends-modal-item">
                   <img src={getAvatarUrl(u.avatar)} alt={u.name} className="friends-modal-avatar" />
                   <div className="friends-modal-info">
-                    <div className="friends-modal-name">{u.name}</div>
+                    <Link to={`/profile/${u.id}`} className="friends-modal-name">{u.name}</Link>
                     {u.email && (
                     <div className="friends-modal-email" style={{ fontSize: 13, color: "#888" }}>
                       {u.email}

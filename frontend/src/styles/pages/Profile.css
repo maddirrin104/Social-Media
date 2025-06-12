@@ -30,11 +30,18 @@
   z-index: 10;
 }
 
-.profile-posts-list {
+.profile-posts-list  {
   flex: 1;
   min-width: 0;
-  margin-top: 7.5vh;
   margin-left: 335px;
+}
+
+.profile-posts-list.own-profile {
+  margin-top: 7.2vh;
+}
+
+.profile-posts-list.other-profile {
+  margin-top: 0.7vh;
 }
 
 .profile-post-creator {
@@ -46,13 +53,16 @@
   max-width: 1250px;
 }
 
-.profile-posts.not-own-profile {
-  margin-top: 10px;
-}
-
 .profile-posts-header {
   margin-top: 1rem;
   text-align: left;
   font-size: 1.2rem;
   font-weight: 600;
+}
+
+.profile-posts-empty {
+  text-align: left;
+  color: #666;
+  font-size: 1.2rem;
+  font-style: italic;
 }
