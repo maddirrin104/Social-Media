@@ -9,7 +9,7 @@ import FriendButton from '../friends/FriendButton';
 import useFriendActions from '../../hooks/useFriendActions';
 import EditProfileModal from './EditProfileModal';
 import { updateUser } from '../../utils/api';
-import api from '../../utils/axiosInstance'; // Để gọi API kiểm tra trạng thái
+import api from '../../utils/axiosInstance';
 
 const ProfileCard = ({ profile, onProfileUpdated, className }) => {
   const { user: currentUser, setUser } = useAuth();
@@ -19,21 +19,16 @@ const ProfileCard = ({ profile, onProfileUpdated, className }) => {
 
   const { sendRequest, cancelRequest, acceptRequest, unfriend, loadingId } = useFriendActions();
 
-  // State lưu trạng thái kết bạn thực tế với profile này
-  // status: 'none' | 'pending' | 'accepted'
-  // isSent: true nếu mình là người gửi lời mời
   const [friendStatus, setFriendStatus] = useState({ status: 'none', isSent: false });
   const [fetchingStatus, setFetchingStatus] = useState(false);
 
-  // Lấy trạng thái kết bạn thật từ API
+  // Lấy trạng thái kết bạn từ API
   useEffect(() => {
-    if (!currentUser || !profile || currentUser.id === profile.id) return;
+    if (!currentUser || !profile || isOwnProfile) return;
     let ignore = false;
     const fetchStatus = async () => {
       setFetchingStatus(true);
       try {
-        // Gọi API để lấy trạng thái kết bạn giữa currentUser và profile
-        // Ví dụ giả định: /friends/status/:userId trả về {status: 'pending/accepted/none', isSent: true/false}
         const res = await api.get(`/friends/status/${profile.id}`);
         if (!ignore) setFriendStatus(res.data);
       } catch {
@@ -43,21 +38,21 @@ const ProfileCard = ({ profile, onProfileUpdated, className }) => {
     };
     fetchStatus();
     return () => { ignore = true };
-  }, [profile, currentUser]);
+  }, [profile, currentUser, isOwnProfile]);
 
-  // Khi thực hiện action, gọi lại API lấy trạng thái để update UI
+  // Xác định action phù hợp với trạng thái
   const handleFriendAction = async () => {
-    if (friendStatus.status === 'none') {
-      await sendRequest(profile);
-    } else if (friendStatus.status === 'pending' && friendStatus.isSent) {
-      await cancelRequest(profile);
-    } else if (friendStatus.status === 'pending' && !friendStatus.isSent) {
-      await acceptRequest(profile);
-    } else if (friendStatus.status === 'accepted') {
-      await unfriend(profile);
-    }
-    // Sau khi thao tác, lấy lại trạng thái
     try {
+      if (friendStatus.status === 'none') {
+        await sendRequest(profile);
+      } else if (friendStatus.status === 'pending' && friendStatus.isSent) {
+        await cancelRequest(profile);
+      } else if (friendStatus.status === 'pending' && !friendStatus.isSent) {
+        await acceptRequest(profile);
+      } else if (friendStatus.status === 'accepted') {
+        await unfriend(profile);
+      }
+      // Sau bất kỳ thao tác nào, fetch lại trạng thái mới
       const res = await api.get(`/friends/status/${profile.id}`);
       setFriendStatus(res.data);
     } catch {

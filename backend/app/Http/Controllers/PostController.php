@@ -55,6 +55,9 @@ class PostController extends Controller
             'created_at' => now()->getTimestampMs(),
         ]);
 
+        $user = auth()->user();
+        $user->increment('posts');
+
         return response()->json([
             'message' => 'Đăng bài thành công!',
             'post' => new PostResource($post->load(['user', 'likes', 'comments.user'])->loadCount(['likes', 'comments']))

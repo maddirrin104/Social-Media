@@ -161,4 +161,5 @@ class UserController extends Controller
             return response()->json(['message' => 'Xóa thất bại!', 'error' => $e->getMessage()], 500);
         }
     }
+
 }
