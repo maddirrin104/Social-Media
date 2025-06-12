@@ -49,7 +49,7 @@ Route::middleware('auth:sanctum')->delete('/users/{id}', [UserController::class,
 //get user by id
 Route::middleware('auth:sanctum')->get('/users/{id}', [UserController::class, 'show']);
 // api lấy nhiều user cùng lúc
-Route::middleware('auth:sanctum')->get('/users', [UserController::class, 'userNotiList']);
+Route::middleware('auth:sanctum')->get('/users/noti', [UserController::class, 'userNotiList']);
 // Tìm kiếm user theo tên
 Route::middleware('auth:sanctum')->get('/users/search', [UserController::class, 'searchByName']);
 
