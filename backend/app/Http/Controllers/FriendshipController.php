@@ -6,6 +6,7 @@ use App\Models\Friendship;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\UserResource;
 
 
 class FriendshipController extends Controller
@@ -201,5 +202,31 @@ class FriendshipController extends Controller
             'status' => $friendship->status,
             'isSent' => $isSent,
         ]);
+    }
+
+    public function getFriendSuggestions(Request $request)
+    {
+        $me = $request->user();
+
+        // Lấy tất cả ID đã có relation friend với mình (kể cả pending và accepted)
+        $relatedIds = DB::table('friendships')
+            ->where(function($q) use ($me) {
+                $q->where('user1_id', $me->id)->orWhere('user2_id', $me->id);
+            })
+            ->pluck('user1_id', 'user2_id')
+            ->flatten()
+            ->unique()
+            ->toArray();
+
+        // Thêm ID của chính mình vào danh sách loại trừ
+        $relatedIds[] = $me->id;
+
+        // Lấy tất cả user KHÔNG nằm trong danh sách đã có bạn hoặc đang pending
+        $users = DB::table('users')
+            ->whereNotIn('id', $relatedIds)
+            ->select('id', 'name', 'avatar','email', 'bio')
+            ->get();
+
+        return response()->json($users);
     }
 }

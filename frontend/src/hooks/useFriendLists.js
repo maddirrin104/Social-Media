@@ -9,18 +9,21 @@ export default function useFriendLists(userId) {
   const [received, setReceived] = useState([]);
   const [sent, setSent] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
 
   const fetchAll = useCallback(async () => {
     setLoading(true);
     try {
-      const [friendsRes, receivedRes, sentRes] = await Promise.all([
+      const [friendsRes, receivedRes, sentRes, suggestionRes] = await Promise.all([
         api.get('/friends'),
         api.get('/friends/requests/received'),
         api.get('/friends/requests/sent'),
+        api.get('/friends/suggestions')
       ]);
       setFriends(friendsRes.data || []);
       setReceived(receivedRes.data || []);
       setSent(sentRes.data || []);
+      setSuggestions(suggestionRes.data || []);
     } finally {
       setLoading(false);
     }
@@ -36,6 +39,7 @@ export default function useFriendLists(userId) {
     received,
     sent,
     loading,
+    suggestions,
     refetch: fetchAll,
   };
 }

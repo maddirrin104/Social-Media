@@ -69,7 +69,7 @@ const Friends = ({ open, onClose, userId }) => {
         </div>
         <div className="friends-modal-list">
           {loading ? (
-            <div className="friends-modal-empty">Đang tải...</div>
+            <divx className="friends-modal-empty">Đang tải...</divx>
           ) : list.length === 0 ? (
             <div className="friends-modal-empty">Không có dữ liệu</div>
           ) : (
@@ -80,6 +80,10 @@ const Friends = ({ open, onClose, userId }) => {
                   <img src={u.avatar} alt={u.name} className="friends-modal-avatar" />
                   <div className="friends-modal-info">
                     <div className="friends-modal-name">{u.name}</div>
+                    {u.email && (
+                    <div className="friends-modal-email" style={{ fontSize: 13, color: "#888" }}>
+                      {u.email}
+                    </div>)}
                     {tab === TAB_FRIENDS && <div className="friends-status">Bạn bè</div>}
                     {tab === TAB_RECEIVED && <div className="friends-status">Đã gửi cho bạn</div>}
                     {tab === TAB_SENT && <div className="friends-status">Bạn đã gửi</div>}
