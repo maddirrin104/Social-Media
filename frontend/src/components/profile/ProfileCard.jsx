@@ -11,7 +11,7 @@ import EditProfileModal from './EditProfileModal';
 import { updateUser } from '../../utils/api';
 import api from '../../utils/axiosInstance';
 
-const ProfileCard = ({ profile, onProfileUpdated }) => {
+const ProfileCard = ({ profile, onProfileUpdated, className }) => {
   const { user: currentUser, setUser } = useAuth();
   const isOwnProfile = currentUser.id === profile.id;
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -76,7 +76,7 @@ const ProfileCard = ({ profile, onProfileUpdated }) => {
 
   return (
     <>
-      <Card className="profile-card-sidebar">
+      <Card className={`profile-card-sidebar${className ? ' ' + className : ''}`}>
         <div className="profile-avatar-sidebar">
           <Avatar src={profile.avatar} alt={profile.name} size="xlarge" />
         </div>

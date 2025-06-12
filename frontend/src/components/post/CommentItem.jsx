@@ -27,13 +27,13 @@ const CommentItem = ({ comment, onDelete }) => {
       onMouseLeave={() => isOwnComment && setShowMenu(false)}
       style={{ position: 'relative' }}
     >
-      <img className="comment-avatar" src={comment.avatar} alt={comment.name} />
-      <div className="comment-content">
-        <Link to={`/profile/${comment.userId}`} className="comment-author">
-          {comment.name}
-        </Link>
-        <span className="comment-text">{comment.content}</span>
-      </div>
+    <img className="comment-avatar" src={comment.avatar} alt={comment.name} />
+    <div className="comment-content">
+      <Link to={`/profile/${comment.userId}`} className="comment-author">
+        {comment.name}
+      </Link>
+      <span className="comment-text">{comment.content}</span>
+    </div>
       {isOwnComment && (
         <div
           className="comment-menu-trigger"
@@ -51,8 +51,8 @@ const CommentItem = ({ comment, onDelete }) => {
           )}
         </div>
       )}
-    </div>
-  );
+  </div>
+);
 };
 
 export default CommentItem; 

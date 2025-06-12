@@ -1,8 +1,15 @@
 .profile-page {
-  width: 100%;
+  width: 78%;
   display: flex;
   padding-top: 40px;
   justify-content: center;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1300px;
 }
 
 .profile-content {
@@ -14,21 +21,29 @@
 }
 
 .profile-sidebar {
-  width: 400px;
   min-width: 240px;
   max-width: 400px;
   flex-shrink: 0;
   position: fixed;
-  top: 140px;
-  left: 300px;
+  top: 15vh;
+  left: 11%;
   z-index: 10;
 }
 
-.profile-posts {
+.profile-posts-list {
+  flex: 1;
+  min-width: 0;
+  margin-top: 7.5vh;
+  margin-left: 335px;
+}
+
+.profile-post-creator {
   flex: 1;
   min-width: 0;
   margin-top: 68px;
-  padding-left: 330px;
+  padding-left: 450px;
+  width: 100%;
+  max-width: 1250px;
 }
 
 .profile-posts.not-own-profile {
@@ -41,7 +56,3 @@
   font-size: 1.2rem;
   font-weight: 600;
 }
-
-/* .profile-posts {
-  max-width: 1000px;
-}  */
