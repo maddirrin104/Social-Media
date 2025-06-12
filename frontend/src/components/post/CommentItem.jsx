@@ -2,12 +2,15 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/components/CommentItem.css';
+import ConfirmModal from '../common/ConfirmModal';
 
 const CommentItem = ({ comment, onDelete }) => {
   const { user: currentUser } = useAuth();
   const isOwnComment = currentUser && comment.userId === currentUser.id;
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   // Đóng menu khi click ra ngoài
   useEffect(() => {
@@ -20,6 +23,16 @@ const CommentItem = ({ comment, onDelete }) => {
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
   }, [showMenu]);
+
+  const handleDelete = async () => {
+    setDeleting(true);
+    try {
+      if (onDelete) await onDelete(comment);
+      setIsDeleteModalOpen(false);
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   return (
     <div className={`comment-item${isOwnComment ? ' own-comment' : ''}`}
@@ -44,13 +57,20 @@ const CommentItem = ({ comment, onDelete }) => {
           <i className="fas fa-ellipsis-h"></i>
           {showMenu && (
             <div className="comment-menu-dropdown" ref={menuRef}>
-              <div className="comment-menu-item" onClick={() => onDelete && onDelete(comment)}>
+              <div className="comment-menu-item" onClick={() => { setIsDeleteModalOpen(true); setShowMenu(false); }}>
                 Xoá bình luận
               </div>    
             </div>
           )}
         </div>
       )}
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        message="Bạn có chắc chắn muốn xoá bình luận này?"
+        onConfirm={handleDelete}
+        onCancel={() => setIsDeleteModalOpen(false)}
+        loading={deleting}
+      />
   </div>
 );
 };

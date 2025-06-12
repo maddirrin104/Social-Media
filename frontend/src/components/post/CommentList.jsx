@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import CommentItem from './CommentItem';
 import CommentForm from './CommentForm';
 import '../../styles/components/CommentList.css';
+import { postAPI } from '../../utils/api';
 
 const CommentList = ({ postId, commentList, setCommentList, allowComment = true }) => {
   const commentsListRef = useRef(null);
@@ -16,6 +17,16 @@ const CommentList = ({ postId, commentList, setCommentList, allowComment = true 
   // Lọc comment hợp lệ (có id)
   const validComments = commentList.filter(comment => comment && comment.id);
 
+  // Hàm xoá comment
+  const handleDeleteComment = async (comment) => {
+    try {
+      await postAPI.deleteComment(postId, comment.id);
+      setCommentList(prev => prev.filter(c => c.id !== comment.id));
+    } catch (err) {
+      // Có thể hiện thông báo lỗi nếu muốn
+    }
+  };
+
   return (
     <div className="comments-container">
       <div className="comment-title">Bình luận</div>
@@ -24,7 +35,7 @@ const CommentList = ({ postId, commentList, setCommentList, allowComment = true 
           <div className="no-comments">Chưa có bình luận</div>
         ) : (
           validComments.map(comment => (
-            <CommentItem key={comment.id} comment={comment} />
+            <CommentItem key={comment.id} comment={comment} onDelete={handleDeleteComment} />
           ))
         )}
       </div>

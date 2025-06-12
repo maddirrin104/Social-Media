@@ -1,13 +1,23 @@
 import React from 'react';
-import { getFriendList, friendships } from '../../data/friendships';
-import { users } from '../../data/users';
+import useFriendLists from '../../hooks/useFriendLists'; // Đường dẫn tùy thuộc vào cấu trúc thư mục
 import '../../styles/components/ChatSidebar.css';
 
 const ChatSidebar = ({ selectedId, onSelect, userId }) => {
   const [search, setSearch] = React.useState('');
-  // Lấy danh sách bạn bè thật
-  const friends = userId ? getFriendList(userId, friendships) : [];
-  const filtered = friends.filter(u => u.name.toLowerCase().includes(search.toLowerCase()));
+  const { friends, loading } = useFriendLists(userId);
+
+  const filtered = friends.filter(u =>
+    u.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/';
+
+  function getAvatarUrl(avatarPath) {
+    if (!avatarPath) return '/images/default-avatar.png';
+    if (avatarPath.startsWith('http')) return avatarPath;
+    return BASE_URL + 'storage/' + avatarPath;
+  }
+
   return (
     <div className="chat-sidebar">
       <input
@@ -18,22 +28,25 @@ const ChatSidebar = ({ selectedId, onSelect, userId }) => {
         onChange={e => setSearch(e.target.value)}
       />
       <div className="chat-sidebar-list">
-        {filtered.map(u => (
-          <div
-            key={u.id}
-            onClick={() => onSelect(u.id)}
-            className={`chat-sidebar-item${selectedId === u.id ? ' selected' : ''}`}
-          >
-            <img src={u.avatar} alt={u.name} className="chat-sidebar-avatar" />
-            <div>
-              <div className="chat-sidebar-name">{u.name}</div>
-              {/* Có thể bổ sung trạng thái online nếu muốn */}
+        {loading ? (
+          <div className="chat-sidebar-loading">Loading...</div>
+        ) : (
+          filtered.map(u => (
+            <div
+              key={u.id}
+              onClick={() => onSelect(u.id)}
+              className={`chat-sidebar-item${selectedId === u.id ? ' selected' : ''}`}
+            >
+              <img src={getAvatarUrl(u.avatar)} alt={u.name} className="chat-sidebar-avatar" />
+              <div>
+                <div className="chat-sidebar-name">{u.name}</div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
 };
 
-export default ChatSidebar; 
+export default ChatSidebar;
