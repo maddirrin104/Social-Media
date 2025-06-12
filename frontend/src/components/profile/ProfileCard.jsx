@@ -1,63 +1,82 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import Avatar from '../common/Avatar';
 import Button from '../common/Button';
 import Card from '../common/Card';
 import { FaUserFriends, FaInstagram, FaEnvelope, FaTiktok, FaMapMarkerAlt } from 'react-icons/fa';
 import '../../styles/components/ProfileCard.css';
-import { getFriendshipStatus, friendships } from '../../data/friendships';
 import FriendButton from '../friends/FriendButton';
 import useFriendActions from '../../hooks/useFriendActions';
 import EditProfileModal from './EditProfileModal';
 import { updateUser } from '../../utils/api';
+import api from '../../utils/axiosInstance'; // Để gọi API kiểm tra trạng thái
 
 const ProfileCard = ({ profile, onProfileUpdated }) => {
   const { user: currentUser, setUser } = useAuth();
   const isOwnProfile = currentUser.id === profile.id;
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const { sendRequest, cancelRequest, acceptRequest, unfriend, loadingId } = useFriendActions();
+
+  // State lưu trạng thái kết bạn thực tế với profile này
+  // status: 'none' | 'pending' | 'accepted'
+  // isSent: true nếu mình là người gửi lời mời
+  const [friendStatus, setFriendStatus] = useState({ status: 'none', isSent: false });
+  const [fetchingStatus, setFetchingStatus] = useState(false);
+
+  // Lấy trạng thái kết bạn thật từ API
+  useEffect(() => {
+    if (!currentUser || !profile || currentUser.id === profile.id) return;
+    let ignore = false;
+    const fetchStatus = async () => {
+      setFetchingStatus(true);
+      try {
+        // Gọi API để lấy trạng thái kết bạn giữa currentUser và profile
+        // Ví dụ giả định: /friends/status/:userId trả về {status: 'pending/accepted/none', isSent: true/false}
+        const res = await api.get(`/friends/status/${profile.id}`);
+        if (!ignore) setFriendStatus(res.data);
+      } catch {
+        if (!ignore) setFriendStatus({ status: 'none', isSent: false });
+      }
+      setFetchingStatus(false);
+    };
+    fetchStatus();
+    return () => { ignore = true };
+  }, [profile, currentUser]);
+
+  // Khi thực hiện action, gọi lại API lấy trạng thái để update UI
+  const handleFriendAction = async () => {
+    if (friendStatus.status === 'none') {
+      await sendRequest(profile);
+    } else if (friendStatus.status === 'pending' && friendStatus.isSent) {
+      await cancelRequest(profile);
+    } else if (friendStatus.status === 'pending' && !friendStatus.isSent) {
+      await acceptRequest(profile);
+    } else if (friendStatus.status === 'accepted') {
+      await unfriend(profile);
+    }
+    // Sau khi thao tác, lấy lại trạng thái
+    try {
+      const res = await api.get(`/friends/status/${profile.id}`);
+      setFriendStatus(res.data);
+    } catch {
+      setFriendStatus({ status: 'none', isSent: false });
+    }
+  };
 
   // Xử lý lưu thông tin chỉnh sửa
   const handleSaveProfile = async (formData) => {
     setLoading(true);
     try {
       const res = await updateUser(formData);
-      // Cập nhật user ở context nếu là profile của chính mình
       if (setUser && isOwnProfile) setUser(res.user);
-      // Cập nhật profile hiển thị ở ProfileCard
       if (onProfileUpdated) onProfileUpdated(res.user);
       setIsEditModalOpen(false);
     } catch {
       alert("Cập nhật thông tin thất bại!");
     }
     setLoading(false);
-  };
-
-  // Xử lý action kết bạn
-  const handleFriendAction = () => {
-    const status = getFriendshipStatus(currentUser.id, profile.id, friendships);
-    if (status === 'none') sendRequest(profile);
-    else if (status === 'pending' && profile.id === currentUser.id) acceptRequest(profile);
-    else if (status === 'pending') cancelRequest(profile);
-    else if (status === 'accepted') unfriend(profile);
-  };
-
-  // Lấy trạng thái kết bạn
-  const getFriendStatus = () => {
-    const status = getFriendshipStatus(currentUser.id, profile.id, friendships);
-    if (status === 'accepted') return 'accepted';
-    if (status === 'pending') return 'pending';
-    return 'none';
-  };
-
-  // Kiểm tra xem lời mời kết bạn có phải do mình gửi không
-  const isSentRequest = () => {
-    const friendship = friendships.find(f => 
-      (f.user1Id === currentUser.id && f.user2Id === profile.id) ||
-      (f.user1Id === profile.id && f.user2Id === currentUser.id)
-    );
-    return friendship && friendship.user1Id === currentUser.id;
   };
 
   return (
@@ -89,9 +108,9 @@ const ProfileCard = ({ profile, onProfileUpdated }) => {
           ) : (
             <div className="profile-actions-row">
               <FriendButton
-                status={getFriendStatus()}
-                isSent={isSentRequest()}
-                loading={loadingId === profile.id}
+                status={friendStatus.status}
+                isSent={friendStatus.isSent}
+                loading={loadingId === profile.id || fetchingStatus}
                 onClick={handleFriendAction}
                 className="profile-btn-friend"
               />
@@ -100,7 +119,6 @@ const ProfileCard = ({ profile, onProfileUpdated }) => {
           )}
         </div>
       </Card>
-
       {isOwnProfile && (
         <EditProfileModal
           isOpen={isEditModalOpen}
