@@ -5,8 +5,11 @@
 }
 
 .search-result-container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 60px auto;
+  background-color: var(--white);
+  border-radius: 10px;
+  padding: 20px;
 }
 
 .search-header {
