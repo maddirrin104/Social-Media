@@ -153,7 +153,6 @@ class UserController extends Controller
 
             // Cuối cùng xóa user
             $user->delete();
-
             DB::commit();
             return response()->json(['message' => 'Đã xóa user và toàn bộ dữ liệu liên quan!']);
         } catch (\Exception $e) {
@@ -161,7 +160,6 @@ class UserController extends Controller
             return response()->json(['message' => 'Xóa thất bại!', 'error' => $e->getMessage()], 500);
         }
     }
-
     public function userNotiList(Request $request) {
         $ids = explode(',', $request->query('ids', ''));
         $ids = array_filter($ids, fn($id) => is_numeric($id) && $id); // loại bỏ rỗng và không phải số
@@ -171,6 +169,16 @@ class UserController extends Controller
         }
 
         $users = User::whereIn('id', $ids)->select('id', 'name', 'avatar')->get();
+        return response()->json($users);
+    }
+
+    public function searchByName(Request $request)
+    {
+        $query = $request->query('q', ''); // Lấy từ khóa tìm kiếm từ query param 'q'
+        $users = User::where('name', 'like', '%' . $query . '%')
+            ->select('id', 'name', 'avatar')
+            ->get();
+
         return response()->json($users);
     }
 

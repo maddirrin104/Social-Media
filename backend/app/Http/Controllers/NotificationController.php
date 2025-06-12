@@ -15,9 +15,14 @@ class NotificationController extends Controller
         $me = $request->user();
 
         $notifications = \DB::table('notifications')
-            ->where('receiver_id', $me->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        ->where('receiver_id', $me->id)
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->map(function ($item) {
+            // Chuyển created_at sang ISO 8601 (Laravel Carbon)
+            $item->created_at = \Carbon\Carbon::parse($item->created_at)->toIso8601String();
+            return $item;
+        });
 
         return response()->json($notifications);
     }
