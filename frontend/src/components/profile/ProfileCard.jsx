@@ -16,6 +16,7 @@ const ProfileCard = ({ profile, onProfileUpdated }) => {
   const isOwnProfile = currentUser.id === profile.id;
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { sendRequest, cancelRequest, acceptRequest, unfriend, loadingId } = useFriendActions();
 
   // Xử lý lưu thông tin chỉnh sửa
   const handleSaveProfile = async (formData) => {
@@ -31,6 +32,32 @@ const ProfileCard = ({ profile, onProfileUpdated }) => {
       alert("Cập nhật thông tin thất bại!");
     }
     setLoading(false);
+  };
+
+  // Xử lý action kết bạn
+  const handleFriendAction = () => {
+    const status = getFriendshipStatus(currentUser.id, profile.id, friendships);
+    if (status === 'none') sendRequest(profile);
+    else if (status === 'pending' && profile.id === currentUser.id) acceptRequest(profile);
+    else if (status === 'pending') cancelRequest(profile);
+    else if (status === 'accepted') unfriend(profile);
+  };
+
+  // Lấy trạng thái kết bạn
+  const getFriendStatus = () => {
+    const status = getFriendshipStatus(currentUser.id, profile.id, friendships);
+    if (status === 'accepted') return 'accepted';
+    if (status === 'pending') return 'pending';
+    return 'none';
+  };
+
+  // Kiểm tra xem lời mời kết bạn có phải do mình gửi không
+  const isSentRequest = () => {
+    const friendship = friendships.find(f => 
+      (f.user1Id === currentUser.id && f.user2Id === profile.id) ||
+      (f.user1Id === profile.id && f.user2Id === currentUser.id)
+    );
+    return friendship && friendship.user1Id === currentUser.id;
   };
 
   return (
@@ -61,8 +88,13 @@ const ProfileCard = ({ profile, onProfileUpdated }) => {
             </Button>
           ) : (
             <div className="profile-actions-row">
-              {/* FriendButton và Button nhắn tin nếu bạn có */}
-              {/* <FriendButton ... /> */}
+              <FriendButton
+                status={getFriendStatus()}
+                isSent={isSentRequest()}
+                loading={loadingId === profile.id}
+                onClick={handleFriendAction}
+                className="profile-btn-friend"
+              />
               <Button variant="outline" className="profile-btn-message">Nhắn tin</Button>
             </div>
           )}
@@ -81,6 +113,5 @@ const ProfileCard = ({ profile, onProfileUpdated }) => {
     </>
   );
 };
-
 
 export default ProfileCard;

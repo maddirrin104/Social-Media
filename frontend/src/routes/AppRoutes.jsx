@@ -49,7 +49,7 @@ const AppRoutes = () => {
         }
       />
       <Route
-        path="/search"
+        path="/search-result"
         element={
           <ProtectedRoute>
             <SearchResult />

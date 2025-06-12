@@ -1,12 +1,14 @@
 import React from 'react';
+import Button from '../common/Button';
 
 /**
  * status: 'none' | 'pending' | 'accepted'
  * isSent: true nếu là lời mời đã gửi, false nếu là lời mời đã nhận
  * onClick: hàm xử lý khi nhấn
  * loading: trạng thái loading (nếu cần)
+ * className: class CSS tùy chỉnh
  */
-const FriendButton = ({ status = 'none', isSent = false, onClick, loading = false }) => {
+const FriendButton = ({ status = 'none', isSent = false, onClick, loading = false, className }) => {
   let label = 'Kết bạn';
   let color = '#3ec6e0';
 
@@ -24,24 +26,14 @@ const FriendButton = ({ status = 'none', isSent = false, onClick, loading = fals
   }
 
   return (
-    <button
+    <Button
       onClick={onClick}
       disabled={loading}
-      style={{
-        padding: '8px 18px',
-        borderRadius: 20,
-        border: 'none',
-        background: color,
-        color: '#fff',
-        fontWeight: 600,
-        cursor: loading ? 'not-allowed' : 'pointer',
-        opacity: loading ? 0.7 : 1,
-        transition: 'all 0.2s',
-        minWidth: 100
-      }}
+      className={className}
+      style={{ width: '100%', height: '100%' }}
     >
       {loading ? 'Đang xử lý...' : label}
-    </button>
+    </Button>
   );
 };
 

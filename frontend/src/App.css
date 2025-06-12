@@ -49,7 +49,6 @@
   min-height: calc(100vh - 70px);
   margin: 0 auto;
   padding: 2rem;
-  padding-left: 6rem; /* Space for FloatingNav */
   display: flex;
   flex-direction: column;
   align-items: center;
