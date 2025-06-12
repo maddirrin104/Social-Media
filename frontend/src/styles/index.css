@@ -13,7 +13,7 @@
   --primary-color-light: #829ca3;
   --secondary-color: #575852;
   --secondary-color-dark: #393a34;
-  --secondary-color-light: #dadada;
+  --secondary-color-light: #cecdcd;
   --text-color: #44646d;
   --background-color: #edeae1;
   --white: #ffffff;
@@ -23,7 +23,7 @@
 
 body {
   min-height: 100vh;
-  background: linear-gradient(-45deg, #565752, var(--secondary-color-light));
+  background: linear-gradient(-45deg, var(--background-color), var(--secondary-color-light));
   background-size: 200% 200%;
   background-attachment: fixed;
   animation: gradientBG 8s ease infinite;

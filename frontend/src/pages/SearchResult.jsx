@@ -3,11 +3,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import PostCard from '../components/post/PostCard';
 import ProfileCard from '../components/profile/ProfileCard';
 import Button from '../components/common/Button';
+import { useAuth } from '../context/AuthContext';
 import '../styles/pages/SearchResult.css';
 
 const SearchResult = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('posts'); // 'posts' or 'users'
   const [searchResults, setSearchResults] = useState({
     posts: [],
@@ -18,6 +20,7 @@ const SearchResult = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
+    if (!user) return;
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get('q');
     const page = parseInt(searchParams.get('page')) || 1;
@@ -28,7 +31,7 @@ const SearchResult = () => {
       setActiveTab(type);
       fetchSearchResults(query, type, page);
     }
-  }, [location.search]);
+  }, [location.search, user]);
 
   const fetchSearchResults = async (query, type, page) => {
     setLoading(true);

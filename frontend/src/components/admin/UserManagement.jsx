@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../../context/AuthContext';
 import Button from '../common/Button';
 import ConfirmModal from '../common/ConfirmModal';
 import '../../styles/components/admin/UserManagement.css';
 import { getAllUsersAPI, deleteUserAPI } from '../../utils/api';
+import { Link } from 'react-router-dom';
 
 const UserManagement = () => {
+  const { user } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState(null); // để disable nút khi đang xóa
@@ -13,8 +16,9 @@ const UserManagement = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   // Lấy users từ API thật
   useEffect(() => {
+    if (!user) return;
     fetchUsers();
-  }, []);
+  }, [user]);
 
   const fetchUsers = async () => {
     try {
@@ -74,7 +78,9 @@ const UserManagement = () => {
             {users.map(user => (
               <tr key={user.id}>
                 <td>{user.id}</td>
-                <td>{user.name}</td>
+                <td>
+                  <Link to={`/profile/${user.id}`}>{user.name}</Link>
+                </td>
                 <td>{user.email}</td>
                 <td>
                   <Button

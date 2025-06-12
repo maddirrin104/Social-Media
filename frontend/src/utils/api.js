@@ -85,7 +85,9 @@ const getMeAPI = async () => {
     const response = await api.get("/users/me");
     return response.data;
   } catch (error) {
-    console.error("getMeAPI error:", error);
+    if (error?.statusCode !== 401) {
+      console.error("getMeAPI error:", error);
+    }
     throw error;
   }
 };

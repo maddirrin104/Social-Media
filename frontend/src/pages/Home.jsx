@@ -15,8 +15,9 @@ const Home = () => {
   };
 
   React.useEffect(() => {
+    if (!user) return;
     fetchPosts();
-  }, []);
+  }, [user]);
 
   // Hàm reload sau khi tạo bài viết mới
   const handlePostCreated = () => {

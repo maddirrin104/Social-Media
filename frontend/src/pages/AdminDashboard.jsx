@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AdminSidebar from '../components/admin/AdminSidebar';
+import AdminHeadbar from '../components/admin/AdminHeadbar';
 import UserManagement from '../components/admin/UserManagement';
 import PostManagement from '../components/admin/PostManagement';
 import '../styles/pages/AdminDashboard.css';
@@ -20,7 +20,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
-      <AdminSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+      <AdminHeadbar activeTab={activeTab} onTabChange={setActiveTab} />
       <main className="admin-main">
         {renderContent()}
       </main>

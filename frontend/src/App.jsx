@@ -9,29 +9,32 @@ import HeadBar from './components/common/HeadBar';
 import { MessageModal, ChatSidebar, ChatWindow } from './components/messages';
 import Friends from './components/friends/Friends';
 import './App.css';
+import { useLocation } from 'react-router-dom';
+import AdminHeadbar from './components/admin/AdminHeadbar';
 
 function App() {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const [openNotificationModal, setOpenNotificationModal] = useState(false);
   const [openMessageModal, setOpenMessageModal] = useState(false);
   const [openFriendsModal, setOpenFriendsModal] = useState(false);
   const [selectedChatId, setSelectedChatId] = useState(null);
-
-  // Log trạng thái modal Friends mỗi lần render
-  console.log('openFriendsModal:', openFriendsModal);
+  const location = useLocation();
+  const isAdminPage = location.pathname === '/admin';
 
   return (
     <div className="app">
       {user && (
-        <>
+        isAdmin() ? (
+          <AdminHeadbar activeTab={isAdminPage ? 'users' : 'posts'} onTabChange={() => {}} />
+        ) : (
           <HeadBar />
-          <FloatingNav
-            onOpenNotification={() => setOpenNotificationModal(true)}
-            onOpenMessages={() => setOpenMessageModal(true)}
-            onOpenFriendRequest={() => setOpenFriendsModal(true)}
-          />
-        </>
+        )
       )}
+      {user && !isAdmin() && <FloatingNav
+        onOpenNotification={() => setOpenNotificationModal(true)}
+        onOpenMessages={() => setOpenMessageModal(true)}
+        onOpenFriendRequest={() => setOpenFriendsModal(true)}
+      />}
       <main className="main-content">
         <ScrollToTop />
         <AppRoutes />

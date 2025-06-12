@@ -24,14 +24,14 @@ const PostCard = ({ post, onDeleted }) => {
   const handleLike = async () => {
     setLoadingLike(true);
     try {
-      if (liked) {
+    if (liked) {
         const res = await postAPI.unlikePost(post.id);
         setLikes(res.likes);
-        setLiked(false);
-      } else {
+      setLiked(false);
+    } else {
         const res = await postAPI.likePost(post.id);
         setLikes(res.likes);
-        setLiked(true);
+      setLiked(true);
       }
     } finally {
       setLoadingLike(false);
@@ -95,21 +95,21 @@ const PostCard = ({ post, onDeleted }) => {
             <p>{post.content}</p>
           </div>
           {!isAdmin && (
-            <div className="post-actions">
+          <div className="post-actions">
               <Button
                 variant="text"
                 className={`action-button${liked ? ' liked' : ''}`}
                 onClick={handleLike}
                 disabled={loadingLike}
               >
-                <i className="fas fa-heart"></i>
-                <span>{likes}</span>
-              </Button>
-              <Button variant="text" className="action-button">
-                <i className="fas fa-comment"></i>
-                <span>{commentList.length}</span>
-              </Button>
-            </div>
+              <i className="fas fa-heart"></i>
+              <span>{likes}</span>
+            </Button>
+            <Button variant="text" className="action-button">
+              <i className="fas fa-comment"></i>
+              <span>{commentList.length}</span>
+            </Button>
+          </div>
           )}
           <CommentList
             className="comments-list"
@@ -131,4 +131,4 @@ const PostCard = ({ post, onDeleted }) => {
   );
 };
 
-export default PostCard;
+export default PostCard; 
