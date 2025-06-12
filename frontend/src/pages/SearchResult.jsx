@@ -149,7 +149,7 @@ const SearchResult = () => {
               <div className="no-results">
                 <i className="fas fa-search"></i>
                 <p>Không tìm thấy người dùng nào</p>
-              </div>
+        </div>
             )
           )}
         </div>
