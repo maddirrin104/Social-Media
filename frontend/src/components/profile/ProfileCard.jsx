@@ -109,7 +109,13 @@ const ProfileCard = ({ profile, onProfileUpdated, className }) => {
                 onClick={handleFriendAction}
                 className="profile-btn-friend"
               />
-              <Button variant="outline" className="profile-btn-message">Nhắn tin</Button>
+              <Button 
+                variant="outline"
+                className="profile-btn-message" 
+                disabled={friendStatus.status !== 'accepted'}
+              >
+                Nhắn tin
+              </Button>
             </div>
           )}
         </div>
