@@ -121,6 +121,14 @@ const deleteUserAPI = async (userId) => {
   return response.data; 
 }
 
+//tìm user theo tên
+const searchUser = async (query) => {
+  const response = await api.get('/users/search', {
+    params: { q: query }
+  });
+  return response.data; // trả về danh sách người dùng tìm được
+}
+
 //bài viết nha bro
 const postAPI = {
   // Đăng bài
@@ -178,6 +186,13 @@ const postAPI = {
 
   adminDeletePost: async (postId) => {
     const response = await api.delete(`/posts/${postId}/admin`);
+    return response.data;
+  },
+
+  searchPost: async (query) => {
+    const response = await api.get(`/posts/search`, {
+      params: { q: query }
+    });
     return response.data;
   }
 };
@@ -253,7 +268,8 @@ export {
     updateUser,
     getAllUsersAPI,
     deleteUserAPI,
-    getNotifications
+    getNotifications,
+    searchUser,
 }
 
 

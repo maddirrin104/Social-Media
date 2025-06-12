@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/posts/{post}/comment', [PostController::class, 'comment']);
     //quyền xóa post của admin
     Route::delete('/posts/{post}/admin', [PostController::class, 'adminDestroy']);
+    Route::get('/posts/search', [PostController::class, 'searchByContent']);
 });
 
 //get all users
@@ -49,6 +50,8 @@ Route::middleware('auth:sanctum')->delete('/users/{id}', [UserController::class,
 Route::middleware('auth:sanctum')->get('/users/{id}', [UserController::class, 'show']);
 // api lấy nhiều user cùng lúc
 Route::middleware('auth:sanctum')->get('/users', [UserController::class, 'userNotiList']);
+// Tìm kiếm user theo tên
+Route::middleware('auth:sanctum')->get('/users/search', [UserController::class, 'searchByName']);
 
 // Routes cho kết bạn
 Route::middleware('auth:sanctum')->group(function () {
