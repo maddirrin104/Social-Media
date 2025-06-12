@@ -63,11 +63,20 @@ const Profile = () => {
   return (
     <div className="profile-page">
       <ProfileCard profile={profile} onProfileUpdated={setProfile} className="profile-sidebar" />
-      <div className="profile-posts-list">
+      <div className={`profile-posts-list ${isOwnProfile ? 'own-profile' : 'other-profile'}`}>
         {isOwnProfile && <PostCreator onPostCreated={handlePostCreated} className="profile-post-creator" />}
-        {posts.map(post => (
-          <PostCard key={post.id} post={post} onDeleted={handlePostDeleted} />
-        ))}
+        <div className="profile-posts-header">
+          <h2>Bài viết</h2>
+        </div>
+        {posts.length > 0 ? (
+          posts.map(post => (
+            <PostCard key={post.id} post={post} onDeleted={handlePostDeleted} />
+          ))
+        ) : (
+          <div className="profile-posts-empty">
+            <p>Không có bài viết nào</p>
+          </div>
+        )}
       </div>
     </div>
   );

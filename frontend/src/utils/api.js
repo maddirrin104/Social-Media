@@ -261,7 +261,6 @@ export {
     getAllUsersAPI,
     deleteUserAPI,
     getNotifications,
-
 }
 
 
