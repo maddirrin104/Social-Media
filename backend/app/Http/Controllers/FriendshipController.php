@@ -176,4 +176,23 @@ class FriendshipController extends Controller
 
         return response()->json($requests->values());
     }
+
+    public function getFriendshipStatus(Request $request, User $user)
+    {
+        $me = $request->user();
+
+        $friendship = DB::table('friendships')
+            ->where(function($q) use ($me, $user) {
+                $q->where('user1_id', $me->id)->where('user2_id', $user->id);
+            })
+            ->orWhere(function($q) use ($me, $user) {
+                $q->where('user1_id', $user->id)->where('user2_id', $me->id);
+            })
+            ->first();
+
+        if (!$friendship) {
+            return response()->json(['status' => 'not_friends']);
+        }
+        return response()->json(['status' => $friendship->status]);
+    }
 }

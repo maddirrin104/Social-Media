@@ -57,7 +57,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/friends', [FriendshipController::class, 'listFriends']); // Danh sách bạn bè
     Route::get('/friends/requests/received', [FriendshipController::class, 'listReceivedRequests']); // Lời mời đã nhận
     Route::get('/friends/requests/sent', [FriendshipController::class, 'listSentRequests']); // Lời mời đã gửi
-}); 
+    Route::get('/friends/status/{user}', [FriendshipController::class, 'getFriendshipStatus']); // Kiểm tra trạng thái kết bạn với user
+});
 
 // cập nhật thông tin user
 Route::middleware('auth:sanctum')->group(function () {
