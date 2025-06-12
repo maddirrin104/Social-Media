@@ -83,6 +83,26 @@ class PostController extends Controller
         }
     }
 
+    public function adminDestroy(Post $post)
+    {
+        // Cho phép admin xóa bất kỳ bài viết nào
+        if ($post->user_id !== auth()->id() && auth()->user()->role !== 'admin') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+        DB::beginTransaction();
+        try {
+            PostLike::where('post_id', $post->id)->delete();
+            PostComment::where('post_id', $post->id)->delete();
+            $post->delete();
+
+            DB::commit();
+            return response()->json(['message' => 'Post deleted successfully.'], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Delete failed', 'message' => $e->getMessage()], 500);
+        }
+    }
+
     public function like(Request $request, $postId)
     {
         $userId = $request->user()->id; 
