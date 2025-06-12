@@ -47,4 +47,50 @@
   word-break: break-word;
   text-align: left;
   white-space: pre-wrap;
+}
+
+.comment-menu-trigger {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: #888;
+  background: none;
+  border: none;
+  outline: none;
+  z-index: 2;
+}
+
+.comment-menu-trigger:hover,
+.comment-menu-trigger:focus {
+  color: #222;
+}
+
+.comment-menu-dropdown {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  width: 140px;
+  z-index: 10;
+  padding: 0.3rem 0;
+}
+
+.comment-menu-item {
+  padding: 0.5rem 1rem;
+  color: #e53935;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.comment-menu-item:hover {
+  background: #ffeaea;
 } 
