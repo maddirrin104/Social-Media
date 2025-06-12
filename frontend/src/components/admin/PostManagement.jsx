@@ -1,43 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../../utils/api';
-import Button from '../common/Button';
+import ConfirmModal from '../common/ConfirmModal';
+import PostCard from '../post/PostCard';
+import { postAPI } from '../../utils/api';
 import '../../styles/components/admin/PostManagement.css';
 
 const PostManagement = () => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [deletePostId, setDeletePostId] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const fetchPosts = async () => {
+    const postList = await postAPI.getPosts();
+    setPosts(postList);
+  };
 
   useEffect(() => {
     fetchPosts();
   }, []);
 
-  const fetchPosts = async () => {
-    try {
-      const response = await api.get('/admin/posts');
-      setPosts(response.data);
-      setLoading(false);
-    } catch (err) {
-      setError('Không thể tải danh sách bài viết');
-      setLoading(false);
-    }
+  const handlePostDeleted = (postId) => {
+    setPosts(prev => prev.filter(item => item.id !== postId));
+    setIsDeleteModalOpen(false);
+    setDeletePostId(null);
   };
-
-  const handleDeletePost = async (postId) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa bài viết này?')) {
-      return;
-    }
-
-    try {
-      await api.delete(`/admin/posts/${postId}`);
-      setPosts(posts.filter(post => post.id !== postId));
-    } catch (err) {
-      setError('Không thể xóa bài viết');
-    }
-  };
-
-  if (loading) return <div className="admin-loading">Đang tải...</div>;
-  if (error) return <div className="admin-error">{error}</div>;
 
   return (
     <div className="admin-post-management">
@@ -50,54 +35,23 @@ const PostManagement = () => {
           </div>
         </div>
       </div>
-
-      <div className="admin-post-table">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Tiêu đề</th>
-              <th>Tác giả</th>
-              <th>Ngày đăng</th>
-              <th>Trạng thái</th>
-              <th>Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            {posts.map(post => (
-              <tr key={post.id}>
-                <td>{post.id}</td>
-                <td className="admin-post-title">{post.title}</td>
-                <td>{post.author.name}</td>
-                <td>{new Date(post.created_at).toLocaleDateString('vi-VN')}</td>
-                <td>
-                  <span className={`admin-post-status ${post.status}`}>
-                    {post.status === 'published' ? 'Đã đăng' : 'Đang chờ duyệt'}
-                  </span>
-                </td>
-                <td>
-                  <div className="admin-post-actions">
-                    <Button
-                      variant="secondary"
-                      size="small"
-                      onClick={() => window.open(`/post/${post.id}`, '_blank')}
-                    >
-                      Xem
-                    </Button>
-                    <Button
-                      variant="danger"
-                      size="small"
-                      onClick={() => handleDeletePost(post.id)}
-                    >
-                      Xóa
-                    </Button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="admin-post-list">
+        {posts.length === 0 ? (
+          <div className="admin-empty">Không có bài viết nào.</div>
+        ) : (
+          posts.map(post => (
+            <div key={post.id} style={{ marginBottom: '2rem' }}>
+              <PostCard post={post} onDeleted={handlePostDeleted} />
+            </div>
+          ))
+        )}
       </div>
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        message="Bạn có chắc chắn muốn xóa bài viết này?"
+        onConfirm={() => handlePostDeleted(deletePostId)}
+        onCancel={() => { setIsDeleteModalOpen(false); setDeletePostId(null); }}
+      />
     </div>
   );
 };

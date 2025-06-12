@@ -18,6 +18,7 @@ const PostCard = ({ post, onDeleted }) => {
   const [loadingLike, setLoadingLike] = useState(false);
 
   const isOwnPost = currentUser.id === (post.author?.id ?? post.userId);
+  const isAdmin = currentUser.role === 'admin';
 
   const handleLike = async () => {
     setLoadingLike(true);
@@ -60,7 +61,7 @@ const PostCard = ({ post, onDeleted }) => {
             <span className="post-time"><TimeAgo dateString={post.createdAt} /></span>
           </div>
         </div>
-        {isOwnPost && (
+        {(isOwnPost || isAdmin) && (
           <div className="post-header-right">
             <Button 
               variant="text" 
