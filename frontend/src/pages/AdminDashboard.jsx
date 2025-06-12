@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import AdminSidebar from '../components/admin/AdminSidebar';
 import UserManagement from '../components/admin/UserManagement';
 import PostManagement from '../components/admin/PostManagement';
-import AdminStats from '../components/admin/AdminStats';
 import '../styles/pages/AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -14,8 +13,6 @@ const AdminDashboard = () => {
         return <UserManagement />;
       case 'posts':
         return <PostManagement />;
-      case 'stats':
-        return <AdminStats />;
       default:
         return null;
     }

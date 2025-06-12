@@ -35,13 +35,6 @@ const AdminSidebar = ({ activeTab, onTabChange }) => {
           Quản lý bài viết
         </button>
         
-        <button 
-          className={`admin-sidebar-nav-item ${activeTab === 'stats' ? 'active' : ''}`}
-          onClick={() => onTabChange('stats')}
-        >
-          <i className="fas fa-chart-bar"></i>
-          Thống kê
-        </button>
       </nav>
 
       <div className="admin-sidebar-footer">
