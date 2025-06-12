@@ -234,6 +234,30 @@ const getNotifications = async () => {
   return response.data;
 };
 
+//API chat message 
+  // API gửi tin nhắn
+const sendMessage = async (receiverId, content) => {
+  const response = await api.post('/messages', {
+    receiver_id: receiverId,
+    content: content
+  });
+  return response.data;
+};
+
+  // API lấy lịch sử chat giữa 2 người
+const getMessage = async (userId) => {
+  const response = await api.get('/messages', {
+    params: { user_id: userId }
+  });
+  return response.data;
+};
+
+  // API lấy danh sách hội thoại
+const getConversations = async () => {
+  const response = await api.get('/conversations');
+  return response.data;
+};
+
 export {
     api,
     loginAPI,
@@ -254,6 +278,9 @@ export {
     getAllUsersAPI,
     deleteUserAPI,
     getNotifications,
+    sendMessage,
+    getMessage,
+    getConversations
 }
 
 

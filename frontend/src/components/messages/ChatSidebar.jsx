@@ -2,7 +2,7 @@ import React from 'react';
 import useFriendLists from '../../hooks/useFriendLists'; // Đường dẫn tùy thuộc vào cấu trúc thư mục
 import '../../styles/components/ChatSidebar.css';
 
-const ChatSidebar = ({ selectedId, onSelect, userId }) => {
+const ChatSidebar = ({ selectedId, onSelect, userId, }) => {
   const [search, setSearch] = React.useState('');
   const { friends, loading } = useFriendLists(userId);
 

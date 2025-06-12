@@ -11,6 +11,7 @@ import Friends from './components/friends/Friends';
 import './App.css';
 import { useLocation } from 'react-router-dom';
 import AdminHeadbar from './components/admin/AdminHeadbar';
+import useFriendLists from './hooks/useFriendLists';
 
 function App() {
   const { user, isAdmin } = useAuth();
@@ -20,6 +21,8 @@ function App() {
   const [selectedChatId, setSelectedChatId] = useState(null);
   const location = useLocation();
   const isAdminPage = location.pathname === '/admin';
+
+  const { friends, loading } = useFriendLists(user?.id);
 
   return (
     <div className="app">
@@ -51,7 +54,7 @@ function App() {
         title="Tin nhắn"
       >
         <ChatSidebar selectedId={selectedChatId} onSelect={setSelectedChatId} userId={user?.id} />
-        <ChatWindow userId={selectedChatId} />
+        <ChatWindow userId={selectedChatId} user={friends.find(f => f.id === selectedChatId)} />
       </MessageModal>
       <Friends
         open={openFriendsModal}

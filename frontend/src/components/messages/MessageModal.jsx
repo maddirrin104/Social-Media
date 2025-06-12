@@ -1,4 +1,5 @@
 import React from 'react';
+import ChatWindow from './ChatWindow';
 import '../../styles/components/MessageModal.css';
 
 const MessageModal = ({ open, onClose, children, width = 800, title = 'Tin nhắn' }) => {

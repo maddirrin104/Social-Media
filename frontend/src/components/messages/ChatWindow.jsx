@@ -1,52 +1,54 @@
 import React from 'react';
-import { users } from '../../data/users';
-import { messages } from '../../data/messages';
+import { getMessage, sendMessage } from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/components/ChatWindow.css';
 
-const ChatWindow = ({ userId }) => {
+const ChatWindow = ({ userId, user }) => {
   const { user: currentUser } = useAuth();
-  const user = users.find(u => u.id === userId);
   const [input, setInput] = React.useState('');
+  const [messages, setMessages] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
-  // Lọc tin nhắn giữa currentUser và userId
-  const filteredMessages = React.useMemo(() => {
-    if (!currentUser || !userId) return [];
-    return messages
-      .filter(
-        m =>
-          (m.senderId === currentUser.id && m.receiverId === userId) ||
-          (m.senderId === userId && m.receiverId === currentUser.id)
-      )
-      .sort((a, b) => a.createdAt - b.createdAt);
-  }, [currentUser, userId]);
+  const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/';
 
-  const [localMessages, setLocalMessages] = React.useState([]);
+  function getAvatarUrl(avatarPath) {
+    if (!avatarPath) return '/images/default-avatar.png';
+    if (avatarPath.startsWith('http')) return avatarPath;
+    return BASE_URL + 'storage/' + avatarPath;
+  }
 
+  // Lấy lịch sử chat khi userId thay đổi (chọn bạn mới)
   React.useEffect(() => {
-    setLocalMessages(filteredMessages);
-  }, [filteredMessages]);
+    const fetchMessages = async () => {
+      if (!userId) return;
+      setLoading(true);
+      try {
+        const msgs = await getMessage(userId);
+        setMessages(msgs);
+      } catch {
+        setMessages([]);
+      }
+      setLoading(false);
+    };
+    fetchMessages();
+  }, [userId]);
 
-  // Tự động cuộn xuống dưới cùng khi có tin nhắn mới
+  // Tự động cuộn xuống khi có tin nhắn mới
   const messagesEndRef = React.useRef(null);
   React.useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [localMessages]);
+  }, [messages]);
 
-  const handleSend = () => {
-    if (input.trim() && currentUser && userId) {
-      const newMsg = {
-        id: Date.now(),
-        senderId: currentUser.id,
-        receiverId: userId,
-        content: input,
-        createdAt: Date.now(),
-        isRead: false
-      };
-      setLocalMessages([...localMessages, newMsg]);
+  const handleSend = async () => {
+    if (!input.trim() || !currentUser || !userId) return;
+    try {
+      const msg = await sendMessage(userId, input);
+      setMessages(prev => [...prev, msg]);
       setInput('');
+    } catch {
+      // Có thể handle error ở đây
     }
   };
 
@@ -56,23 +58,27 @@ const ChatWindow = ({ userId }) => {
     <div className="chat-window">
       {/* ChatHeader */}
       <div className="chat-window-header">
-        <img src={user.avatar} alt={user.name} className="chat-window-avatar" />
+        <img src={getAvatarUrl(user.avatar)} alt={user.name} className="chat-window-avatar" />
         <div>
           <div className="chat-window-name">{user.name}</div>
         </div>
       </div>
       {/* ChatMessages */}
       <div className="chat-window-messages">
-        {localMessages.map((msg, idx) => (
-          <div
-            key={msg.id || idx}
-            className={`chat-message-row${msg.senderId === currentUser.id ? ' me' : ''}`}
-          >
-            <div className={`chat-message-bubble${msg.senderId === currentUser.id ? ' me' : ''}`}>
-              {msg.content}
+        {loading ? (
+          <div className="chat-window-loading">Đang tải tin nhắn...</div>
+        ) : (
+          messages.map((msg, idx) => (
+            <div
+              key={msg.id || idx}
+              className={`chat-message-row${msg.sender_id === currentUser.id ? ' me' : ''}`}
+            >
+              <div className={`chat-message-bubble${msg.sender_id === currentUser.id ? ' me' : ''}`}>
+                {msg.content}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
         <div ref={messagesEndRef} />
       </div>
       {/* ChatInput */}
@@ -80,7 +86,7 @@ const ChatWindow = ({ userId }) => {
         <input
           type="text"
           className="chat-window-input"
-          placeholder={`Reply to ${user.name}...`}
+          placeholder={`Nhắn cho ${user.name}...`}
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
@@ -93,4 +99,4 @@ const ChatWindow = ({ userId }) => {
   );
 };
 
-export default ChatWindow; 
+export default ChatWindow;
