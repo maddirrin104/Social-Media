@@ -59,7 +59,6 @@ const ChatWindow = ({ userId }) => {
         <img src={user.avatar} alt={user.name} className="chat-window-avatar" />
         <div>
           <div className="chat-window-name">{user.name}</div>
-          {/* Có thể bổ sung trạng thái online nếu muốn */}
         </div>
       </div>
       {/* ChatMessages */}

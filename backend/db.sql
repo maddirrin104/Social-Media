@@ -78,7 +78,6 @@ CREATE TABLE messages (
     receiver_id INT NOT NULL,
     content TEXT NOT NULL,
     created_at BIGINT NOT NULL, -- lưu timestamp (ms) từ getTime()
-    is_read BOOLEAN DEFAULT FALSE,
 
     FOREIGN KEY (sender_id) REFERENCES users(id),
     FOREIGN KEY (receiver_id) REFERENCES users(id)

@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\MessageController;
 
 
 // Routes cho auth
@@ -76,6 +77,13 @@ Route::middleware('auth:sanctum')->group(function () {
 //test route
 Route::get('test', function () {
     return response()->json(['message' => 'Test route OK']);
+});
+
+// Routes cho tin nhắn
+Route::middleware('auth:sanctum')->group(function() {
+    Route::post('/messages', [MessageController::class, 'send']);
+    Route::get('/messages', [MessageController::class, 'getMessages']);
+    Route::get('/conversations', [MessageController::class, 'getConversations']);
 });
 
 
