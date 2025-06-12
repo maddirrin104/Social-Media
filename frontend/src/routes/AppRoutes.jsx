@@ -17,7 +17,11 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
     return <Navigate to="/login" />;
   }
 
-  if (isAdmin() && location.pathname !== '/admin') {
+  if (
+    isAdmin() &&
+    location.pathname !== '/admin' &&
+    !location.pathname.startsWith('/profile/')
+  ) {
     return <Navigate to="/admin" />;
   }
 
@@ -29,9 +33,19 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
 };
 
 const AppRoutes = () => {
+  const { user, isAdmin } = useAuth();
   return (
     <Routes>
-      <Route path="/login" element={<AuthPage />} />
+      <Route
+        path="/login"
+        element={
+          user ? (
+            isAdmin() ? <Navigate to="/admin" /> : <Navigate to="/" />
+          ) : (
+            <AuthPage />
+          )
+        }
+      />
       <Route
         path="/"
         element={
