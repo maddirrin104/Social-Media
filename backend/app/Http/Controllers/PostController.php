@@ -108,18 +108,30 @@ class PostController extends Controller
 
     public function like(Request $request, $postId)
     {
-        $userId = $request->user()->id; 
+        $userId = $request->user()->id;
 
         if (PostLike::where('post_id', $postId)->where('user_id', $userId)->exists()) {
             return response()->json(['message' => 'Already liked'], 400);
         }
 
-        DB::transaction(function () use ($postId, $userId) {
+        DB::transaction(function () use ($postId, $userId, $request) {
             PostLike::create([
                 'post_id' => $postId,
                 'user_id' => $userId,
             ]);
             Post::where('id', $postId)->increment('likes');
+
+            $post = Post::find($postId);
+            if ($post && $post->user_id != $userId) {
+                DB::table('notifications')->insert([
+                    'sender_id' => $userId,
+                    'receiver_id' => $post->user_id,
+                    'type' => 'like',
+                    'title' => $request->user()->name . ' đã thích bài viết của bạn.',
+                    'created_at' => now(),
+                    'is_read' => false,
+                ]);
+            }
         });
 
         // Trả về số likes mới
@@ -129,6 +141,7 @@ class PostController extends Controller
             'likes' => $post->likes_count
         ]);
     }
+    
     public function comment(Request $request, $postId)
     {
         $userId = $request->user()->id;
@@ -138,7 +151,7 @@ class PostController extends Controller
         }
 
         $comment = null;
-        DB::transaction(function () use ($postId, $userId, $content, &$comment) {
+        DB::transaction(function () use ($postId, $userId, $content, &$comment, $request) {
             $comment = PostComment::create([
                 'post_id' => $postId,
                 'user_id' => $userId,
@@ -146,6 +159,18 @@ class PostController extends Controller
                 'created_at' => round(microtime(true) * 1000), // JS timestamp ms
             ]);
             Post::where('id', $postId)->increment('comments');
+
+            $post = Post::find($postId);
+            if ($post && $post->user_id != $userId) {
+                DB::table('notifications')->insert([
+                    'sender_id' => $userId,
+                    'receiver_id' => $post->user_id,
+                    'type' => 'comment',
+                    'title' => $request->user()->name . ' đã bình luận về bài viết của bạn.',
+                    'created_at' => now(),
+                    'is_read' => false,
+                ]);
+            }
         });
 
         // Trả về comment mới và số comment mới

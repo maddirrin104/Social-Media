@@ -4,6 +4,14 @@ import useFriendActions from '../../hooks/useFriendActions';
 import useFriendLists from '../../hooks/useFriendLists';
 import '../../styles/components/Friends.css';
 
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/';
+
+function getAvatarUrl(avatarPath) {
+  if (!avatarPath) return '/images/default-avatar.png';
+  if (avatarPath.startsWith('http')) return avatarPath;
+  return BASE_URL + 'storage/' + avatarPath;
+}
+
 const TAB_RECEIVED = 'received';
 const TAB_SENT = 'sent';
 const TAB_FRIENDS = 'friends';
@@ -77,7 +85,7 @@ const Friends = ({ open, onClose, userId }) => {
               const friendStatus = getFriendStatus(u);
               return (
                 <div key={u.id} className="friends-modal-item">
-                  <img src={u.avatar} alt={u.name} className="friends-modal-avatar" />
+                  <img src={getAvatarUrl(u.avatar)} alt={u.name} className="friends-modal-avatar" />
                   <div className="friends-modal-info">
                     <div className="friends-modal-name">{u.name}</div>
                     {u.email && (

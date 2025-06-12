@@ -228,6 +228,11 @@ const getSentRequests = async () => {
   return response.data;
 };
 
+// Lấy danh sách thông báo
+const getNotifications = async () => {
+  const response = await api.get('/notifications');
+  return response.data;
+};
 
 export {
     api,
@@ -247,7 +252,8 @@ export {
     getSentRequests,
     updateUser,
     getAllUsersAPI,
-    deleteUserAPI
+    deleteUserAPI,
+    getNotifications
 }
 
 
