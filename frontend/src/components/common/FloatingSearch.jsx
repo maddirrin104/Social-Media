@@ -25,7 +25,7 @@ const FloatingSearch = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchTerm.trim()) {
-      navigate('/search-result');
+      navigate(`/search-result?q=${encodeURIComponent(searchTerm.trim())}`);
       setIsExpanded(false);
     }
   };

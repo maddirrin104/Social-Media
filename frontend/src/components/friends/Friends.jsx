@@ -55,7 +55,14 @@ const Friends = ({ open, onClose, userId }) => {
     if (tab === TAB_FRIENDS) return { status: 'accepted', isSent: false };
     if (tab === TAB_RECEIVED) return { status: 'pending', isSent: false };
     if (tab === TAB_SENT) return { status: 'pending', isSent: true };
-    if (tab === TAB_SUGGEST) return { status: 'none', isSent: false };
+    if (tab === TAB_SUGGEST) {
+      // Kiểm tra xem user có nằm trong danh sách đã gửi lời mời không
+      const isSentRequest = sent.some(sentUser => sentUser.id === user.id);
+      return { 
+        status: isSentRequest ? 'pending' : 'none',
+        isSent: isSentRequest
+      };
+    }
     return { status: 'none', isSent: false };
   };
 
@@ -77,7 +84,7 @@ const Friends = ({ open, onClose, userId }) => {
         </div>
         <div className="friends-modal-list">
           {loading ? (
-            <divx className="friends-modal-empty">Đang tải...</divx>
+            <div className="friends-modal-empty">Đang tải...</div>
           ) : list.length === 0 ? (
             <div className="friends-modal-empty">Không có dữ liệu</div>
           ) : (
@@ -95,6 +102,9 @@ const Friends = ({ open, onClose, userId }) => {
                     {tab === TAB_FRIENDS && <div className="friends-status">Bạn bè</div>}
                     {tab === TAB_RECEIVED && <div className="friends-status">Đã gửi cho bạn</div>}
                     {tab === TAB_SENT && <div className="friends-status">Bạn đã gửi</div>}
+                    {tab === TAB_SUGGEST && friendStatus.isSent && (
+                      <div className="friends-status">Bạn đã gửi lời mời</div>
+                    )}
                   </div>
                   <FriendButton
                     status={friendStatus.status}

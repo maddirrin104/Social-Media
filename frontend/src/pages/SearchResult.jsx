@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import PostCard from '../components/post/PostCard';
 import Button from '../components/common/Button';
 import { useAuth } from '../context/AuthContext';
@@ -9,9 +10,14 @@ import '../styles/pages/SearchResult.css';
 
 const SearchResult = () => {
   const { user, isAuthenticated } = useAuth();
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('q') || '';
+  
   const [activeTab, setActiveTab] = useState('posts');
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -48,6 +54,25 @@ const SearchResult = () => {
     }
   };
 
+  // Hàm tìm kiếm trong posts
+  const searchPosts = (posts, query) => {
+    if (!query) return posts;
+    const searchTerm = query.toLowerCase();
+    return posts.filter(post => 
+      post.content.toLowerCase().includes(searchTerm)
+    );
+  };
+
+  // Hàm tìm kiếm trong users
+  const searchUsers = (users, query) => {
+    if (!query) return users;
+    const searchTerm = query.toLowerCase();
+    return users.filter(user => 
+      user.name.toLowerCase().includes(searchTerm)
+    );
+  };
+
+  // Effect để fetch data
   useEffect(() => {
     console.log('Is authenticated:', isAuthenticated);
     console.log('User:', user);
@@ -66,6 +91,12 @@ const SearchResult = () => {
     }
   }, [isAuthenticated, user, activeTab]);
 
+  // Effect để lọc kết quả khi query hoặc data thay đổi
+  useEffect(() => {
+    setFilteredPosts(searchPosts(posts, query));
+    setFilteredUsers(searchUsers(users, query));
+  }, [query, posts, users]);
+
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -77,7 +108,7 @@ const SearchResult = () => {
     <div className="search-result-page">
       <div className="search-result-container">
         <div className="search-header">
-        <h1>Kết quả tìm kiếm</h1>
+          <h1>Kết quả tìm kiếm: {query}</h1>
           <div className="search-tabs">
             <Button
               variant={activeTab === 'posts' ? 'primary' : 'secondary'}
@@ -95,8 +126,8 @@ const SearchResult = () => {
         </div>
         <div className="search-results">
           {activeTab === 'posts' ? (
-            posts.length > 0 ? (
-              posts.map(post => (
+            filteredPosts.length > 0 ? (
+              filteredPosts.map(post => (
                 <PostCard key={post.id} post={post} />
               ))
             ) : (
@@ -106,9 +137,9 @@ const SearchResult = () => {
               </div>
             )
           ) : (
-            users.length > 0 ? (
+            filteredUsers.length > 0 ? (
               <div className="user-search-list">
-                {users.map(user => (
+                {filteredUsers.map(user => (
                   <SearchItem key={user.id} user={user} />
                 ))}
               </div>
@@ -116,7 +147,7 @@ const SearchResult = () => {
               <div className="no-results">
                 <i className="fas fa-search"></i>
                 <p>Không tìm thấy người dùng nào</p>
-        </div>
+              </div>
             )
           )}
         </div>

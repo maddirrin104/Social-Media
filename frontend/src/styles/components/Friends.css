@@ -14,7 +14,7 @@
 .friends-modal-content {
   background: white;
   border-radius: 8px;
-  width: 50%;
+  width: 30%;
   height: 50vh;
   position: relative;
   display: flex;
@@ -88,6 +88,10 @@
   height: 44px;
   border-radius: 50%;
   margin-right: 14px;
+  object-fit: cover;
+  aspect-ratio: 1/1;
+  background-color: #f0f0f0;
+  border: 1px solid #eee;
 }
 
 .friends-modal-info {
@@ -99,6 +103,12 @@
   font-size: 18px;
   font-weight: 600;
   margin-top: 5px;
+}
+
+.friends-modal-email {
+  text-align: left;
+  font-size: 14px;
+  color: #888;
 }
 
 .friends-status {

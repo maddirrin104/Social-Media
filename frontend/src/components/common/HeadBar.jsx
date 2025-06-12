@@ -45,14 +45,14 @@ const HeadBar = () => {
         <img src="/assets/LLlogo-02.png" alt="Logo" className="headbar-logo" />
       </Link>
       <div className="headbar-right">
-        <div className="user-info" onClick={handleProfileClick}>
+        <Link to={`/profile/${user?.id}`} className="user-info" onClick={handleProfileClick}>
           <span className="username">{user?.name}</span>
           <Avatar 
             src={user?.avatar}
             alt={user?.name || 'User avatar'}
             size="small"
           />
-        </div>
+        </Link>
         <button onClick={handleLogout} className="logout-btn" title="Đăng xuất">
           <i className="fas fa-sign-out-alt"></i>
         </button>

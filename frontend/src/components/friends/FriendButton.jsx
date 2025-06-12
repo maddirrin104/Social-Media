@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Button from '../common/Button';
 import ConfirmModal from '../common/ConfirmModal';
+import '../../styles/components/FriendButton.css';
 
 /**
  * status: 'none' | 'pending' | 'accepted'
@@ -19,7 +19,7 @@ const FriendButton = ({
   const [modalOpen, setModalOpen] = useState(false);
 
   let label = 'Kết bạn';
-  let color = '#3ec6e0';
+  let buttonClass = 'friend-button none';
 
   // pending mình gửi thì click hỏi confirm hủy
   // pending mình nhận thì click là accept luôn
@@ -28,15 +28,15 @@ const FriendButton = ({
   let confirmMessage = '';
   if (status === 'pending' && isSent) {
     label = 'Đã gửi lời mời';
-    color = '#aaa';
+    buttonClass = 'friend-button pending';
     needConfirm = true;
     confirmMessage = 'Bạn có muốn hủy lời mời kết bạn này?';
   } else if (status === 'pending' && !isSent) {
     label = 'Chấp nhận';
-    color = '#4caf50';
+    buttonClass = 'friend-button accept';
   } else if (status === 'accepted') {
     label = 'Bạn bè';
-    color = '#f44336';
+    buttonClass = 'friend-button accepted';
     needConfirm = true;
     confirmMessage = 'Bạn có chắc chắn muốn hủy kết bạn không?';
   }
@@ -48,14 +48,13 @@ const FriendButton = ({
 
   return (
     <>
-      <Button
+      <button
         onClick={handleClick}
         disabled={loading}
-        className={className}
-        style={{ width: '100%', height: '100%', background: color, color: '#fff' }}
+        className={`${buttonClass} ${className || ''}`}
       >
         {loading ? 'Đang xử lý...' : label}
-      </Button>
+      </button>
       <ConfirmModal
         isOpen={modalOpen}
         message={confirmMessage}
