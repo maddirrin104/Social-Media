@@ -77,7 +77,7 @@ const SearchResult = () => {
     <div className="search-result-page">
       <div className="search-result-container">
         <div className="search-header">
-          <h1>Kết quả tìm kiếm</h1>
+        <h1>Kết quả tìm kiếm</h1>
           <div className="search-tabs">
             <Button
               variant={activeTab === 'posts' ? 'primary' : 'secondary'}
@@ -116,7 +116,7 @@ const SearchResult = () => {
               <div className="no-results">
                 <i className="fas fa-search"></i>
                 <p>Không tìm thấy người dùng nào</p>
-              </div>
+        </div>
             )
           )}
         </div>
