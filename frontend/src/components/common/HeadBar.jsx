@@ -5,6 +5,14 @@ import FloatingSearch from './FloatingSearch';
 import Avatar from './Avatar';
 import '../../styles/components/HeadBar.css';
 
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/';
+
+function getAvatarUrl(avatarPath) {
+  if (!avatarPath) return '/images/default-avatar.png';
+  if (avatarPath.startsWith('http')) return avatarPath;
+  return BASE_URL + 'storage/' + avatarPath;
+}
+
 const HeadBar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -48,7 +56,7 @@ const HeadBar = () => {
         <Link to={`/profile/${user?.id}`} className="user-info" onClick={handleProfileClick}>
           <span className="username">{user?.name}</span>
           <Avatar 
-            src={user?.avatar}
+            src={getAvatarUrl(user?.avatar)}
             alt={user?.name || 'User avatar'}
             size="small"
           />

@@ -12,6 +12,14 @@ const PostCreator = ({ onPostCreated }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/';
+
+  function getAvatarUrl(avatarPath) {
+    if (!avatarPath) return '/images/default-avatar.png';
+    if (avatarPath.startsWith('http')) return avatarPath;
+    return BASE_URL + 'storage/' + avatarPath;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!content.trim() && !image) return;
@@ -45,7 +53,7 @@ const PostCreator = ({ onPostCreated }) => {
   return (
     <div className="post-creator">
       <form onSubmit={handleSubmit}>
-        <Avatar src={user.avatar} alt={user.name} size="small" />
+        <Avatar src={getAvatarUrl(user.avatar)} alt={user.name} size="small" />
         <div className="post-input">
           <textarea
             placeholder="Bạn đang nghĩ gì?"

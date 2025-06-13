@@ -40,7 +40,7 @@ const Friends = ({ open, onClose, userId }) => {
       await unfriend(user);
     } else if (tab === TAB_SUGGEST) {
       // Kiểm tra xem đã gửi lời mời chưa
-      const isSentRequest = sent.some(sentUser => sentUser.id === user.id);
+    const isSentRequest = sent.some(sentUser => sentUser.id === user.id);
       if (isSentRequest) {
         await cancelRequest(user);
       } else {
@@ -64,7 +64,7 @@ const Friends = ({ open, onClose, userId }) => {
     if (tab === TAB_SENT) return { status: 'pending', isSent: true };
     if (tab === TAB_SUGGEST) {
       // Kiểm tra xem user có nằm trong danh sách đã gửi lời mời không
-      const isSentRequest = sent.some(sentUser => sentUser.id === user.id);
+    const isSentRequest = sent.some(sentUser => sentUser.id === user.id);
       return { 
         status: isSentRequest ? 'pending' : 'none',
         isSent: isSentRequest
