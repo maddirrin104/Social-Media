@@ -51,11 +51,7 @@ function App() {
       <MessageModal
         open={openMessageModal}
         onClose={() => setOpenMessageModal(false)}
-        title="Tin nhắn"
-      >
-        <ChatSidebar selectedId={selectedChatId} onSelect={setSelectedChatId} userId={user?.id} />
-        <ChatWindow userId={selectedChatId} user={friends.find(f => f.id === selectedChatId)} />
-      </MessageModal>
+      />
       <Friends
         open={openFriendsModal}
         onClose={() => setOpenFriendsModal(false)}

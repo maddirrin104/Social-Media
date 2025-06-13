@@ -114,6 +114,7 @@ const ProfileCard = ({ profile, onProfileUpdated, className }) => {
               <Button 
                 variant="outline" 
                 className="profile-btn-message"
+                disabled={friendStatus.status !== 'accepted'}
                 onClick={() => setIsMessageModalOpen(true)}
               >
                 Nhắn tin
@@ -133,7 +134,7 @@ const ProfileCard = ({ profile, onProfileUpdated, className }) => {
       )}
       {!isOwnProfile && (
         <MessageModal
-          isOpen={isMessageModalOpen}
+          open={isMessageModalOpen}
           onClose={() => setIsMessageModalOpen(false)}
           recipient={profile}
         />

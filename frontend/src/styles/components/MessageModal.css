@@ -1,66 +1,192 @@
 .message-modal-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(30, 41, 59, 0.25);
-  z-index: 1200;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .message-modal-content {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  position: relative;
-  width: 700px;
+  background: white;
+  border-radius: 8px;
+  width: 900px;
   height: 600px;
   max-width: 95vw;
   max-height: 95vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  animation: modalShow 0.18s cubic-bezier(.4,2,.6,1) 1;
-}
-
-@keyframes modalShow {
-  from { opacity: 0; transform: translateY(40px) scale(0.98); }
-  to { opacity: 1; transform: none; }
+  position: relative;
 }
 
 .message-modal-close {
   position: absolute;
-  top: 16px;
-  right: 18px;
+  right: 10px;
+  top: 10px;
   background: none;
   border: none;
-  font-size: 28px;
-  color: #888;
+  font-size: 24px;
   cursor: pointer;
+  color: #666;
   z-index: 2;
-  transition: color 0.18s;
-}
-.message-modal-close:hover {
-  color: #3ec6e0;
 }
 
-.message-modal-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #222;
-  text-align: center;
-  margin: 0;
-  padding: 28px 0 8px 0;
-  border-bottom: 1px solid #f0f0f0;
-  background: #fff;
-}
-
-.message-modal-body {
+.message-modal-container {
   display: flex;
-  flex: 1;
   height: 100%;
-  min-height: 0;
-  background: #f9f9fb;
-  border-radius: 0 0 16px 16px;
   overflow: hidden;
+}
+
+/* Sidebar styles */
+.message-modal-sidebar {
+  width: 300px;
+  border-right: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+}
+
+.message-modal-search {
+  padding: 12px;
+  border: none;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.message-modal-friends {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.message-modal-friend {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.message-modal-friend:hover {
+  background-color: #f5f5f5;
+}
+
+.message-modal-friend.selected {
+  background-color: #e3f2fd;
+}
+
+.message-modal-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.message-modal-friend-name {
+  font-weight: 500;
+}
+
+/* Chat window styles */
+.message-modal-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.message-modal-chat-header {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+}
+
+.message-modal-chat-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.message-modal-chat-name {
+  font-weight: 600;
+}
+
+.message-modal-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message-modal-message {
+  display: flex;
+  flex-direction: column;
+}
+
+.message-modal-message.me {
+  align-items: flex-end;
+}
+
+.message-modal-bubble {
+  max-width: 70%;
+  padding: 8px 12px;
+  border-radius: 16px;
+  background-color: #f0f2f5;
+}
+
+.message-modal-bubble.me {
+  background-color: #0084ff;
+  color: white;
+}
+
+.message-modal-input-row {
+  padding: 12px;
+  border-top: 1px solid #eee;
+  display: flex;
+  gap: 8px;
+}
+
+.message-modal-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.message-modal-send-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background-color: #0084ff;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message-modal-send-btn:hover {
+  background-color: #0073e6;
+}
+
+.message-modal-loading {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.message-modal-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 16px;
 } 
