@@ -82,10 +82,11 @@ class UserController extends Controller
             $avatarData = $request->avatar;
             $avatarName = 'avatars/' . uniqid() . '.png';
             Storage::disk('public')->put($avatarName, base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $avatarData)));
-            // Xóa ảnh cũ nếu có
-            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
-                Storage::disk('public')->delete($user->avatar);
-            }
+            
+            // // Xóa ảnh cũ nếu có
+            // if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+            //     Storage::disk('public')->delete($user->avatar);
+            // }
             $user->avatar = $avatarName;
         }
 
@@ -160,17 +161,5 @@ class UserController extends Controller
             return response()->json(['message' => 'Xóa thất bại!', 'error' => $e->getMessage()], 500);
         }
     }
-    public function userNotiList(Request $request) {
-        $ids = explode(',', $request->query('ids', ''));
-        $ids = array_filter($ids, fn($id) => is_numeric($id) && $id); // loại bỏ rỗng và không phải số
-        
-        if (empty($ids)) {
-            return response()->json([]);
-        }
-
-        $users = User::whereIn('id', $ids)->select('id', 'name', 'avatar')->get();
-        return response()->json($users);
-    }
-
 
 }
