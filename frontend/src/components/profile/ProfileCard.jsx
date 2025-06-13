@@ -8,6 +8,7 @@ import '../../styles/components/ProfileCard.css';
 import FriendButton from '../friends/FriendButton';
 import useFriendActions from '../../hooks/useFriendActions';
 import EditProfileModal from './EditProfileModal';
+import MessageModal from '../messages/MessageModal';
 import { updateUser } from '../../utils/api';
 import api from '../../utils/axiosInstance';
 
@@ -15,6 +16,7 @@ const ProfileCard = ({ profile, onProfileUpdated, className }) => {
   const { user: currentUser, setUser } = useAuth();
   const isOwnProfile = currentUser.id === profile.id;
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const { sendRequest, cancelRequest, acceptRequest, unfriend, loadingId } = useFriendActions();
@@ -110,9 +112,9 @@ const ProfileCard = ({ profile, onProfileUpdated, className }) => {
                 className="profile-btn-friend"
               />
               <Button 
-                variant="outline"
-                className="profile-btn-message" 
-                disabled={friendStatus.status !== 'accepted'}
+                variant="outline" 
+                className="profile-btn-message"
+                onClick={() => setIsMessageModalOpen(true)}
               >
                 Nhắn tin
               </Button>
@@ -127,6 +129,13 @@ const ProfileCard = ({ profile, onProfileUpdated, className }) => {
           profile={profile}
           onSave={handleSaveProfile}
           loading={loading}
+        />
+      )}
+      {!isOwnProfile && (
+        <MessageModal
+          isOpen={isMessageModalOpen}
+          onClose={() => setIsMessageModalOpen(false)}
+          recipient={profile}
         />
       )}
     </>

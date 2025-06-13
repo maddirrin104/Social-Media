@@ -39,7 +39,13 @@ const Friends = ({ open, onClose, userId }) => {
     } else if (tab === TAB_FRIENDS) {
       await unfriend(user);
     } else if (tab === TAB_SUGGEST) {
-      await sendRequest(user);
+      // Kiểm tra xem đã gửi lời mời chưa
+      const isSentRequest = sent.some(sentUser => sentUser.id === user.id);
+      if (isSentRequest) {
+        await cancelRequest(user);
+      } else {
+        await sendRequest(user);
+      }
     }
     refetch();
   };
