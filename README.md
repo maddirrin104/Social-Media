@@ -30,10 +30,6 @@
 3. Cấu hình môi trường:
    ```bash
    cp .env.example .env
-   php artisan key:generate
-   ```
-
-4. Cấu hình database:
    - Mở file `.env` và cập nhật các thông tin kết nối database:
    ```
    DB_CONNECTION=mysql
@@ -43,13 +39,19 @@
    DB_USERNAME=your_username
    DB_PASSWORD=your_password
    ```
-
-5. Chạy migrations:
+   php artisan key:generate
+   ```
+   mở php.ini, xoá dấu ";" để mở extension ở dòng
+   ```
+   ;extension=pdo_mysql
+   ;extension=fileinfo
+   ```
+4. Chạy migrations:
    ```bash
    php artisan migrate
    ```
 
-6. Chạy server:
+5. Chạy server:
    ```bash
    php artisan serve
    ```
