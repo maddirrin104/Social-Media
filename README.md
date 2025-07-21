@@ -1,5 +1,4 @@
-# IS207
-Đồ án Phát triển ứng dụng Web
+# LOSSLESS - Social Media Web App
 
 # Hướng dẫn cài đặt và chạy dự án
 
@@ -108,5 +107,3 @@ Frontend sẽ chạy ở địa chỉ: http://localhost:3000
 
 Nếu gặp vấn đề trong quá trình cài đặt, vui lòng liên hệ với nhóm phát triển.
 
-
-php artisan storage:link
